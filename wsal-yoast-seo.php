@@ -2,12 +2,14 @@
 /**
  * Plugin Name: WP Activity Log Extension for Yoast SEO
  * Plugin URI: https://www.wpsecurityauditlog.com/integrations/
- * Description: A WP Activity Log plugin add-on
+ * Description: A WP Activity Log plugin extension
  * Text Domain: wp-security-audit-log
  * Author: WP White Security
  * Author URI: http://www.wpwhitesecurity.com/
  * Version: 1.0.0
  * License: GPL2
+ * Network: true
+ *
  *
  * @package Wsal
  * @subpackage Wsal Custom Events Loader
@@ -40,10 +42,6 @@ function wsal_yoast_seo_extension_init_actions() {
 		if ( ! function_exists( 'is_plugin_active' ) ) {
 			include_once ABSPATH . 'wp-admin/includes/plugin.php';
 		}
-		if ( is_plugin_active( plugin_basename( __FILE__ ) ) && ! is_plugin_active_for_network( plugin_basename( __FILE__ ) ) ) {
-			add_action( 'admin_notices', 'wsal_yoast_seo_extension_network_activatation_notice' );
-			add_action( 'admin_init', 'wsal_yoast_seo_extension_plugin_deactivate' );
-		}
 	}
 }
 
@@ -57,20 +55,6 @@ function wsal_yoast_seo_extension_plugin_deactivate() {
 	if ( ! is_plugin_active_for_network( plugin_basename( __FILE__ ) ) ) {
 		deactivate_plugins( plugin_basename( __FILE__ ) );
 	}
-}
-
-/**
- * Network activation error notice.
- */
-function wsal_yoast_seo_extension_network_activatation_notice() {
-	$installation_errors  = esc_html__( 'The WP Activity Log add-on for Yoast SEO plugin is a multisite network tool, so it has to be activated at network level.', 'wp-security-audit-log' );
-	$installation_errors .= '<br />';
-	$installation_errors .= '<a href="javascript:;" onclick="window.top.location.href=\'' . esc_url( network_admin_url( 'plugins.php' ) ) . '\'">' . esc_html__( 'Redirect me to the network dashboard', 'wp-security-audit-log' ) . '</a> ';
-	?>
-	<div class="notice notice-error is-dismissible">
-		<p><?php echo wp_kses_post( $installation_errors ); ?></p>
-	</div>
-	<?php
 }
 
 /**
@@ -99,7 +83,7 @@ function wsal_yoast_seo_extension_install_notice() {
 			<?php
 				printf(
 					'<p>%1$s <button class="install-wsal button button-primary" data-plugin-slug="wp-security-audit-log/wp-security-audit-log.php" data-plugin-download-url="%2$s" data-plugins-network="%4$s" data-nonce="%3$s">%5$s</button><span class="spinner" style="display: none; visibility: visible; float: none; margin: 0 0 0 8px;"></span></p>',
-					esc_html__( 'This is an add-on for the WP Activity Log plugin. Please install it to use this add-on.', 'wp-security-audit-log' ),
+					esc_html__( 'This is an extension for the WP Activity Log plugin. Please install it to use this extension.', 'wp-security-audit-log' ),
 					esc_url( 'https://downloads.wordpress.org/plugin/wp-security-audit-log.latest-stable.zip' ),
 					esc_attr( wp_create_nonce( 'wsal-install-addon' ) ),
 					( is_a( $screen, '\WP_Screen' ) && isset( $screen->id ) && 'plugins-network' === $screen->id ) ? true : false, // confirms if we are on a network or not.
