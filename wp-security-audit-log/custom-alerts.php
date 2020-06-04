@@ -2,17 +2,38 @@
 
 $custom_alerts = array(
 	__( 'Yoast SEO', 'wp-security-audit-log' ) => array(
-		__( 'Yoast SEO Content', 'wp-security-audit-log' ) => array(
+		__( 'Post Changes', 'wp-security-audit-log' ) => array(
+			array( 8801, WSAL_INFORMATIONAL, __( 'User changed title of a SEO post', 'wp-security-audit-log' ), __( 'Changed the Meta title of the post %PostTitle% %LineBreak% ID: %PostID% %LineBreak% Type: %PostType% %LineBreak% Status: %PostStatus% %LineBreak% Previous title: %OldSEOTitle% %LineBreak% New title: %NewSEOTitle% %LineBreak% %EditorLinkPost%', 'wp-security-audit-log' ), 'yoast-seo-metabox', 'modified' ),
+			array( 8802, WSAL_INFORMATIONAL, __( 'User changed the meta description of a SEO post', 'wp-security-audit-log' ), __( 'Changed the Meta Description of the post %PostTitle% %LineBreak% ID: %PostID% %LineBreak% Type: %PostType% %LineBreak% Status: %PostStatus% %LineBreak% Previous description: %old_desc% %LineBreak% New description: %new_desc% %LineBreak% %EditorLinkPost%', 'wp-security-audit-log' ), 'yoast-seo-metabox', 'modified' ),
+			array( 8803, WSAL_INFORMATIONAL, __( 'User changed setting to allow search engines to show post in search results of a SEO post', 'wp-security-audit-log' ), __( 'Changed the setting to allow search engines to show post in search results for the post %PostTitle% %LineBreak% ID: %PostID% %LineBreak% Type: %PostType% %LineBreak% Status: %PostStatus% %LineBreak% Previous setting: %OldStatus% %LineBreak% New setting: %NewStatus% %LineBreak% %EditorLinkPost%', 'wp-security-audit-log' ), 'yoast-seo-metabox', 'modified' ),
+			array( 8804, WSAL_INFORMATIONAL, __( 'User Enabled/Disabled the option for search engine to follow links of a SEO post', 'wp-security-audit-log' ), __( 'The option for search engine to follow links in post %PostTitle% %LineBreak% ID: %PostID% %LineBreak% Type: %PostType% %LineBreak% Status: %PostStatus% %LineBreak% %EditorLinkPost%', 'wp-security-audit-log' ), 'yoast-seo-metabox', 'enabled' ),
+			array( 8805, WSAL_LOW, __( 'User set the meta robots advanced setting of a SEO post', 'wp-security-audit-log' ), __( 'Changed the Meta Robots Advanced setting for the post %PostTitle% %LineBreak% ID: %PostID% %LineBreak% Type: %PostType% %LineBreak% Status: %PostStatus% %LineBreak% Previous setting: %OldStatus% %LineBreak% New setting: %NewStatus% %LineBreak% %EditorLinkPost%', 'wp-security-audit-log' ), 'yoast-seo-metabox', 'modified' ),
+			array( 8806, WSAL_INFORMATIONAL, __( 'User changed the canonical URL of a SEO post', 'wp-security-audit-log' ), __( 'Changed the Canonical URL of the post %PostTitle% %LineBreak% ID: %PostID% %LineBreak% Type: %PostType% %LineBreak% Status: %PostStatus% %LineBreak% Previous URL: %OldCanonicalUrl% %LineBreak% New URL: %NewCanonicalUrl% %LineBreak% %EditorLinkPost%', 'wp-security-audit-log' ), 'yoast-seo-metabox', 'modified' ),
+			array( 8807, WSAL_INFORMATIONAL, __( 'User changed the focus keyword of a SEO post', 'wp-security-audit-log' ), __( 'Changed the focus keyword for the post %PostTitle% %LineBreak% ID: %PostID% %LineBreak% Type: %PostType% %LineBreak% Status: %PostStatus% %LineBreak% Previous keyword: %old_keywords% %LineBreak% New keyword: %new_keywords% %LineBreak% %EditorLinkPost%', 'wp-security-audit-log' ), 'yoast-seo-metabox', 'modified' ),
+			array( 8808, WSAL_INFORMATIONAL, __( 'User Enabled/Disabled the option Cornerston Content of a SEO post', 'wp-security-audit-log' ), __( 'The option Cornerstone Content in the post %PostTitle% %LineBreak% ID: %PostID% %LineBreak% Type: %PostType% %LineBreak% Status: %PostStatus% %LineBreak% %EditorLinkPost%', 'wp-security-audit-log' ), 'yoast-seo-metabox', 'enabled' ),
+		),
 
-			array(
-				10000,
-				WSAL_LOW,
-				__( 'Test event', 'wp-security-audit-log' ),
-				__( 'This is a test event', 'wp-security-audit-log' ),
-				'wpforms',
-				'created',
-			),
+		__( 'Website Changes', 'wp-security-audit-log' ) => array(
+			array( 8809, WSAL_INFORMATIONAL, __( 'User changed the Title Separator setting', 'wp-security-audit-log' ), __( 'Changed the default title separator %LineBreak% Previous separator: %old% %LineBreak% New separator: %new%', 'wp-security-audit-log' ), 'yoast-seo', 'modified' ),
+			array( 8810, WSAL_MEDIUM, __( 'User changed the Homepage Title setting', 'wp-security-audit-log' ), __( 'Changed the homepage Meta title %LineBreak% Previous title: %old% %LineBreak% New title: %new%', 'wp-security-audit-log' ), 'yoast-seo', 'modified' ),
+			array( 8811, WSAL_MEDIUM, __( 'User changed the Homepage Meta description setting', 'wp-security-audit-log' ), __( 'Changed the homepage Meta description %LineBreak% Previous description: %old% %LineBreak% New description: %new%', 'wp-security-audit-log' ), 'yoast-seo', 'modified' ),
+			array( 8812, WSAL_INFORMATIONAL, __( 'User changed the Company or Person setting', 'wp-security-audit-log' ), __( 'Changed the Company or Person setting %LineBreak% Previous setting: %old% %LineBreak% New setting: %new%', 'wp-security-audit-log' ), 'yoast-seo', 'modified' ),
+		),
 
+		__( 'Plugin Settings Changes', 'wp-security-audit-log' ) => array(
+			array( 8813, WSAL_MEDIUM, __( 'User Enabled/Disabled the option Show Posts/Pages in Search Results in the Yoast SEO plugin settings', 'wp-security-audit-log' ), __( 'The option to show %SEOPostType% in search results', 'wp-security-audit-log' ), 'yoast-seo', 'enabled' ),
+			array( 8814, WSAL_INFORMATIONAL, __( 'User changed the Posts/Pages title template in the Yoast SEO plugin settings', 'wp-security-audit-log' ), __( 'Changed the %SEOPostType% Meta (SEO) title template %LineBreak% Previous template: %old% %LineBreak% New template: %new%', 'wp-security-audit-log' ), 'yoast-seo', 'modified' ),
+			array( 8815, WSAL_MEDIUM, __( 'User Enabled/Disabled SEO analysis in the Yoast SEO plugin settings', 'wp-security-audit-log' ), __( 'The SEO Analysis feature', 'wp-security-audit-log' ), 'yoast-seo', 'enabled' ),
+			array( 8816, WSAL_MEDIUM, __( 'User Enabled/Disabled readability analysis in the Yoast SEO plugin settings', 'wp-security-audit-log' ), __( 'The Readability Analysis feature', 'wp-security-audit-log' ), 'yoast-seo', 'enabled' ),
+			array( 8817, WSAL_MEDIUM, __( 'User Enabled/Disabled cornerstone content in the Yoast SEO plugin settings', 'wp-security-audit-log' ), __( 'The Cornerstone content feature', 'wp-security-audit-log' ), 'yoast-seo', 'enabled' ),
+			array( 8818, WSAL_MEDIUM, __( 'User Enabled/Disabled the text link counter in the Yoast SEO plugin settings', 'wp-security-audit-log' ), __( 'The Text link counter feature', 'wp-security-audit-log' ), 'yoast-seo', 'enabled' ),
+			array( 8819, WSAL_MEDIUM, __( 'User Enabled/Disabled XML sitemaps in the Yoast SEO plugin settings', 'wp-security-audit-log' ), __( 'The XML sitemap feature', 'wp-security-audit-log' ), 'yoast-seo', 'enabled' ),
+			array( 8820, WSAL_MEDIUM, __( 'User Enabled/Disabled ryte integration in the Yoast SEO plugin settings', 'wp-security-audit-log' ), __( 'The Ryte integration feature', 'wp-security-audit-log' ), 'yoast-seo', 'enabled' ),
+			array( 8821, WSAL_MEDIUM, __( 'User Enabled/Disabled the admin bar menu in the Yoast SEO plugin settings', 'wp-security-audit-log' ), __( 'The Admin bar menu feature', 'wp-security-audit-log' ), 'yoast-seo', 'enabled' ),
+			array( 8822, WSAL_INFORMATIONAL, __( 'User changed the Posts/Pages meta description template in the Yoast SEO plugin settings', 'wp-security-audit-log' ), __( 'Changed the %SEOPostType% Meta description template %LineBreak% Previous template: %old% New template: %new%', 'wp-security-audit-log' ), 'yoast-seo', 'modified' ),
+			array( 8823, WSAL_LOW, __( 'User set the option Date in Snippet Preview for Posts/Pages in the Yoast SEO plugin settings', 'wp-security-audit-log' ), __( 'The option Date in Snippet Preview for %SEOPostType%', 'wp-security-audit-log' ), 'yoast-seo', 'enabled' ),
+			array( 8824, WSAL_LOW, __( 'User set the option Yoast SEO Meta Box for Posts/Pages in the Yoast SEO plugin settings', 'wp-security-audit-log' ), __( 'The option Yoast SEO Meta Box for %SEOPostType%', 'wp-security-audit-log' ), 'yoast-seo', 'enabled' ),
+			array( 8825, WSAL_LOW, __( 'User Enabled/Disabled the advanced settings for authors in the Yoast SEO plugin settings', 'wp-security-audit-log' ), __( 'The Security: no advanced settings for authors feature', 'wp-security-audit-log' ), 'yoast-seo', 'enabled' ),
 		),
 	),
 );
