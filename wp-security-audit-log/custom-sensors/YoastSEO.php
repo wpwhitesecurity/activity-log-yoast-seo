@@ -504,6 +504,10 @@ class WSAL_Sensors_YoastSEO extends WSAL_AbstractSensor {
 		if ( 'wpseo_titles' === $option || 'wpseo' === $option ) {
 			// WPSEO Title Alerts.
 			if ( 'wpseo_titles' === $option ) {
+				// Redirect attachment URLs to the attachment itself.
+				if ( $old_value['disable-attachment'] !== $new_value['disable-attachment'] ) {
+					$this->yoast_setting_change_alert( 'disable-attachment', $old_value['disable-attachment'], $new_value['disable-attachment'] );
+				}
 				// Title Separator.
 				if ( $old_value['separator'] !== $new_value['separator'] ) {
 					$this->yoast_setting_change_alert( 'separator', $old_value['separator'], $new_value['separator'] );
@@ -697,6 +701,11 @@ class WSAL_Sensors_YoastSEO extends WSAL_AbstractSensor {
 
 			case strpos( $key, 'metadesc-' ):
 				$alert_code = 8822;
+				break;
+
+			case 'disable-attachment':
+				$alert_code = 8826;
+				$alert_args['EventType'] = $new_value ? 'enabled' : 'disabled';
 				break;
 
 			default:

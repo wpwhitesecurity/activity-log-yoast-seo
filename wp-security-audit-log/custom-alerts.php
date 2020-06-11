@@ -34,6 +34,7 @@ $custom_alerts = array(
 			array( 8823, WSAL_LOW, __( 'User set the option Date in Snippet Preview for Posts/Pages in the Yoast SEO plugin settings', 'wp-security-audit-log' ), __( 'The option Date in Snippet Preview for %SEOPostType%', 'wp-security-audit-log' ), 'yoast-seo', 'enabled' ),
 			array( 8824, WSAL_LOW, __( 'User set the option Yoast SEO Meta Box for Posts/Pages in the Yoast SEO plugin settings', 'wp-security-audit-log' ), __( 'The option Yoast SEO Meta Box for %SEOPostType%', 'wp-security-audit-log' ), 'yoast-seo', 'enabled' ),
 			array( 8825, WSAL_LOW, __( 'User Enabled/Disabled the advanced settings for authors in the Yoast SEO plugin settings', 'wp-security-audit-log' ), __( 'The Security: no advanced settings for authors feature', 'wp-security-audit-log' ), 'yoast-seo', 'enabled' ),
+			array( 8826, WSAL_LOW, __( 'User Enabled/Disabled redirecting attachment URLs in the Yoast SEO plugin settings', 'wp-security-audit-log' ), __( 'User Enabled/Disabled redirect attachment URLs to the attachment itself the Yoast SEO plugin settings', 'wp-security-audit-log' ), 'yoast-seo', 'enabled' ),
 		),
 	),
 );
