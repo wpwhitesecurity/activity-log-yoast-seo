@@ -17,7 +17,7 @@ $custom_alerts = array(
 			array( 8809, WSAL_INFORMATIONAL, __( 'User changed the Title Separator setting', 'wsal-yoast' ), __( 'Changed the default title separator %LineBreak% Previous separator: %old% %LineBreak% New separator: %new%', 'wsal-yoast' ), 'yoast-seo', 'modified' ),
 			array( 8810, WSAL_MEDIUM, __( 'User changed the Homepage Title setting', 'wsal-yoast' ), __( 'Changed the homepage Meta title %LineBreak% Previous title: %old% %LineBreak% New title: %new%', 'wsal-yoast' ), 'yoast-seo', 'modified' ),
 			array( 8811, WSAL_MEDIUM, __( 'User changed the Homepage Meta description setting', 'wsal-yoast' ), __( 'Changed the homepage Meta description %LineBreak% Previous description: %old% %LineBreak% New description: %new%', 'wsal-yoast' ), 'yoast-seo', 'modified' ),
-			array( 8812, WSAL_INFORMATIONAL, __( 'User changed the Knowledge Graph & Schema.org setting', 'wsal-yoast' ), __( 'Changed the Knowledge Graph & Schema.org setting %LineBreak% Previous setting: %old% %LineBreak% New setting: %new%', 'wsal-yoast' ), 'yoast-seo', 'modified' ),
+			array( 8812, WSAL_INFORMATIONAL, __( 'User changed the Knowledge Graph & Schema.org setting', 'wsal-yoast' ), __( 'Changed the <b>Knowledge Graph & Schema.org</b> setting %LineBreak% Previous setting: %old% %LineBreak% New setting: %new%', 'wsal-yoast' ), 'yoast-seo', 'modified' ),
 		),
 
 		__( 'Plugin Settings Changes', 'wsal-yoast' ) => array(
@@ -32,7 +32,7 @@ $custom_alerts = array(
 			array( 8821, WSAL_MEDIUM, __( 'User Enabled/Disabled the admin bar menu in the Yoast SEO plugin settings', 'wsal-yoast' ), __( 'The <b>Admin bar menu</b> feature', 'wsal-yoast' ), 'yoast-seo', 'enabled' ),
 			array( 8822, WSAL_INFORMATIONAL, __( 'User changed the Posts/Pages meta description template in the Yoast SEO plugin settings', 'wsal-yoast' ), __( 'Changed the %SEOPostType% Meta description template %LineBreak% Previous template: %old% New template: %new%', 'wsal-yoast' ), 'yoast-seo', 'modified' ),
 			array( 8823, WSAL_LOW, __( 'User set the option Date in Snippet Preview for Posts/Pages in the Yoast SEO plugin settings', 'wsal-yoast' ), __( 'The option <b>Data in Snippet Preview</b> for %SEOPostType%', 'wsal-yoast' ), 'yoast-seo', 'enabled' ),
-			array( 8824, WSAL_LOW, __( 'User set the option Yoast SEO Meta Box for Posts/Pages in the Yoast SEO plugin settings', 'wsal-yoast' ), __( 'The option <b>Yoast SEO Meta Box</b> for %SEOPostType%', 'wsal-yoast' ), 'yoast-seo', 'enabled' ),
+			array( 8824, WSAL_LOW, __( 'User set the option to show the Yoast SEO Meta Box for Posts/Pages in the Yoast SEO plugin settings', 'wsal-yoast' ), __( 'The option to show the <b>Yoast SEO Meta Box</b> for <b>%SEOPostType%</b>', 'wsal-yoast' ), 'yoast-seo', 'enabled' ),
 			array( 8825, WSAL_LOW, __( 'User Enabled/Disabled the advanced settings for authors in the Yoast SEO plugin settings', 'wsal-yoast' ), __( 'The <b>Security: no advanced settings for authors</b> feature', 'wsal-yoast' ), 'yoast-seo', 'enabled' ),
 			array( 8826, WSAL_LOW, __( 'User Enabled/Disabled redirecting attachment URLs in the Yoast SEO plugin settings', 'wsal-yoast' ), __( 'The setting <b>Redirect attachment URLs</b> in the <b>Media</b> search appearance settings', 'wsal-yoast' ), 'yoast-seo', 'enabled' ),
 		),
