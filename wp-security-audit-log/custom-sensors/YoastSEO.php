@@ -163,19 +163,19 @@ class WSAL_Sensors_YoastSEO extends WSAL_AbstractSensor {
 	protected function check_seo_data_change() {
 		// Set filter input args.
 		$filter_input_args = array(
-			'post_ID'                          => FILTER_VALIDATE_INT,
-			'_wpnonce'                         => FILTER_SANITIZE_STRING,
-			'action'                           => FILTER_SANITIZE_STRING,
-			'yoast_wpseo_title'                => FILTER_SANITIZE_STRING,
-			'yoast_wpseo_metadesc'             => FILTER_SANITIZE_STRING,
-			'yoast_wpseo_focuskw'              => FILTER_SANITIZE_STRING,
-			'yoast_wpseo_is_cornerstone'       => FILTER_VALIDATE_BOOLEAN,
-			'yoast_wpseo_meta-robots-noindex'  => FILTER_VALIDATE_INT,
-			'yoast_wpseo_meta-robots-nofollow' => FILTER_VALIDATE_INT,
-			'yoast_wpseo_meta-robots-adv'      => array(
+			'post_ID'                           => FILTER_VALIDATE_INT,
+			'_wpnonce'                          => FILTER_SANITIZE_STRING,
+			'action'                            => FILTER_SANITIZE_STRING,
+			'yoast_wpseo_title'                 => FILTER_SANITIZE_STRING,
+			'yoast_wpseo_metadesc'              => FILTER_SANITIZE_STRING,
+			'yoast_wpseo_focuskw'               => FILTER_SANITIZE_STRING,
+			'yoast_wpseo_is_cornerstone'        => FILTER_VALIDATE_BOOLEAN,
+			'yoast_wpseo_meta-robots-noindex'   => FILTER_VALIDATE_INT,
+			'yoast_wpseo_meta-robots-nofollow'  => FILTER_VALIDATE_INT,
+			'yoast_wpseo_meta-robots-adv-react' => array(
 				'flags' => FILTER_REQUIRE_ARRAY,
 			),
-			'yoast_wpseo_canonical'            => FILTER_VALIDATE_URL,
+			'yoast_wpseo_canonical'             => FILTER_VALIDATE_URL,
 		);
 
 		// Filter POST global array.
@@ -190,7 +190,7 @@ class WSAL_Sensors_YoastSEO extends WSAL_AbstractSensor {
 			$this->check_desc_change( $post_array['yoast_wpseo_metadesc'] ); // Meta description.
 			$this->check_robots_index_change( $post_array['yoast_wpseo_meta-robots-noindex'] ); // Meta Robots Index.
 			$this->check_robots_follow_change( $post_array['yoast_wpseo_meta-robots-nofollow'] ); // Meta Robots Follow.
-			$this->check_robots_advanced_change( $post_array['yoast_wpseo_meta-robots-adv'] ); // Meta Robots Advanced.
+			$this->check_robots_advanced_change( $post_array['yoast_wpseo_meta-robots-adv-react'] ); // Meta Robots Advanced.
 			$this->check_canonical_url_change( $post_array['yoast_wpseo_canonical'] ); // Canonical URL.
 			$this->check_focus_keys_change( $post_array['yoast_wpseo_focuskw'] ); // Focus keywords.
 			$this->check_cornerstone_change( $post_array['yoast_wpseo_is_cornerstone'] ); // Cornerstone.
