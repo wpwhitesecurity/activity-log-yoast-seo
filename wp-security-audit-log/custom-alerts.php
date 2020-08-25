@@ -33,7 +33,7 @@ $custom_alerts = array(
 			array( 8822, WSAL_INFORMATIONAL, __( 'User changed the Posts/Pages meta description template in the Yoast SEO plugin settings', 'wsal-yoast' ), __( 'Changed the %SEOPostType% Meta description template %LineBreak% Previous template: %old% New template: %new%', 'wsal-yoast' ), 'yoast-seo', 'modified' ),
 			array( 8823, WSAL_LOW, __( 'User set the option Date in Snippet Preview for Posts/Pages in the Yoast SEO plugin settings', 'wsal-yoast' ), __( 'The option <b>Data in Snippet Preview</b> for %SEOPostType%', 'wsal-yoast' ), 'yoast-seo', 'enabled' ),
 			array( 8824, WSAL_LOW, __( 'User set the option to show the Yoast SEO Meta Box for Posts/Pages in the Yoast SEO plugin settings', 'wsal-yoast' ), __( 'The option to show the <b>Yoast SEO Meta Box</b> for <b>%SEOPostType%</b>', 'wsal-yoast' ), 'yoast-seo', 'enabled' ),
-			array( 8825, WSAL_LOW, __( 'User Enabled/Disabled the advanced settings for authors in the Yoast SEO plugin settings', 'wsal-yoast' ), __( 'The <b>Security: no advanced settings for authors</b> feature', 'wsal-yoast' ), 'yoast-seo', 'enabled' ),
+			array( 8825, WSAL_LOW, __( 'User Enabled/Disabled the advanced or schema settings for authors in the Yoast SEO plugin settings', 'wsal-yoast' ), __( 'The setting <b>Security: advanced or schema settings for authors</b> in the plugin.', 'wsal-yoast' ), 'yoast-seo', 'enabled' ),
 			array( 8826, WSAL_LOW, __( 'User Enabled/Disabled redirecting attachment URLs in the Yoast SEO plugin settings', 'wsal-yoast' ), __( 'The setting <b>Redirect attachment URLs</b> in the <b>Media</b> search appearance settings', 'wsal-yoast' ), 'yoast-seo', 'enabled' ),
 		),
 	),
