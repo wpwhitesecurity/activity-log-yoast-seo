@@ -549,11 +549,6 @@ class WSAL_Sensors_YoastSEO extends WSAL_AbstractSensor {
 							$this->yoast_setting_change_alert( "metadesc-$type", $old_value[ "metadesc-$type" ], $new_value[ "metadesc-$type" ] );
 						}
 
-						// Show Date.
-						if ( $old_value[ "showdate-$type" ] !== $new_value[ "showdate-$type" ] ) {
-							$this->yoast_setting_switch_alert( "showdate-$type", $new_value[ "showdate-$type" ] );
-						}
-
 						// Show Meta box.
 						if ( $old_value[ "display-metabox-pt-$type" ] !== $new_value[ "display-metabox-pt-$type" ] ) {
 							$this->yoast_setting_switch_alert( "display-metabox-pt-$type", $new_value[ "display-metabox-pt-$type" ] );
@@ -884,8 +879,8 @@ class WSAL_Sensors_YoastSEO extends WSAL_AbstractSensor {
 
 				$alert_args = array(
 					'social_profile' => ucwords( substr( $social_profile, 0, strpos( $social_profile, '_' ) ) ),
-					'old_url'        => ! empty( $old_value[ $social_profile ] ) ? $old_value[ $social_profile ] : '',
-					'new_url'        => ! empty( $new_value[ $social_profile ] ) ? $new_value[ $social_profile ] : '',
+					'old_url'        => ! empty( $old_value[ $social_profile ] ) ? $old_value[ $social_profile ] : ' ',
+					'new_url'        => ! empty( $new_value[ $social_profile ] ) ? $new_value[ $social_profile ] : ' ',
 					'EventType'      => $event_type,
 				);
 				$this->plugin->alerts->Trigger( $alert_code, $alert_args );
