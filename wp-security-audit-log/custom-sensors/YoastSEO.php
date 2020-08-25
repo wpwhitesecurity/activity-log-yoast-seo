@@ -884,7 +884,7 @@ class WSAL_Sensors_YoastSEO extends WSAL_AbstractSensor {
 
 				$alert_args = array(
 					'social_profile' => ucwords( substr( $social_profile, 0, strpos( $social_profile, '_' ) ) ),
-					'old_url'        => $old_value[ $social_profile ],
+					'old_url'        => ! empty( $old_value[ $social_profile ] ) ? $old_value[ $social_profile ] : '',
 					'new_url'        => ! empty( $new_value[ $social_profile ] ) ? $new_value[ $social_profile ] : '',
 					'EventType'      => $event_type,
 				);
