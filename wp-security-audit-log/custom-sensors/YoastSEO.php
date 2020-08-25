@@ -500,6 +500,7 @@ class WSAL_Sensors_YoastSEO extends WSAL_AbstractSensor {
 	 * @param mixed  $new_value – Option new value.
 	 */
 	public function yoast_options_trigger( $option, $old_value, $new_value ) {
+
 		// Detect the SEO option.
 		if ( 'wpseo_titles' === $option || 'wpseo' === $option || 'wpseo_social' === $option ) {
 			// WPSEO Title Alerts.
@@ -552,6 +553,35 @@ class WSAL_Sensors_YoastSEO extends WSAL_AbstractSensor {
 						// Show Meta box.
 						if ( $old_value[ "display-metabox-pt-$type" ] !== $new_value[ "display-metabox-pt-$type" ] ) {
 							$this->yoast_setting_switch_alert( "display-metabox-pt-$type", $new_value[ "display-metabox-pt-$type" ] );
+						}
+					}
+				}
+
+
+				// Get taxonomy types.
+				$taxonomy_types = get_taxonomies( array( 'public' => true ) );
+
+				// Lets check each and see if anything has been changes.
+				foreach ( $taxonomy_types as $type ) {
+					if ( isset( $old_value[ "noindex-tax-$type" ] ) ) {
+						// Show Post Type in search results.
+						if ( $old_value[ "noindex-tax-$type" ] !== $new_value[ "noindex-tax-$type" ] ) {
+							$this->yoast_setting_switch_alert( "noindex-tax-$type", $new_value[ "noindex-tax-$type" ] );
+						}
+
+						// Post Type Title Template.
+						if ( $old_value[ "title-tax-$type" ] !== $new_value[ "title-tax-$type" ] ) {
+							$this->yoast_setting_change_alert( "title-tax-$type", $old_value[ "title-tax-$type" ], $new_value[ "title-tax-$type" ] );
+						}
+
+						// Post Type Meta Description Template.
+						if ( $old_value[ "metadesc-tax-$type" ] !== $new_value[ "metadesc-tax-$type" ] ) {
+							$this->yoast_setting_change_alert( "metadesc-tax-$type", $old_value[ "metadesc-tax-$type" ], $new_value[ "metadesc-tax-$type" ] );
+						}
+
+						// Show Meta box.
+						if ( $old_value[ "display-metabox-tax-$type" ] !== $new_value[ "display-metabox-tax-$type" ] ) {
+							$this->yoast_setting_switch_alert( "display-metabox-tax-$type", $new_value[ "display-metabox-tax-$type" ] );
 						}
 					}
 				}
@@ -669,22 +699,40 @@ class WSAL_Sensors_YoastSEO extends WSAL_AbstractSensor {
 
 		// Find title-* in the key.
 		if ( false !== strpos( $key, 'title-' ) ) {
-			$seo_post_type  = str_replace( 'title-', '', $key );
-			$seo_post_type  = ucfirst( $seo_post_type );
-			$seo_post_type .= 's';
+			// Confirm if this is a taxonomy or not.
+			if ( false !== strpos( $key, 'title-tax-' ) ) {
+				$seo_post_type  = str_replace( 'title-tax-', '', $key );
+				$seo_post_type  = ucfirst( $seo_post_type );
 
-			// Set alert meta data.
-			$alert_args['SEOPostType'] = $seo_post_type;
+				// Set alert meta data.
+				$alert_args['SEOPostType'] = $seo_post_type;
+			} else {
+				$seo_post_type  = str_replace( 'title-', '', $key );
+				$seo_post_type  = ucfirst( $seo_post_type );
+				$seo_post_type .= 's';
+
+				// Set alert meta data.
+				$alert_args['SEOPostType'] = $seo_post_type;
+			}
 		}
 
 		// Find metadesc-* in the key.
 		if ( false !== strpos( $key, 'metadesc-' ) ) {
-			$seo_post_type  = str_replace( 'metadesc-', '', $key );
-			$seo_post_type  = ucfirst( $seo_post_type );
-			$seo_post_type .= 's';
+			// Confirm if this is a taxonomy or not.
+			if ( false !== strpos( $key, 'metadesc-tax-' ) ) {
+				$seo_post_type  = str_replace( 'metadesc-tax-', '', $key );
+				$seo_post_type  = ucfirst( $seo_post_type );
 
-			// Set alert meta data.
-			$alert_args['SEOPostType'] = $seo_post_type;
+				// Set alert meta data.
+				$alert_args['SEOPostType'] = $seo_post_type;
+			} else {
+				$seo_post_type  = str_replace( 'metadesc-', '', $key );
+				$seo_post_type  = ucfirst( $seo_post_type );
+				$seo_post_type .= 's';
+
+				// Set alert meta data.
+				$alert_args['SEOPostType'] = $seo_post_type;
+			}
 		}
 
 		// Set alert code to null initially.
@@ -708,8 +756,16 @@ class WSAL_Sensors_YoastSEO extends WSAL_AbstractSensor {
 				$alert_code = 8812;
 				break;
 
+			case strpos( $key, 'title-tax-' ):
+				$alert_code = 8831;
+				break;
+
 			case strpos( $key, 'title-' ):
 				$alert_code = 8814;
+				break;
+
+			case strpos( $key, 'metadesc-tax-' ):
+				$alert_code = 8832;
 				break;
 
 			case strpos( $key, 'metadesc-' ):
@@ -751,23 +807,22 @@ class WSAL_Sensors_YoastSEO extends WSAL_AbstractSensor {
 
 		// Find noindex-* in the key.
 		if ( false !== strpos( $key, 'noindex-' ) ) {
-			$seo_post_type  = str_replace( 'noindex-', '', $key );
-			$seo_post_type  = ucfirst( $seo_post_type );
-			$seo_post_type .= 's';
+			// Check if its a taxonomy setting
+			if ( false !== strpos( $key, 'noindex-tax-' ) ) {
+				$seo_post_type  = str_replace( 'noindex-tax-', '', $key );
+				$seo_post_type  = ucfirst( $seo_post_type );
+				// Set alert meta data.
+				$alert_args['SEOPostType'] = $seo_post_type;
+				$status                    = 1 === $status ? 0 : 1;
+			} else {
+				$seo_post_type  = str_replace( 'noindex-', '', $key );
+				$seo_post_type  = ucfirst( $seo_post_type );
+				$seo_post_type .= 's';
 
-			// Set alert meta data.
-			$alert_args['SEOPostType'] = $seo_post_type;
-			$status                    = 1 === $status ? 0 : 1;
-		}
-
-		// Find showdate-* in the key.
-		if ( false !== strpos( $key, 'showdate-' ) ) {
-			$seo_post_type  = str_replace( 'showdate-', '', $key );
-			$seo_post_type  = ucfirst( $seo_post_type );
-			$seo_post_type .= 's';
-
-			// Set alert meta data.
-			$alert_args['SEOPostType'] = $seo_post_type;
+				// Set alert meta data.
+				$alert_args['SEOPostType'] = $seo_post_type;
+				$status                    = 1 === $status ? 0 : 1;
+			}
 		}
 
 		// Find display-metabox-pt-* in the key.
@@ -787,6 +842,10 @@ class WSAL_Sensors_YoastSEO extends WSAL_AbstractSensor {
 
 		// Add switch case to set the alert code.
 		switch ( $key ) {
+			case strpos( $key, 'noindex-tax-' ):
+				$alert_code = 8830;
+				break;
+
 			case strpos( $key, 'noindex-' ):
 				$alert_code = 8813;
 				break;
