@@ -599,7 +599,6 @@ class WSAL_Sensors_YoastSEO extends WSAL_AbstractSensor {
 					}
 				}
 
-
 				/**
 				 * Ryte integration.
 				 *
@@ -646,7 +645,6 @@ class WSAL_Sensors_YoastSEO extends WSAL_AbstractSensor {
 			if ( 'wpseo_social' === $option ) {
 				$this->yoast_social_profile_setting_change_alert( $old_value, $new_value );
 			}
-
 		}
 	}
 
@@ -724,7 +722,7 @@ class WSAL_Sensors_YoastSEO extends WSAL_AbstractSensor {
 				break;
 
 			case 'disable-attachment':
-				$alert_code = 8826;
+				$alert_code              = 8826;
 				$alert_args['EventType'] = $new_value ? 'enabled' : 'disabled';
 				break;
 
@@ -881,13 +879,13 @@ class WSAL_Sensors_YoastSEO extends WSAL_AbstractSensor {
 
 		foreach ( $old_value as $social_profile => $value ) {
 
-			if ( in_array( $social_profile, $profiles_to_monitor ) && $old_value[$social_profile] !== $new_value[$social_profile] ) {
-				$event_type = $this->determine_social_event_type( $old_value[$social_profile], $new_value[$social_profile] );
+			if ( in_array( $social_profile, $profiles_to_monitor ) && $old_value[ $social_profile ] !== $new_value[ $social_profile ] ) {
+				$event_type = $this->determine_social_event_type( $old_value[ $social_profile ], $new_value[ $social_profile ] );
 
 				$alert_args = array(
 					'social_profile' => ucwords( substr( $social_profile, 0, strpos( $social_profile, '_' ) ) ),
-					'old_url'        => $old_value[$social_profile],
-					'new_url'        => ! empty( $new_value[$social_profile] ) ? $new_value[$social_profile] : '',
+					'old_url'        => $old_value[ $social_profile ],
+					'new_url'        => ! empty( $new_value[ $social_profile ] ) ? $new_value[ $social_profile ] : '',
 					'EventType'      => $event_type,
 				);
 				$this->plugin->alerts->Trigger( $alert_code, $alert_args );
