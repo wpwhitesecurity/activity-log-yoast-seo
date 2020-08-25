@@ -501,7 +501,7 @@ class WSAL_Sensors_YoastSEO extends WSAL_AbstractSensor {
 	 */
 	public function yoast_options_trigger( $option, $old_value, $new_value ) {
 		// Detect the SEO option.
-		if ( 'wpseo_titles' === $option || 'wpseo' === $option ) {
+		if ( 'wpseo_titles' === $option || 'wpseo' === $option || 'wpseo_social' === $option ) {
 			// WPSEO Title Alerts.
 			if ( 'wpseo_titles' === $option ) {
 				// Redirect attachment URLs to the attachment itself.
@@ -626,7 +626,27 @@ class WSAL_Sensors_YoastSEO extends WSAL_AbstractSensor {
 						$this->yoast_setting_switch_alert( 'disableadvanced_meta', $new_value['disableadvanced_meta'] );
 					}
 				}
+
+				// Usage tacking
+				if ( isset( $old_value['tracking'] ) && isset( $new_value['tracking'] ) ) {
+					if ( $old_value['tracking'] !== $new_value['tracking'] ) {
+						$this->yoast_setting_switch_alert( 'tracking', $new_value['tracking'] );
+					}
+				}
+
+				// REST enpoint
+				if ( isset( $old_value['enable_headless_rest_endpoints'] ) && isset( $new_value['enable_headless_rest_endpoints'] ) ) {
+					if ( $old_value['enable_headless_rest_endpoints'] !== $new_value['enable_headless_rest_endpoints'] ) {
+						$this->yoast_setting_switch_alert( 'enable_headless_rest_endpoints', $new_value['enable_headless_rest_endpoints'] );
+					}
+				}
 			}
+
+			// Social profile alerts.
+			if ( 'wpseo_social' === $option ) {
+				$this->yoast_social_profile_setting_change_alert( $old_value, $new_value );
+			}
+
 		}
 	}
 
@@ -820,6 +840,14 @@ class WSAL_Sensors_YoastSEO extends WSAL_AbstractSensor {
 				$alert_code = 8825;
 				break;
 
+			case strpos( $key, 'tracking' ):
+				$alert_code = 8827;
+				break;
+
+			case strpos( $key, 'enable_headless_rest_endpoints' ):
+				$alert_code = 8828;
+				break;
+
 			default:
 				break;
 		}
@@ -827,6 +855,60 @@ class WSAL_Sensors_YoastSEO extends WSAL_AbstractSensor {
 		// Trigger the alert.
 		if ( ! empty( $alert_code ) ) {
 			$this->plugin->alerts->Trigger( $alert_code, $alert_args );
+		}
+	}
+
+	/**
+	 * Method: Trigger Yoast Social profile settings alerts.
+	 *
+	 * @param string $old_value – Setting old value.
+	 * @param mixed  $new_value – Setting new value.
+	 */
+	private function yoast_social_profile_setting_change_alert( $old_value, $new_value ) {
+
+		$alert_code = 8829;
+
+		// Array of keys we want to look for.
+		$profiles_to_monitor = array(
+			'facebook_site',
+			'instagram_url',
+			'linkedin_url',
+			'pinterest_url',
+			'twitter_site',
+			'youtube_url',
+			'wikipedia_url',
+		);
+
+		foreach ( $old_value as $social_profile => $value ) {
+
+			if ( in_array( $social_profile, $profiles_to_monitor ) && $old_value[$social_profile] !== $new_value[$social_profile] ) {
+				$event_type = $this->determine_social_event_type( $old_value[$social_profile], $new_value[$social_profile] );
+
+				$alert_args = array(
+					'social_profile' => ucwords( substr( $social_profile, 0, strpos( $social_profile, '_' ) ) ),
+					'old_url'        => $old_value[$social_profile],
+					'new_url'        => ! empty( $new_value[$social_profile] ) ? $new_value[$social_profile] : '',
+					'EventType'      => $event_type,
+				);
+				$this->plugin->alerts->Trigger( $alert_code, $alert_args );
+			}
+		}
+	}
+
+	/**
+	 * Helper function to check if a profile was added, removed or modified.
+	 *
+	 * @param  string $old_value Old profile value.
+	 * @param  string $new_value New profile value.
+	 * @return string            Our determination of whats happened
+	 */
+	private function determine_social_event_type( $old_value, $new_value ) {
+		if ( ! empty( $old_value ) && empty( $new_value ) ) {
+			return 'removed';
+		} elseif ( empty( $old_value ) && ! empty( $new_value ) ) {
+			return 'added';
+		} else {
+			return 'modified';
 		}
 	}
 }
