@@ -1,19 +1,20 @@
 <?php
+// phpcs:ignoreFile
 
 $custom_alerts = array(
 	__( 'Yoast SEO', 'wsal-yoast' ) => array(
-		__( 'Post Changes', 'wsal-yoast' ) => array(
+		__( 'Post Changes', 'wsal-yoast' )            => array(
 			array( 8801, WSAL_INFORMATIONAL, __( 'User changed title of a SEO post', 'wsal-yoast' ), __( 'Changed the Meta title of the post %PostTitle% %LineBreak% ID: %PostID% %LineBreak% Type: %PostType% %LineBreak% Status: %PostStatus% %LineBreak% Previous title: %OldSEOTitle% %LineBreak% New title: %NewSEOTitle% %LineBreak% %EditorLinkPost%', 'wsal-yoast' ), 'yoast-seo-metabox', 'modified' ),
-			array( 8802, WSAL_INFORMATIONAL, __( 'User changed the meta description of a SEO post', 'wsal-yoast' ), __( 'Changed the Meta Description of the post %PostTitle% %LineBreak% ID: %PostID% %LineBreak% Type: %PostType% %LineBreak% Status: %PostStatus% %LineBreak% Previous description: %old_desc% %LineBreak% New description: %new_desc% %LineBreak% %EditorLinkPost%', 'wsal-yoast' ), 'yoast-seo-metabox', 'modified' ),
+			array( 8802, WSAL_INFORMATIONAL, __( 'User changed the meta description of a SEO post', 'wsal-yoast' ), __( 'Changed the Meta Description of the post %PostTitle% %LineBreak% ID: %PostID% %LineBreak% Type: %PostType% %LineBreak% Status: %PostStatus% %LineBreak% Previous description: %1$old_desc% %LineBreak% New description: %new_desc% %LineBreak% %2$EditorLinkPost%', 'wsal-yoast' ), 'yoast-seo-metabox', 'modified' ),
 			array( 8803, WSAL_INFORMATIONAL, __( 'User changed setting to allow search engines to show post in search results of a SEO post', 'wsal-yoast' ), __( 'Changed the setting to allow search engines to show post in search results for the post %PostTitle% %LineBreak% ID: %PostID% %LineBreak% Type: %PostType% %LineBreak% Status: %PostStatus% %LineBreak% Previous setting: %OldStatus% %LineBreak% New setting: %NewStatus% %LineBreak% %EditorLinkPost%', 'wsal-yoast' ), 'yoast-seo-metabox', 'modified' ),
 			array( 8804, WSAL_INFORMATIONAL, __( 'User Enabled/Disabled the option for search engine to follow links of a SEO post', 'wsal-yoast' ), __( 'The option for search engine to follow links in post %PostTitle% %LineBreak% ID: %PostID% %LineBreak% Type: %PostType% %LineBreak% Status: %PostStatus% %LineBreak% %EditorLinkPost%', 'wsal-yoast' ), 'yoast-seo-metabox', 'enabled' ),
 			array( 8805, WSAL_LOW, __( 'User set the Meta robots advanced setting of a SEO post', 'wsal-yoast' ), __( 'Changed the <b>Meta robots advanced</b> setting for the post %PostTitle% %LineBreak% ID: %PostID% %LineBreak% Type: %PostType% %LineBreak% Status: %PostStatus% %LineBreak% Previous setting: %OldStatus% %LineBreak% New setting: %NewStatus% %LineBreak% %EditorLinkPost%', 'wsal-yoast' ), 'yoast-seo-metabox', 'modified' ),
 			array( 8806, WSAL_INFORMATIONAL, __( 'User changed the canonical URL of a SEO post', 'wsal-yoast' ), __( 'Changed the Canonical URL of the post %PostTitle% %LineBreak% ID: %PostID% %LineBreak% Type: %PostType% %LineBreak% Status: %PostStatus% %LineBreak% Previous URL: %OldCanonicalUrl% %LineBreak% New URL: %NewCanonicalUrl% %LineBreak% %EditorLinkPost%', 'wsal-yoast' ), 'yoast-seo-metabox', 'modified' ),
-			array( 8807, WSAL_INFORMATIONAL, __( 'User changed the focus keyword of a SEO post', 'wsal-yoast' ), __( 'Changed the focus keyword for the post %PostTitle% %LineBreak% ID: %PostID% %LineBreak% Type: %PostType% %LineBreak% Status: %PostStatus% %LineBreak% Previous keyword: %old_keywords% %LineBreak% New keyword: %new_keywords% %LineBreak% %EditorLinkPost%', 'wsal-yoast' ), 'yoast-seo-metabox', 'modified' ),
+			array( 8807, WSAL_INFORMATIONAL, __( 'User changed the focus keyword of a SEO post', 'wsal-yoast' ), __( 'Changed the focus keyword for the post %PostTitle% %LineBreak% ID: %PostID% %LineBreak% Type: %PostType% %LineBreak% Status: %PostStatus% %LineBreak% Previous keyword: %1$old_keywords% %LineBreak% New keyword: %new_keywords% %LineBreak% %2$EditorLinkPost%', 'wsal-yoast' ), 'yoast-seo-metabox', 'modified' ),
 			array( 8808, WSAL_INFORMATIONAL, __( 'User Enabled/Disabled the option Cornerston Content of a SEO post', 'wsal-yoast' ), __( 'The option Cornerstone Content in the post %PostTitle% %LineBreak% ID: %PostID% %LineBreak% Type: %PostType% %LineBreak% Status: %PostStatus% %LineBreak% %EditorLinkPost%', 'wsal-yoast' ), 'yoast-seo-metabox', 'enabled' ),
 		),
 
-		__( 'Website Changes', 'wsal-yoast' ) => array(
+		__( 'Website Changes', 'wsal-yoast' )         => array(
 			array( 8809, WSAL_INFORMATIONAL, __( 'User changed the Title Separator setting', 'wsal-yoast' ), __( 'Changed the default title separator %LineBreak% Previous separator: %old% %LineBreak% New separator: %new%', 'wsal-yoast' ), 'yoast-seo', 'modified' ),
 			array( 8810, WSAL_MEDIUM, __( 'User changed the Homepage Title setting', 'wsal-yoast' ), __( 'Changed the homepage Meta title %LineBreak% Previous title: %old% %LineBreak% New title: %new%', 'wsal-yoast' ), 'yoast-seo', 'modified' ),
 			array( 8811, WSAL_MEDIUM, __( 'User changed the Homepage Meta description setting', 'wsal-yoast' ), __( 'Changed the homepage Meta description %LineBreak% Previous description: %old% %LineBreak% New description: %new%', 'wsal-yoast' ), 'yoast-seo', 'modified' ),
@@ -46,7 +47,7 @@ $custom_alerts = array(
 			array( 8834, WSAL_MEDIUM, __( 'User Enabled/Disabled showing Author or Date archives in search results in Yoast SEO plugin settings', 'wsal-yoast' ), __( 'The setting to show the <b>%archive_type%</b> archives in the search results', 'wsal-yoast' ), 'yoast-seo', 'enabled' ),
 			array( 8835, WSAL_LOW, __( 'User Modified the SEO title template for Author or Date archives in the Yoast SEO plugin settings', 'wsal-yoast' ), __( 'Changed the SEO title template for the <b>%archive_type%</b> archives %LineBreak% Previous title: %old% %LineBreak% New title: %new%', 'wsal-yoast' ), 'yoast-seo', 'modified' ),
 			array( 8836, WSAL_LOW, __( 'User Modified the SEO Meta description for Author or Date archives in the Yoast SEO plugin settings', 'wsal-yoast' ), __( 'Changed the Meta description template for the <b>%archive_type%</b> archives %LineBreak% Previous description: %old% %LineBreak% New description: %new%', 'wsal-yoast' ), 'yoast-seo', 'modified' ),
-			array( 8837,WSAL_LOW, __( 'User Enabled/Disabled the SEO meta box for a taxonomy', 'wsal-yoast' ), __( 'The setting to show SEO settings for the %SEOPostType% taxonomy', 'wsal-yoast' ), 'yoast-seo', 'enabled' ),
+			array( 8837, WSAL_LOW, __( 'User Enabled/Disabled the SEO meta box for a taxonomy', 'wsal-yoast' ), __( 'The setting to show SEO settings for the %SEOPostType% taxonomy', 'wsal-yoast' ), 'yoast-seo', 'enabled' ),
 		),
 	),
 );

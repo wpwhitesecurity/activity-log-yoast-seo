@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore
 /**
  * Sensor: Yoast SEO
  *
@@ -530,12 +530,12 @@ class WSAL_Sensors_YoastSEO extends WSAL_AbstractSensor {
 				}
 
 				// Author Archives.
-				if ( $old_value[ 'disable-author' ] !== $new_value[ 'disable-author' ] ) {
-					$this->yoast_setting_switch_alert( 'disable-author', $new_value[ 'disable-author' ] );
+				if ( $old_value['disable-author'] !== $new_value['disable-author'] ) {
+					$this->yoast_setting_switch_alert( 'disable-author', $new_value['disable-author'] );
 				}
 
-				if ( $old_value[ 'noindex-author-wpseo' ] !== $new_value[ 'noindex-author-wpseo' ] ) {
-					$this->yoast_setting_switch_alert( 'noindex-author-wpseo', $new_value[ 'noindex-author-wpseo' ] );
+				if ( $old_value['noindex-author-wpseo'] !== $new_value['noindex-author-wpseo'] ) {
+					$this->yoast_setting_switch_alert( 'noindex-author-wpseo', $new_value['noindex-author-wpseo'] );
 				}
 
 				if ( $old_value['title-author-wpseo'] !== $new_value['title-author-wpseo'] ) {
@@ -547,12 +547,12 @@ class WSAL_Sensors_YoastSEO extends WSAL_AbstractSensor {
 				}
 
 				// Date Archives.
-				if ( $old_value[ 'disable-date' ] !== $new_value[ 'disable-date' ] ) {
-					$this->yoast_setting_switch_alert( 'disable-date', $new_value[ 'disable-date' ] );
+				if ( $old_value['disable-date'] !== $new_value['disable-date'] ) {
+					$this->yoast_setting_switch_alert( 'disable-date', $new_value['disable-date'] );
 				}
 
-				if ( $old_value[ 'noindex-archive-wpseo' ] !== $new_value[ 'noindex-archive-wpseo' ] ) {
-					$this->yoast_setting_switch_alert( 'noindex-archive-wpseo', $new_value[ 'noindex-archive-wpseo' ] );
+				if ( $old_value['noindex-archive-wpseo'] !== $new_value['noindex-archive-wpseo'] ) {
+					$this->yoast_setting_switch_alert( 'noindex-archive-wpseo', $new_value['noindex-archive-wpseo'] );
 				}
 
 				if ( $old_value['title-archive-wpseo'] !== $new_value['title-archive-wpseo'] ) {
@@ -684,14 +684,14 @@ class WSAL_Sensors_YoastSEO extends WSAL_AbstractSensor {
 					}
 				}
 
-				// Usage tacking
+				// Usage tracking.
 				if ( isset( $old_value['tracking'] ) && isset( $new_value['tracking'] ) ) {
 					if ( $old_value['tracking'] !== $new_value['tracking'] ) {
 						$this->yoast_setting_switch_alert( 'tracking', $new_value['tracking'] );
 					}
 				}
 
-				// REST enpoint
+				// REST enpoint.
 				if ( isset( $old_value['enable_headless_rest_endpoints'] ) && isset( $new_value['enable_headless_rest_endpoints'] ) ) {
 					if ( $old_value['enable_headless_rest_endpoints'] !== $new_value['enable_headless_rest_endpoints'] ) {
 						$this->yoast_setting_switch_alert( 'enable_headless_rest_endpoints', $new_value['enable_headless_rest_endpoints'] );
@@ -734,15 +734,15 @@ class WSAL_Sensors_YoastSEO extends WSAL_AbstractSensor {
 		if ( false !== strpos( $key, 'title-' ) ) {
 			// Confirm if this is a taxonomy or not.
 			if ( false !== strpos( $key, 'title-tax-' ) ) {
-				$seo_post_type  = str_replace( 'title-tax-', '', $key );
-				$seo_post_type  = ucfirst( $seo_post_type );
+				$seo_post_type = str_replace( 'title-tax-', '', $key );
+				$seo_post_type = ucfirst( $seo_post_type );
 
 				// Set alert meta data.
 				$alert_args['SEOPostType'] = $seo_post_type;
 			} elseif ( false !== strpos( $key, 'title-author-' ) || false !== strpos( $key, 'title-archive-' ) ) {
-				$seo_post_type  = str_replace( 'title-', '', $key );
-				$seo_post_type  = str_replace( '-wpseo', '', $seo_post_type );
-				$seo_post_type  = ucfirst( $seo_post_type );
+				$seo_post_type = str_replace( 'title-', '', $key );
+				$seo_post_type = str_replace( '-wpseo', '', $seo_post_type );
+				$seo_post_type = ucfirst( $seo_post_type );
 				// If this is the "date archive" setting, update archive type to something more descriptive.
 				if ( 'Archive' === $seo_post_type ) {
 					$seo_post_type = __( 'Date', 'wsal-yoast' );
@@ -763,15 +763,15 @@ class WSAL_Sensors_YoastSEO extends WSAL_AbstractSensor {
 		if ( false !== strpos( $key, 'metadesc-' ) ) {
 			// Confirm if this is a taxonomy or not.
 			if ( false !== strpos( $key, 'metadesc-tax-' ) ) {
-				$seo_post_type  = str_replace( 'metadesc-tax-', '', $key );
-				$seo_post_type  = ucfirst( $seo_post_type );
+				$seo_post_type = str_replace( 'metadesc-tax-', '', $key );
+				$seo_post_type = ucfirst( $seo_post_type );
 
 				// Set alert meta data.
 				$alert_args['SEOPostType'] = $seo_post_type;
 			} elseif ( false !== strpos( $key, 'metadesc-author-' ) || false !== strpos( $key, 'metadesc-archive-' ) ) {
-				$seo_post_type  = str_replace( 'metadesc-', '', $key );
-				$seo_post_type  = str_replace( '-wpseo', '', $seo_post_type );
-				$seo_post_type  = ucfirst( $seo_post_type );
+				$seo_post_type = str_replace( 'metadesc-', '', $key );
+				$seo_post_type = str_replace( '-wpseo', '', $seo_post_type );
+				$seo_post_type = ucfirst( $seo_post_type );
 				// If this is the "date archive" setting, update archive type to something more descriptive.
 				if ( 'Archive' === $seo_post_type ) {
 					$seo_post_type = __( 'Date', 'wsal-yoast' );
@@ -870,10 +870,10 @@ class WSAL_Sensors_YoastSEO extends WSAL_AbstractSensor {
 
 		// Find noindex-* in the key.
 		if ( false !== strpos( $key, 'noindex-' ) ) {
-			// Check if its a taxonomy setting
+			// Check if its a taxonomy setting.
 			if ( false !== strpos( $key, 'noindex-tax-' ) ) {
-				$seo_post_type  = str_replace( 'noindex-tax-', '', $key );
-				$seo_post_type  = ucfirst( $seo_post_type );
+				$seo_post_type = str_replace( 'noindex-tax-', '', $key );
+				$seo_post_type = ucfirst( $seo_post_type );
 				// Set alert meta data.
 				$alert_args['SEOPostType'] = $seo_post_type;
 				$status                    = 1 === $status ? 0 : 1;
@@ -890,8 +890,8 @@ class WSAL_Sensors_YoastSEO extends WSAL_AbstractSensor {
 
 		// Find display-metabox-pt-* in the key.
 		if ( false !== strpos( $key, 'display-metabox-tax-' ) ) {
-			$seo_post_type  = str_replace( 'display-metabox-tax-', '', $key );
-			$seo_post_type  = ucfirst( $seo_post_type );
+			$seo_post_type = str_replace( 'display-metabox-tax-', '', $key );
+			$seo_post_type = ucfirst( $seo_post_type );
 
 			// Set alert meta data.
 			$alert_args['SEOPostType'] = $seo_post_type;
@@ -953,7 +953,7 @@ class WSAL_Sensors_YoastSEO extends WSAL_AbstractSensor {
 				$alert_code = 8819;
 				break;
 
-			// renamed to ryte_integration. see: https://github.com/Yoast/wordpress-seo/pull/14123
+			// renamed to ryte_integration. see: https://github.com/Yoast/wordpress-seo/pull/14123.
 			case 'onpage_indexability':
 			case 'ryte_indexability':
 				$alert_code = 8820;
@@ -1031,13 +1031,12 @@ class WSAL_Sensors_YoastSEO extends WSAL_AbstractSensor {
 
 		foreach ( $old_value as $social_profile => $value ) {
 
-			if ( in_array( $social_profile, $profiles_to_monitor ) && $old_value[ $social_profile ] !== $new_value[ $social_profile ] ) {
+			if ( in_array( $social_profile, $profiles_to_monitor, true ) && $old_value[ $social_profile ] !== $new_value[ $social_profile ] ) {
 				$event_type = $this->determine_social_event_type( $old_value[ $social_profile ], $new_value[ $social_profile ] );
-
 				$alert_args = array(
 					'social_profile' => ucwords( substr( $social_profile, 0, strpos( $social_profile, '_' ) ) ),
-					'old_url'        => ! empty( $old_value[ $social_profile ] ) ? $old_value[ $social_profile ] : ' ',
-					'new_url'        => ! empty( $new_value[ $social_profile ] ) ? $new_value[ $social_profile ] : ' ',
+					'old_url'        => empty( $old_value[ $social_profile ] ) ? ' ' : $old_value[ $social_profile ], // The empty string is intentional.
+					'new_url'        => empty( $new_value[ $social_profile ] ) ? ' ' : $new_value[ $social_profile ], // The empty string is intentional.
 					'EventType'      => $event_type,
 				);
 				$this->plugin->alerts->Trigger( $alert_code, $alert_args );
