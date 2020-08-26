@@ -46,6 +46,7 @@ $custom_alerts = array(
 			array( 8834, WSAL_MEDIUM, __( 'User Enabled/Disabled showing Author or Date archives in search results in Yoast SEO plugin settings', 'wsal-yoast' ), __( 'The setting to show the <b>%archive_type%</b> archives in the search results', 'wsal-yoast' ), 'yoast-seo', 'enabled' ),
 			array( 8835, WSAL_LOW, __( 'User Modified the SEO title template for Author or Date archives in the Yoast SEO plugin settings', 'wsal-yoast' ), __( 'Changed the SEO title template for the <b>%archive_type%</b> archives %LineBreak% Previous title: %old% %LineBreak% New title: %new%', 'wsal-yoast' ), 'yoast-seo', 'modified' ),
 			array( 8836, WSAL_LOW, __( 'User Modified the SEO Meta description for Author or Date archives in the Yoast SEO plugin settings', 'wsal-yoast' ), __( 'Changed the Meta description template for the <b>%archive_type%</b> archives %LineBreak% Previous description: %old% %LineBreak% New description: %new%', 'wsal-yoast' ), 'yoast-seo', 'modified' ),
+			array( 8837,WSAL_LOW, __( 'User Enabled/Disabled the SEO meta box for a taxonomy', 'wsal-yoast' ), __( 'The setting to show SEO settings for the %SEOPostType% taxonomy', 'wsal-yoast' ), 'yoast-seo', 'enabled' ),
 		),
 	),
 );

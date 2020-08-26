@@ -889,7 +889,13 @@ class WSAL_Sensors_YoastSEO extends WSAL_AbstractSensor {
 		}
 
 		// Find display-metabox-pt-* in the key.
-		if ( false !== strpos( $key, 'display-metabox-pt-' ) ) {
+		if ( false !== strpos( $key, 'display-metabox-tax-' ) ) {
+			$seo_post_type  = str_replace( 'display-metabox-tax-', '', $key );
+			$seo_post_type  = ucfirst( $seo_post_type );
+
+			// Set alert meta data.
+			$alert_args['SEOPostType'] = $seo_post_type;
+		} else {
 			$seo_post_type  = str_replace( 'display-metabox-pt-', '', $key );
 			$seo_post_type  = ucfirst( $seo_post_type );
 			$seo_post_type .= 's';
@@ -963,6 +969,10 @@ class WSAL_Sensors_YoastSEO extends WSAL_AbstractSensor {
 
 			case strpos( $key, 'display-metabox-pt-' ):
 				$alert_code = 8824;
+				break;
+
+			case strpos( $key, 'display-metabox-tax-' ):
+				$alert_code = 8837;
 				break;
 
 			case strpos( $key, 'disableadvanced_meta' ):
