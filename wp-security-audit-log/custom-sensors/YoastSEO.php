@@ -760,7 +760,8 @@ class WSAL_Sensors_YoastSEO extends WSAL_AbstractSensor {
 				// Set alert meta data.
 				$alert_args['SEOPostType'] = $seo_post_type;
 			} elseif ( false !== strpos( $key, 'metadesc-author-' ) || false !== strpos( $key, 'metadesc-archive-' ) ) {
-				$seo_post_type = $this->create_tidy_name( $key );
+				$seo_post_type  = $this->create_tidy_name( $key );
+				$seo_post_type .= 's';
 				// Set alert meta data.
 				$alert_args['archive_type'] = $seo_post_type;
 			} else {
