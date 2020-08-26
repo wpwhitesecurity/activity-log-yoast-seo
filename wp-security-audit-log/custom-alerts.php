@@ -1,5 +1,8 @@
 <?php
 // phpcs:ignoreFile
+/**
+ * File is ignored by PHPCS as it falsly flags a get_text error.
+ */
 
 $custom_alerts = array(
 	__( 'Yoast SEO', 'wsal-yoast' ) => array(
