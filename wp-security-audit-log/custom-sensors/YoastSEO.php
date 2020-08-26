@@ -529,6 +529,40 @@ class WSAL_Sensors_YoastSEO extends WSAL_AbstractSensor {
 					$this->yoast_setting_change_alert( 'company_or_person', $old_value['company_or_person'], $new_value['company_or_person'] );
 				}
 
+				// Author Archives.
+				if ( $old_value[ 'disable-author' ] !== $new_value[ 'disable-author' ] ) {
+					$this->yoast_setting_switch_alert( 'disable-author', $new_value[ 'disable-author' ] );
+				}
+
+				if ( $old_value[ 'noindex-author-wpseo' ] !== $new_value[ 'noindex-author-wpseo' ] ) {
+					$this->yoast_setting_switch_alert( 'noindex-author-wpseo', $new_value[ 'noindex-author-wpseo' ] );
+				}
+
+				if ( $old_value['title-author-wpseo'] !== $new_value['title-author-wpseo'] ) {
+					$this->yoast_setting_change_alert( 'title-author-wpseo', $old_value['title-author-wpseo'], $new_value['title-author-wpseo'] );
+				}
+
+				if ( $old_value['metadesc-author-wpseo'] !== $new_value['metadesc-author-wpseo'] ) {
+					$this->yoast_setting_change_alert( 'metadesc-author-wpseo', $old_value['metadesc-author-wpseo'], $new_value['metadesc-author-wpseo'] );
+				}
+
+				// Date Archives.
+				if ( $old_value[ 'disable-date' ] !== $new_value[ 'disable-date' ] ) {
+					$this->yoast_setting_switch_alert( 'disable-date', $new_value[ 'disable-date' ] );
+				}
+
+				if ( $old_value[ 'noindex-archive-wpseo' ] !== $new_value[ 'noindex-archive-wpseo' ] ) {
+					$this->yoast_setting_switch_alert( 'noindex-archive-wpseo', $new_value[ 'noindex-archive-wpseo' ] );
+				}
+
+				if ( $old_value['title-archive-wpseo'] !== $new_value['title-archive-wpseo'] ) {
+					$this->yoast_setting_change_alert( 'title-archive-wpseo', $old_value['title-archive-wpseo'], $new_value['title-archive-wpseo'] );
+				}
+
+				if ( $old_value['metadesc-archive-wpseo'] !== $new_value['metadesc-archive-wpseo'] ) {
+					$this->yoast_setting_change_alert( 'metadesc-archive-wpseo', $old_value['metadesc-archive-wpseo'], $new_value['metadesc-archive-wpseo'] );
+				}
+
 				// Get public post types.
 				$post_types = get_post_types( array( 'public' => true ) );
 
@@ -556,7 +590,6 @@ class WSAL_Sensors_YoastSEO extends WSAL_AbstractSensor {
 						}
 					}
 				}
-
 
 				// Get taxonomy types.
 				$taxonomy_types = get_taxonomies( array( 'public' => true ) );
@@ -706,6 +739,16 @@ class WSAL_Sensors_YoastSEO extends WSAL_AbstractSensor {
 
 				// Set alert meta data.
 				$alert_args['SEOPostType'] = $seo_post_type;
+			} elseif ( false !== strpos( $key, 'title-author-' ) || false !== strpos( $key, 'title-archive-' ) ) {
+				$seo_post_type  = str_replace( 'title-', '', $key );
+				$seo_post_type  = str_replace( '-wpseo', '', $seo_post_type );
+				$seo_post_type  = ucfirst( $seo_post_type );
+				// If this is the "date archive" setting, update archive type to something more descriptive.
+				if ( 'Archive' === $seo_post_type ) {
+					$seo_post_type = __( 'Date', 'wsal-yoast' );
+				}
+				// Set alert meta data.
+				$alert_args['archive_type'] = $seo_post_type;
 			} else {
 				$seo_post_type  = str_replace( 'title-', '', $key );
 				$seo_post_type  = ucfirst( $seo_post_type );
@@ -725,6 +768,16 @@ class WSAL_Sensors_YoastSEO extends WSAL_AbstractSensor {
 
 				// Set alert meta data.
 				$alert_args['SEOPostType'] = $seo_post_type;
+			} elseif ( false !== strpos( $key, 'metadesc-author-' ) || false !== strpos( $key, 'metadesc-archive-' ) ) {
+				$seo_post_type  = str_replace( 'metadesc-', '', $key );
+				$seo_post_type  = str_replace( '-wpseo', '', $seo_post_type );
+				$seo_post_type  = ucfirst( $seo_post_type );
+				// If this is the "date archive" setting, update archive type to something more descriptive.
+				if ( 'Archive' === $seo_post_type ) {
+					$seo_post_type = __( 'Date', 'wsal-yoast' );
+				}
+				// Set alert meta data.
+				$alert_args['archive_type'] = $seo_post_type;
 			} else {
 				$seo_post_type  = str_replace( 'metadesc-', '', $key );
 				$seo_post_type  = ucfirst( $seo_post_type );
@@ -752,8 +805,18 @@ class WSAL_Sensors_YoastSEO extends WSAL_AbstractSensor {
 				$alert_code = 8811;
 				break;
 
+			case 'metadesc-archive-wpseo':
+			case 'metadesc-author-wpseo':
+				$alert_code = 8836;
+				break;
+
 			case 'company_or_person':
 				$alert_code = 8812;
+				break;
+
+			case strpos( $key, 'title-archive-' ):
+			case strpos( $key, 'title-author-' ):
+				$alert_code = 8835;
 				break;
 
 			case strpos( $key, 'title-tax-' ):
@@ -842,6 +905,20 @@ class WSAL_Sensors_YoastSEO extends WSAL_AbstractSensor {
 
 		// Add switch case to set the alert code.
 		switch ( $key ) {
+			case 'noindex-author-wpseo':
+			case 'noindex-archive-wpseo':
+				$alert_code   = 8834;
+				$archive_type = str_replace( 'noindex-', '', $key );
+				$archive_type = str_replace( '-wpseo', '', $archive_type );
+				$archive_type = ucfirst( $archive_type );
+				// If this is the "date archive" setting, update archive type to something more descriptive.
+				if ( 'Archive' === $archive_type ) {
+					$archive_type = __( 'Date', 'wsal-yoast' );
+				}
+				// Set alert meta data.
+				$alert_args['archive_type'] = $archive_type;
+				break;
+
 			case strpos( $key, 'noindex-tax-' ):
 				$alert_code = 8830;
 				break;
@@ -898,6 +975,17 @@ class WSAL_Sensors_YoastSEO extends WSAL_AbstractSensor {
 
 			case strpos( $key, 'enable_headless_rest_endpoints' ):
 				$alert_code = 8828;
+				break;
+
+			case 'disable-author':
+			case 'disable-date':
+				$alert_code   = 8833;
+				$archive_type = str_replace( 'disable-', '', $key );
+				$archive_type = ucfirst( $archive_type );
+				// Set alert meta data.
+				$alert_args['archive_type'] = $archive_type;
+				// Reverse logic for enabled/disabled.
+				$alert_args['EventType'] = $new_value ? 'disabled' : 'enabled';
 				break;
 
 			default:
