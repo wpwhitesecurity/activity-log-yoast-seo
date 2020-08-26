@@ -734,24 +734,17 @@ class WSAL_Sensors_YoastSEO extends WSAL_AbstractSensor {
 		if ( false !== strpos( $key, 'title-' ) ) {
 			// Confirm if this is a taxonomy or not.
 			if ( false !== strpos( $key, 'title-tax-' ) ) {
-				$seo_post_type = str_replace( 'title-tax-', '', $key );
-				$seo_post_type = ucfirst( $seo_post_type );
+				$seo_post_type = $this->create_tidy_name( $key );
 
 				// Set alert meta data.
 				$alert_args['SEOPostType'] = $seo_post_type;
 			} elseif ( false !== strpos( $key, 'title-author-' ) || false !== strpos( $key, 'title-archive-' ) ) {
-				$seo_post_type = str_replace( 'title-', '', $key );
-				$seo_post_type = str_replace( '-wpseo', '', $seo_post_type );
-				$seo_post_type = ucfirst( $seo_post_type );
-				// If this is the "date archive" setting, update archive type to something more descriptive.
-				if ( 'Archive' === $seo_post_type ) {
-					$seo_post_type = __( 'Date', 'wsal-yoast' );
-				}
+				$seo_post_type = $this->create_tidy_name( $key );
+
 				// Set alert meta data.
 				$alert_args['archive_type'] = $seo_post_type;
 			} else {
-				$seo_post_type  = str_replace( 'title-', '', $key );
-				$seo_post_type  = ucfirst( $seo_post_type );
+				$seo_post_type  = $this->create_tidy_name( $key );
 				$seo_post_type .= 's';
 
 				// Set alert meta data.
@@ -763,24 +756,15 @@ class WSAL_Sensors_YoastSEO extends WSAL_AbstractSensor {
 		if ( false !== strpos( $key, 'metadesc-' ) ) {
 			// Confirm if this is a taxonomy or not.
 			if ( false !== strpos( $key, 'metadesc-tax-' ) ) {
-				$seo_post_type = str_replace( 'metadesc-tax-', '', $key );
-				$seo_post_type = ucfirst( $seo_post_type );
-
+				$seo_post_type = $this->create_tidy_name( $key );
 				// Set alert meta data.
 				$alert_args['SEOPostType'] = $seo_post_type;
 			} elseif ( false !== strpos( $key, 'metadesc-author-' ) || false !== strpos( $key, 'metadesc-archive-' ) ) {
-				$seo_post_type = str_replace( 'metadesc-', '', $key );
-				$seo_post_type = str_replace( '-wpseo', '', $seo_post_type );
-				$seo_post_type = ucfirst( $seo_post_type );
-				// If this is the "date archive" setting, update archive type to something more descriptive.
-				if ( 'Archive' === $seo_post_type ) {
-					$seo_post_type = __( 'Date', 'wsal-yoast' );
-				}
+				$seo_post_type = $this->create_tidy_name( $key );
 				// Set alert meta data.
 				$alert_args['archive_type'] = $seo_post_type;
 			} else {
-				$seo_post_type  = str_replace( 'metadesc-', '', $key );
-				$seo_post_type  = ucfirst( $seo_post_type );
+				$seo_post_type  = $this->create_tidy_name( $key );
 				$seo_post_type .= 's';
 
 				// Set alert meta data.
@@ -872,14 +856,12 @@ class WSAL_Sensors_YoastSEO extends WSAL_AbstractSensor {
 		if ( false !== strpos( $key, 'noindex-' ) ) {
 			// Check if its a taxonomy setting.
 			if ( false !== strpos( $key, 'noindex-tax-' ) ) {
-				$seo_post_type = str_replace( 'noindex-tax-', '', $key );
-				$seo_post_type = ucfirst( $seo_post_type );
+				$seo_post_type = $this->create_tidy_name( $key );
 				// Set alert meta data.
 				$alert_args['SEOPostType'] = $seo_post_type;
 				$status                    = 1 === $status ? 0 : 1;
 			} else {
-				$seo_post_type  = str_replace( 'noindex-', '', $key );
-				$seo_post_type  = ucfirst( $seo_post_type );
+				$seo_post_type  = $this->create_tidy_name( $key );
 				$seo_post_type .= 's';
 
 				// Set alert meta data.
@@ -890,14 +872,12 @@ class WSAL_Sensors_YoastSEO extends WSAL_AbstractSensor {
 
 		// Find display-metabox-pt-* in the key.
 		if ( false !== strpos( $key, 'display-metabox-tax-' ) ) {
-			$seo_post_type = str_replace( 'display-metabox-tax-', '', $key );
-			$seo_post_type = ucfirst( $seo_post_type );
+			$seo_post_type = $this->create_tidy_name( $key );
 
 			// Set alert meta data.
 			$alert_args['SEOPostType'] = $seo_post_type;
 		} else {
-			$seo_post_type  = str_replace( 'display-metabox-pt-', '', $key );
-			$seo_post_type  = ucfirst( $seo_post_type );
+			$seo_post_type  = $this->create_tidy_name( $key );
 			$seo_post_type .= 's';
 
 			// Set alert meta data.
@@ -914,9 +894,7 @@ class WSAL_Sensors_YoastSEO extends WSAL_AbstractSensor {
 			case 'noindex-author-wpseo':
 			case 'noindex-archive-wpseo':
 				$alert_code   = 8834;
-				$archive_type = str_replace( 'noindex-', '', $key );
-				$archive_type = str_replace( '-wpseo', '', $archive_type );
-				$archive_type = ucfirst( $archive_type );
+				$archive_type = $this->create_tidy_name( $key );
 				// If this is the "date archive" setting, update archive type to something more descriptive.
 				if ( 'Archive' === $archive_type ) {
 					$archive_type = __( 'Date', 'wsal-yoast' );
@@ -1058,6 +1036,45 @@ class WSAL_Sensors_YoastSEO extends WSAL_AbstractSensor {
 			return 'added';
 		} else {
 			return 'modified';
+		}
+	}
+
+	/**
+	 * Helper function to strip a string of any unwanted compontent.
+	 *
+	 * @param  string $text_to_strip String we want to work on.
+	 * @return string $tidied_text   The actual string we want.
+	 */
+	private function create_tidy_name( $text_to_strip ) {
+		$tidied_text = null;
+
+		// Array of string we want to look for.
+		$strings_to_remove = array(
+			'title-',
+			'tax-',
+			'-wpseo',
+			'metadesc-',
+			'noindex-',
+			'display-',
+			'pt-',
+			'disable-',
+		);
+
+		if ( ! empty( $text_to_strip ) ) {
+			$tidied_text = str_replace( $strings_to_remove, '', $text_to_strip );
+			$tidied_text = ucfirst( $tidied_text );
+
+			// If this is the "date archive" setting, update archive type to something more descriptive.
+			if ( 'Archive' === $tidied_text ) {
+				$tidied_text = __( 'Date', 'wsal-yoast' );
+			}
+
+			// If left unchanged, the alert reads "Categorys". The 's' is missing as its added later.
+			if ( 'Category' === $tidied_text ) {
+				$tidied_text = __( 'Categorie', 'wsal-yoast' );
+			}
+
+			return $tidied_text;
 		}
 	}
 }
