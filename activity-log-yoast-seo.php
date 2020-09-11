@@ -156,7 +156,7 @@ function wsal_yoast_seo_extension_replace_duplicate_event_notice() {
  * Replacement "duplicate event" notice text.
  */
 function wsal_yoast_seo_extension_replacement_duplicate_event_notice() {
-	$replacement_text = __( 'You are running an old version of WP Activity Log. Please update the plugin to run it alongside this extension.', 'wp-security-audit-log' );
+	$replacement_text = __( 'You are running an old version of WP Activity Log. Please update the plugin to run it alongside this extension: Yoast SEO', 'wp-security-audit-log' );
 	?>
 	<script type="text/javascript">
 		if ( jQuery( '.notice.notice-error span[style="color:#dc3232; font-weight:bold;"]' ).length ) {
