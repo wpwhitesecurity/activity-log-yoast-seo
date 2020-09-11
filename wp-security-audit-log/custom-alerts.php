@@ -25,8 +25,6 @@ $custom_alerts = array(
 		),
 
 		__( 'Plugin Settings Changes', 'wsal-yoast' ) => array(
-			array( 8813, WSAL_MEDIUM, __( 'User Enabled/Disabled the option Show Posts/Pages in Search Results in the Yoast SEO plugin settings', 'wsal-yoast' ), __( 'The option to show %SEOPostType% in search results', 'wsal-yoast' ), 'yoast-seo', 'enabled' ),
-			array( 8814, WSAL_INFORMATIONAL, __( 'User changed the Posts/Pages title template in the Yoast SEO plugin settings', 'wsal-yoast' ), __( 'Changed the %SEOPostType% Meta (SEO) title template %LineBreak% Previous template: %old% %LineBreak% New template: %new%', 'wsal-yoast' ), 'yoast-seo', 'modified' ),
 			array( 8815, WSAL_MEDIUM, __( 'User Enabled/Disabled SEO analysis in the Yoast SEO plugin settings', 'wsal-yoast' ), __( 'The <b>SEO Analysis</b> feature', 'wsal-yoast' ), 'yoast-seo', 'enabled' ),
 			array( 8816, WSAL_MEDIUM, __( 'User Enabled/Disabled readability analysis in the Yoast SEO plugin settings', 'wsal-yoast' ), __( 'The <b>Readability Analysis</b> feature', 'wsal-yoast' ), 'yoast-seo', 'enabled' ),
 			array( 8817, WSAL_MEDIUM, __( 'User Enabled/Disabled cornerstone content in the Yoast SEO plugin settings', 'wsal-yoast' ), __( 'The <b>Cornerstone content</b> feature', 'wsal-yoast' ), 'yoast-seo', 'enabled' ),
@@ -43,6 +41,9 @@ $custom_alerts = array(
 			array( 8827, WSAL_MEDIUM, __( 'User Enabled/Disabled Usage tracking in the Yoast SEO plugin settings', 'wsal-yoast' ), __( '<b>Usage tracking</b> in the plugin settings', 'wsal-yoast' ), 'yoast-seo', 'enabled' ),
 			array( 8828, WSAL_MEDIUM, __( 'User Enabled/Disabled REST API: Head endpoint in the Yoast SEO plugin settings', 'wsal-yoast' ), __( 'The <b>REST API: Head endpoint</b> in the plugin settings', 'wsal-yoast' ), 'yoast-seo', 'enabled' ),
 			array( 8829, WSAL_LOW, __( 'User Added/Removed a social profile in the Yoast SEO plugin settings', 'wsal-yoast' ), __( 'The %social_profile% URL %LineBreak% Old URL: %old_url% %LineBreak% New URL: %new_url%', 'wsal-yoast' ), 'yoast-seo', 'added' ),
+
+			array( 8813, WSAL_MEDIUM, __( 'User Enabled/Disabled the option Show Posts/Pages in Search Results in the Yoast SEO plugin settings', 'wsal-yoast' ), __( 'The option to show %SEOPostType% in search results', 'wsal-yoast' ), 'yoast-seo', 'enabled' ),
+			array( 8814, WSAL_INFORMATIONAL, __( 'User changed the Posts/Pages title template in the Yoast SEO plugin settings', 'wsal-yoast' ), __( 'Changed the %SEOPostType% Meta (SEO) title template %LineBreak% Previous template: %old% %LineBreak% New template: %new%', 'wsal-yoast' ), 'yoast-seo', 'modified' ),
 			array( 8830, WSAL_MEDIUM, __( 'User Enabled/Disabled the taxonomies to show in search results setting in the Yoast SEO plugin settings', 'wsal-yoast' ), __( 'The taxonomies setting to show %SEOPostType% in search results', 'wsal-yoast' ), 'yoast-seo', 'enabled' ),
 			array( 8831, WSAL_LOW, __( 'User Modified the SEO title template for a taxonomy in the Yoast SEO plugin settings', 'wsal-yoast' ), __( 'Changed the SEO title template for the taxonomy %SEOPostType% %LineBreak% Previous title: %old% New %LineBreak% title: %new%', 'wsal-yoast' ), 'yoast-seo', 'modified' ),
 			array( 8832, WSAL_LOW, __( 'User Modified the Meta description template for a taxonomy in the Yoast SEO plugin settings', 'wsal-yoast' ), __( 'Changed the Meta description template for the taxonomy %SEOPostType% %LineBreak% Previous description: %old% %LineBreak% New description: %new%', 'wsal-yoast' ), 'yoast-seo', 'modified' ),
