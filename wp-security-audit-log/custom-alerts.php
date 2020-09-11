@@ -14,10 +14,10 @@ $custom_alerts = array(
 		),
 
 		__( 'Website Changes', 'wsal-yoast' ) => array(
-			array( 8809, WSAL_INFORMATIONAL, __( 'User changed the Title Separator setting', 'wsal-yoast' ), __( 'Changed the default title separator %LineBreak% Previous separator: %old% %LineBreak% New separator: %new%', 'wsal-yoast' ), 'yoast-seo', 'modified' ),
-			array( 8810, WSAL_MEDIUM, __( 'User changed the Homepage Title setting', 'wsal-yoast' ), __( 'Changed the homepage Meta title %LineBreak% Previous title: %old% %LineBreak% New title: %new%', 'wsal-yoast' ), 'yoast-seo', 'modified' ),
-			array( 8811, WSAL_MEDIUM, __( 'User changed the Homepage Meta description setting', 'wsal-yoast' ), __( 'Changed the homepage Meta description %LineBreak% Previous description: %old% %LineBreak% New description: %new%', 'wsal-yoast' ), 'yoast-seo', 'modified' ),
-			array( 8812, WSAL_INFORMATIONAL, __( 'User changed the Company or Person setting', 'wsal-yoast' ), __( 'Changed the Company or Person setting %LineBreak% Previous setting: %old% %LineBreak% New setting: %new%', 'wsal-yoast' ), 'yoast-seo', 'modified' ),
+			array( 8809, WSAL_INFORMATIONAL, __( 'User changed the Title Separator', 'wsal-yoast' ), __( 'Changed the default title separator %LineBreak% Previous separator: %old% %LineBreak% New separator: %new%', 'wsal-yoast' ), 'yoast-seo', 'modified' ),
+			array( 8810, WSAL_MEDIUM, __( 'User changed the Homepage Title', 'wsal-yoast' ), __( 'Changed the homepage Meta title %LineBreak% Previous title: %old% %LineBreak% New title: %new%', 'wsal-yoast' ), 'yoast-seo', 'modified' ),
+			array( 8811, WSAL_MEDIUM, __( 'User changed the Homepage Meta description', 'wsal-yoast' ), __( 'Changed the homepage Meta description %LineBreak% Previous description: %old% %LineBreak% New description: %new%', 'wsal-yoast' ), 'yoast-seo', 'modified' ),
+			array( 8812, WSAL_INFORMATIONAL, __( 'User changed the Company or Person', 'wsal-yoast' ), __( 'Changed the Company or Person setting %LineBreak% Previous setting: %old% %LineBreak% New setting: %new%', 'wsal-yoast' ), 'yoast-seo', 'modified' ),
 		),
 
 		__( 'Plugin Settings Changes', 'wsal-yoast' ) => array(
