@@ -10,7 +10,6 @@
  * License: GPL2
  * Network: true
  *
- *
  * @package Wsal
  * @subpackage Wsal Custom Events Loader
  */
@@ -36,8 +35,8 @@
 	REQUIRED. Here we include and fire up the main core class. This will be needed regardless so be sure to leave line 37-39 in tact.
 */
 require_once plugin_dir_path( __FILE__ ) . 'core/class-extension-core.php';
-$plugin_text_domain =  'wsal-yoast';
-$wsal_extension = new \WPWhiteSecurity\ActivityLog\Extensions\Common\Core( $plugin_text_domain );
+$plugin_text_domain = 'wsal-yoast';
+$wsal_extension     = new \WPWhiteSecurity\ActivityLog\Extensions\Common\Core( $plugin_text_domain );
 
 
 /**
@@ -50,8 +49,8 @@ $wsal_extension = new \WPWhiteSecurity\ActivityLog\Extensions\Common\Core( $plug
  */
 function wsal_yoast_seo_extension_add_custom_event_objects( $objects ) {
 	$new_objects = array(
-		'yoast-seo'            => __( 'Yoast SEO', 'wp-security-audit-log' ),
-		'yoast-seo-metabox'    => __( 'Yoast SEO Meta Box', 'wp-security-audit-log' ),
+		'yoast-seo'         => __( 'Yoast SEO', 'wp-security-audit-log' ),
+		'yoast-seo-metabox' => __( 'Yoast SEO Meta Box', 'wp-security-audit-log' ),
 	);
 
 	// combine the two arrays.
@@ -83,6 +82,8 @@ function wsal_yoast_seo_extension_add_custom_ignored_cpt( $post_types ) {
  *
  * @method wsal_yoast_seo_extension_add_custom_meta_format
  * @since  1.0.0
+ * @param  string $value The value of te item to be formatted.
+ * @param  array  $name  The string to be reformatted.
  */
 function wsal_yoast_seo_extension_add_custom_meta_format( $value, $name ) {
 	$check_value = (string) $value;
@@ -101,6 +102,8 @@ function wsal_yoast_seo_extension_add_custom_meta_format( $value, $name ) {
  *
  * @method wsal_yoast_seo_extension_add_custom_meta_format_value
  * @since  1.0.0
+ * @param  string $value The value of te item to be formatted.
+ * @param  array  $name  The string to be reformatted.
  */
 function wsal_yoast_seo_extension_add_custom_meta_format_value( $value, $name ) {
 	$check_value = (string) $value;
@@ -115,9 +118,34 @@ function wsal_yoast_seo_extension_add_custom_meta_format_value( $value, $name ) 
 }
 
 /**
+ * Add specific events so we can use them for category titles.
+ */
+function wsal_yoast_seo_extension_togglealerts_sub_category_events( $sub_category_events ) {
+	$new_events          = array( 8813, 8815 );
+	$sub_category_events = array_merge( $sub_category_events, $new_events );
+	return $sub_category_events;
+}
+
+/**
+ * Add sub cateogry titles to ToggleView page in WSAL.
+ */
+function wsal_yoast_seo_extension_togglealerts_sub_category_titles( $alert_id ) {
+	$title = '';
+	if ( 8815 === $alert_id ) {
+		$title = esc_html_e( 'Features:', 'wp-security-audit-log' );
+	}
+	if ( 8813 === $alert_id ) {
+		$title = esc_html_e( 'Search Appearance', 'wp-security-audit-log' );
+	}
+	return $title;
+}
+
+/**
  * Add our filters.
  */
 add_filter( 'wsal_link_filter', 'wsal_yoast_seo_extension_add_custom_meta_format_value', 10, 2 );
 add_filter( 'wsal_meta_formatter_custom_formatter', 'wsal_yoast_seo_extension_add_custom_meta_format', 10, 2 );
 add_filter( 'wsal_event_objects', 'wsal_yoast_seo_extension_add_custom_event_objects' );
 add_filter( 'wsal_ignored_custom_post_types', 'wsal_yoast_seo_extension_add_custom_ignored_cpt' );
+add_filter( 'wsal_togglealerts_sub_category_events', 'wsal_yoast_seo_extension_togglealerts_sub_category_events' );
+add_filter( 'wsal_togglealerts_sub_category_titles', 'wsal_yoast_seo_extension_togglealerts_sub_category_titles' );
