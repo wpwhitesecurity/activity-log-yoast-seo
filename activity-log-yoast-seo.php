@@ -141,6 +141,33 @@ function wsal_yoast_seo_extension_togglealerts_sub_category_titles( $alert_id ) 
 }
 
 /**
+ * If a user is running an older version of WSAL, they will see a "duplicate event" error.
+ * This function checks and runs a filter to replace that notice. Its done via JS as we cant
+ * currently give this notice a neat ID/class.
+ */
+function wsal_yoast_seo_extension_replace_duplicate_event_notice() {
+	$wsal_version = get_site_option( 'wsal_version' );
+	if ( version_compare( $wsal_version, '4.1.3.2', '<=' ) ) {
+		add_action( 'admin_footer', 'wsal_yoast_seo_extension_replacement_duplicate_event_notice' );
+	}
+}
+
+/**
+ * Replacement "duplicate event" notice text.
+ */
+function wsal_yoast_seo_extension_replacement_duplicate_event_notice() {
+	$replacement_text = __( 'You are running an old version of WP Activity Log. Please update the plugin to run it alongside this extension.', 'wp-security-audit-log' );
+	?>
+	<script type="text/javascript">
+		if ( jQuery( '.notice.notice-error span[style="color:#dc3232; font-weight:bold;"]' ).length ) {
+			jQuery( '.notice.notice-error span[style="color:#dc3232; font-weight:bold;"]' ).parent().text( '<?php echo esc_html( $replacement_text ); ?>' );
+		}
+	</script>
+<?php
+}
+
+
+/**
  * Add our filters.
  */
 add_filter( 'wsal_link_filter', 'wsal_yoast_seo_extension_add_custom_meta_format_value', 10, 2 );
@@ -149,3 +176,4 @@ add_filter( 'wsal_event_objects', 'wsal_yoast_seo_extension_add_custom_event_obj
 add_filter( 'wsal_ignored_custom_post_types', 'wsal_yoast_seo_extension_add_custom_ignored_cpt' );
 add_filter( 'wsal_togglealerts_sub_category_events', 'wsal_yoast_seo_extension_togglealerts_sub_category_events' );
 add_filter( 'wsal_togglealerts_sub_category_titles', 'wsal_yoast_seo_extension_togglealerts_sub_category_titles' );
+add_filter( 'admin_init', 'wsal_yoast_seo_extension_replace_duplicate_event_notice' );
