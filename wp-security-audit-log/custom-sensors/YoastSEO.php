@@ -808,10 +808,6 @@ class WSAL_Sensors_YoastSEO extends WSAL_AbstractSensor {
 				$alert_code = 8821;
 				break;
 
-			case strpos( $key, 'showdate-' ):
-				$alert_code = 8823;
-				break;
-
 			case strpos( $key, 'display-metabox-pt-' ):
 				$alert_code = 8824;
 				break;
