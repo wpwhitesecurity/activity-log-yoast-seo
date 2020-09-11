@@ -953,6 +953,10 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 
 				case strpos( $key, 'display-metabox-tax-' ):
 					$alert_code = 8837;
+					// Avoid false reporting for post_format metabox.
+					if ( 'display-metabox-tax-post_format' === $key ) {
+						$alert_code = null;
+					}
 					break;
 
 				case strpos( $key, 'disableadvanced_meta' ):
