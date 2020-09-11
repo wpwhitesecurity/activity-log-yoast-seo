@@ -115,9 +115,34 @@ function wsal_yoast_seo_extension_add_custom_meta_format_value( $value, $name ) 
 }
 
 /**
+ * Add specific events so we can use them for category titles.
+ */
+function wsal_yoast_seo_extension_togglealerts_sub_category_events( $sub_category_events ) {
+	$new_events          = array( 8813, 8815 );
+	$sub_category_events = array_merge( $sub_category_events, $new_events );
+	return $sub_category_events;
+}
+
+/**
+ * Add sub cateogry titles to ToggleView page in WSAL.
+ */
+function wsal_yoast_seo_extension_togglealerts_sub_category_titles( $alert_id ) {
+	$title = '';
+	if ( 8815 === $alert_id ) {
+		$title = esc_html_e( 'Features:', 'wp-security-audit-log' );
+	}
+	if ( 8813 === $alert_id ) {
+		$title = esc_html_e( 'Search Appearance', 'wp-security-audit-log' );
+	}
+	return $title;
+}
+
+/**
  * Add our filters.
  */
 add_filter( 'wsal_link_filter', 'wsal_yoast_seo_extension_add_custom_meta_format_value', 10, 2 );
 add_filter( 'wsal_meta_formatter_custom_formatter', 'wsal_yoast_seo_extension_add_custom_meta_format', 10, 2 );
 add_filter( 'wsal_event_objects', 'wsal_yoast_seo_extension_add_custom_event_objects' );
 add_filter( 'wsal_ignored_custom_post_types', 'wsal_yoast_seo_extension_add_custom_ignored_cpt' );
+add_filter( 'wsal_togglealerts_sub_category_events', 'wsal_yoast_seo_extension_togglealerts_sub_category_events' );
+add_filter( 'wsal_togglealerts_sub_category_titles', 'wsal_yoast_seo_extension_togglealerts_sub_category_titles' );
