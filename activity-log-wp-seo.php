@@ -5,7 +5,7 @@
  * Description: A WP Activity Log plugin extension
  * Text Domain: activity-log-wp-seo
  * Author: WP White Security
- * Author URI: http://www.wpwhitesecurity.com/
+ * Author URI: https://www.wpwhitesecurity.com/
  * Version: 1.0.0
  * License: GPL2
  * Network: true
