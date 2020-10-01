@@ -3,7 +3,7 @@
  * Plugin Name: WP Activity Log Extension for Yoast SEO
  * Plugin URI: https://wpactivitylog.com/extensions/
  * Description: A WP Activity Log plugin extension
- * Text Domain: wsal-yoast
+ * Text Domain: activity-log-wp-seo
  * Author: WP White Security
  * Author URI: http://www.wpwhitesecurity.com/
  * Version: 1.0.0
@@ -36,7 +36,7 @@
 */
 require_once plugin_dir_path( __FILE__ ) . 'core/class-extension-core.php';
 $core_settings = array(
-	'text_domain'      => 'wsal-yoast',
+	'text_domain'      => 'activity-log-wp-seo',
 	'custom_alert_path' => trailingslashit( dirname( __FILE__ ) ) . 'wp-security-audit-log',
 	'custom_sensor_path' => trailingslashit( trailingslashit( dirname( __FILE__ ) ) . 'wp-security-audit-log' . DIRECTORY_SEPARATOR . 'custom-sensors' ),
 );
