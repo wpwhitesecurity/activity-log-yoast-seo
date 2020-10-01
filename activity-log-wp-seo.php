@@ -64,64 +64,6 @@ function wsal_yoast_seo_extension_add_custom_event_objects( $objects ) {
 }
 
 /**
- * Adds new ignored CPT for our plugin
- *
- * @method wsal_yoast_seo_extension_add_custom_event_object_text
- * @since  1.0.0
- * @param  array $post_types An array of default post_types.
- * @return array
- */
-function wsal_yoast_seo_extension_add_custom_ignored_cpt( $post_types ) {
-	$new_post_types = array(
-		'wpforms',    // WP Forms CPT.
-	);
-
-	// combine the two arrays.
-	$post_types = array_merge( $post_types, $new_post_types );
-	return $post_types;
-}
-
-/**
- * Adds new meta formatting for our plugion
- *
- * @method wsal_yoast_seo_extension_add_custom_meta_format
- * @since  1.0.0
- * @param  string $value The value of te item to be formatted.
- * @param  array  $name  The string to be reformatted.
- */
-function wsal_yoast_seo_extension_add_custom_meta_format( $value, $name ) {
-	$check_value = (string) $value;
-	if ( '%EditorLinkForm%' === $name ) {
-		if ( 'NULL' !== $check_value ) {
-			return '<a target="_blank" href="' . esc_url( $value ) . '">' . __( 'View form in the editor', 'wp-security-audit-log' ) . '</a>';
-		} else {
-			return '';
-		}
-	}
-	return $value;
-}
-
-/**
- * Adds new meta formatting for our plugion
- *
- * @method wsal_yoast_seo_extension_add_custom_meta_format_value
- * @since  1.0.0
- * @param  string $value The value of te item to be formatted.
- * @param  array  $name  The string to be reformatted.
- */
-function wsal_yoast_seo_extension_add_custom_meta_format_value( $value, $name ) {
-	$check_value = (string) $value;
-	if ( '%EditorLinkForm%' === $name ) {
-		if ( 'NULL' !== $check_value ) {
-			return '<a target="_blank" href="' . esc_url( $value ) . '">' . __( 'View form in the editor', 'wp-security-audit-log' ) . '</a>';
-		} else {
-			return '';
-		}
-	}
-	return $value;
-}
-
-/**
  * Add specific events so we can use them for category titles.
  */
 function wsal_yoast_seo_extension_togglealerts_sub_category_events( $sub_category_events ) {
@@ -174,10 +116,6 @@ function wsal_yoast_seo_extension_replacement_duplicate_event_notice() {
 /**
  * Add our filters.
  */
-add_filter( 'wsal_link_filter', 'wsal_yoast_seo_extension_add_custom_meta_format_value', 10, 2 );
-add_filter( 'wsal_meta_formatter_custom_formatter', 'wsal_yoast_seo_extension_add_custom_meta_format', 10, 2 );
-add_filter( 'wsal_event_objects', 'wsal_yoast_seo_extension_add_custom_event_objects' );
-add_filter( 'wsal_ignored_custom_post_types', 'wsal_yoast_seo_extension_add_custom_ignored_cpt' );
 add_filter( 'wsal_togglealerts_sub_category_events', 'wsal_yoast_seo_extension_togglealerts_sub_category_events' );
 add_filter( 'wsal_togglealerts_sub_category_titles', 'wsal_yoast_seo_extension_togglealerts_sub_category_titles' );
 add_filter( 'admin_init', 'wsal_yoast_seo_extension_replace_duplicate_event_notice' );
