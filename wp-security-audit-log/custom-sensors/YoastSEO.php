@@ -899,7 +899,7 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 					$archive_type = $this->create_tidy_name( $key );
 					// If this is the "date archive" setting, update archive type to something more descriptive.
 					if ( 'Archive' === $archive_type ) {
-						$archive_type = __( 'Date', 'wsal-yoast' );
+						$archive_type = __( 'Date', 'activity-log-wp-seo' );
 					}
 					// Set alert meta data.
 					$alert_args['archive_type'] = $archive_type;
@@ -1068,12 +1068,12 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 
 				// If this is the "date archive" setting, update archive type to something more descriptive.
 				if ( 'Archive' === $tidied_text ) {
-					$tidied_text = __( 'Date', 'wsal-yoast' );
+					$tidied_text = __( 'Date', 'activity-log-wp-seo' );
 				}
 
 				// If left unchanged, the alert reads "Categorys". The 's' is missing as its added later.
 				if ( 'Category' === $tidied_text ) {
-					$tidied_text = __( 'Categorie', 'wsal-yoast' );
+					$tidied_text = __( 'Categorie', 'activity-log-wp-seo' );
 				}
 
 				return $tidied_text;

@@ -65,7 +65,7 @@ When working on a new extension, you must ensure you include the core files in y
     */
     require_once plugin_dir_path( __FILE__ ) . 'core/class-extension-core.php';
     $core_settings = array(
-    	'text_domain'      => 'wsal-yoast',
+    	'text_domain'      => 'activity-log-wp-seo',
     	'custom_alert_path' => trailingslashit( dirname( __FILE__ ) ) . 'wp-security-audit-log',
     	'custom_sensor_path' => trailingslashit( trailingslashit( dirname( __FILE__ ) ) . 'wp-security-audit-log' . DIRECTORY_SEPARATOR . 'custom-sensors' ),
     );
