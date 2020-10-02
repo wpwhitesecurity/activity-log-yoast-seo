@@ -852,6 +852,8 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 
 				case strpos( $key, 'metadesc-' ):
 					$alert_code = 8822;
+					$alert_args['old'] = ( ! empty( $alert_args['old'] ) ) ? $alert_args['old'] : __( 'Not provided', 'activity-log-wp-seo' );
+					$alert_args['new'] = ( ! empty( $alert_args['new'] ) ) ? $alert_args['new'] : __( 'Not provided', 'activity-log-wp-seo' );
 					break;
 
 				case 'disable-attachment':
@@ -1091,6 +1093,7 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 				'metadesc-',
 				'noindex-',
 				'display-',
+				'metabox-',
 				'pt-',
 				'disable-',
 			);
