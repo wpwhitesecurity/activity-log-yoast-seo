@@ -460,6 +460,12 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 
 			// If title is changed then log alert.
 			if ( $old_focus_keys !== $focus_keys ) {
+
+				// Replace NULL with a nicer string.
+				if ( empty( $old_desc ) ) {
+					$old_focus_keys = __( 'Not provided', 'activity-log-wp-seo' );
+				}
+
 				$editor_link = $this->get_editor_link( $this->post_id );
 				$this->plugin->alerts->Trigger(
 					8807,
