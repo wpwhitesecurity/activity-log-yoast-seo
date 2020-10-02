@@ -250,6 +250,11 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 				return;
 			}
 
+			// Replace NULL with a nicer string.
+			if ( empty( $old_desc ) ) {
+				$old_desc = __( 'Not provided', 'activity-log-wp-seo' );
+			}
+
 			// If desc is changed then log alert.
 			if ( $old_desc !== $desc ) {
 				$editor_link = $this->get_editor_link( $this->post_id );
