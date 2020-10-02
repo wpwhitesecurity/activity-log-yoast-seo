@@ -831,6 +831,8 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 
 				case 'company_or_person':
 					$alert_code = 8812;
+					$alert_args['old'] = ucwords( $alert_args['old'] );
+					$alert_args['new'] = ucwords( $alert_args['new'] );
 					break;
 
 				case strpos( $key, 'title-archive-' ):
@@ -848,6 +850,8 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 
 				case strpos( $key, 'metadesc-tax-' ):
 					$alert_code = 8832;
+					$alert_args['old'] = ( ! empty( $alert_args['old'] ) ) ? $alert_args['old'] : __( 'Not provided', 'activity-log-wp-seo' );
+					$alert_args['new'] = ( ! empty( $alert_args['new'] ) ) ? $alert_args['new'] : __( 'Not provided', 'activity-log-wp-seo' );
 					break;
 
 				case strpos( $key, 'metadesc-' ):
@@ -1109,7 +1113,7 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 
 				// If left unchanged, the alert reads "Categorys". The 's' is missing as its added later.
 				if ( 'Category' === $tidied_text ) {
-					$tidied_text = __( 'Categorie', 'activity-log-wp-seo' );
+					$tidied_text = __( 'Categories', 'activity-log-wp-seo' );
 				}
 
 				return $tidied_text;
