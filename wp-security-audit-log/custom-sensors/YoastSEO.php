@@ -807,6 +807,11 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 			switch ( $key ) {
 				case 'separator':
 					$alert_code = 8809;
+					if ( class_exists( '\WPSEO_Option_Titles' ) ) {
+						$available_seperators = \WPSEO_Option_Titles::get_separator_options();
+						$alert_args['old'] = $available_seperators[$alert_args['old']];
+						$alert_args['new'] = $available_seperators[$alert_args['new']];
+					}
 					break;
 
 				case 'title-home-wpseo':
@@ -815,6 +820,8 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 
 				case 'metadesc-home-wpseo':
 					$alert_code = 8811;
+					$alert_args['old'] = ( ! empty( $alert_args['old'] ) ) ? $alert_args['old'] : __( 'Not provided', 'activity-log-wp-seo' );
+					$alert_args['new'] = ( ! empty( $alert_args['new'] ) ) ? $alert_args['new'] : __( 'Not provided', 'activity-log-wp-seo' );
 					break;
 
 				case 'metadesc-archive-wpseo':
