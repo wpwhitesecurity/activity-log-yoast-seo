@@ -116,6 +116,7 @@ function wsal_yoast_seo_extension_replacement_duplicate_event_notice() {
 /**
  * Add our filters.
  */
+add_filter( 'wsal_event_objects', 'wsal_yoast_seo_extension_add_custom_event_objects' );
 add_filter( 'wsal_togglealerts_sub_category_events', 'wsal_yoast_seo_extension_togglealerts_sub_category_events' );
 add_filter( 'wsal_togglealerts_sub_category_titles', 'wsal_yoast_seo_extension_togglealerts_sub_category_titles' );
 add_filter( 'admin_init', 'wsal_yoast_seo_extension_replace_duplicate_event_notice' );
