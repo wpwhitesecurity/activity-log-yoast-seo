@@ -215,8 +215,22 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 			// Remove whitespaces at the ends of the titles.
 			$old_title = trim( $old_title );
 			$title     = trim( $title );
+
 			// If title is changed then log alert.
 			if ( $old_title !== $title ) {
+
+				// Ensure default value is not passed as NULL.
+				if ( ! empty( $old_title ) && empty( $title ) ) {
+					if ( strpos( $old_title, '%%title%% %%page%% %%sep%% %%sitename%%' ) !== false ) {
+						$title = '%%title%% %%page%% %%sep%% %%sitename%%';
+					}
+				}
+				if ( empty( $old_title ) && ! empty( $title ) ) {
+					if ( strpos( $title, '%%title%% %%page%% %%sep%% %%sitename%%' ) !== false ) {
+						$old_title = '%%title%% %%page%% %%sep%% %%sitename%%';
+					}
+				}
+
 				$editor_link = $this->get_editor_link( $this->post_id );
 				$this->plugin->alerts->Trigger(
 					8801,
@@ -251,7 +265,13 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 			}
 
 			// If desc is changed then log alert.
-			if ( $old_desc !== $desc ) {
+			if ( trim( $old_desc ) !== trim( $desc ) ) {
+
+				// Replace NULL with a nicer string.
+				if ( empty( $old_desc ) ) {
+					$old_desc = __( 'Not provided', 'activity-log-wp-seo' );
+				}
+
 				$editor_link = $this->get_editor_link( $this->post_id );
 				$this->plugin->alerts->Trigger(
 					8802,
@@ -440,6 +460,12 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 
 			// If title is changed then log alert.
 			if ( $old_focus_keys !== $focus_keys ) {
+
+				// Replace NULL with a nicer string.
+				if ( empty( $old_desc ) ) {
+					$old_focus_keys = __( 'Not provided', 'activity-log-wp-seo' );
+				}
+
 				$editor_link = $this->get_editor_link( $this->post_id );
 				$this->plugin->alerts->Trigger(
 					8807,
@@ -781,6 +807,11 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 			switch ( $key ) {
 				case 'separator':
 					$alert_code = 8809;
+					if ( class_exists( '\WPSEO_Option_Titles' ) ) {
+						$available_seperators = \WPSEO_Option_Titles::get_separator_options();
+						$alert_args['old'] = $available_seperators[$alert_args['old']];
+						$alert_args['new'] = $available_seperators[$alert_args['new']];
+					}
 					break;
 
 				case 'title-home-wpseo':
@@ -789,6 +820,8 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 
 				case 'metadesc-home-wpseo':
 					$alert_code = 8811;
+					$alert_args['old'] = ( ! empty( $alert_args['old'] ) ) ? $alert_args['old'] : __( 'Not provided', 'activity-log-wp-seo' );
+					$alert_args['new'] = ( ! empty( $alert_args['new'] ) ) ? $alert_args['new'] : __( 'Not provided', 'activity-log-wp-seo' );
 					break;
 
 				case 'metadesc-archive-wpseo':
@@ -798,6 +831,8 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 
 				case 'company_or_person':
 					$alert_code = 8812;
+					$alert_args['old'] = ucwords( $alert_args['old'] );
+					$alert_args['new'] = ucwords( $alert_args['new'] );
 					break;
 
 				case strpos( $key, 'title-archive-' ):
@@ -815,10 +850,14 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 
 				case strpos( $key, 'metadesc-tax-' ):
 					$alert_code = 8832;
+					$alert_args['old'] = ( ! empty( $alert_args['old'] ) ) ? $alert_args['old'] : __( 'Not provided', 'activity-log-wp-seo' );
+					$alert_args['new'] = ( ! empty( $alert_args['new'] ) ) ? $alert_args['new'] : __( 'Not provided', 'activity-log-wp-seo' );
 					break;
 
 				case strpos( $key, 'metadesc-' ):
 					$alert_code = 8822;
+					$alert_args['old'] = ( ! empty( $alert_args['old'] ) ) ? $alert_args['old'] : __( 'Not provided', 'activity-log-wp-seo' );
+					$alert_args['new'] = ( ! empty( $alert_args['new'] ) ) ? $alert_args['new'] : __( 'Not provided', 'activity-log-wp-seo' );
 					break;
 
 				case 'disable-attachment':
@@ -1058,6 +1097,7 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 				'metadesc-',
 				'noindex-',
 				'display-',
+				'metabox-',
 				'pt-',
 				'disable-',
 			);
@@ -1073,7 +1113,7 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 
 				// If left unchanged, the alert reads "Categorys". The 's' is missing as its added later.
 				if ( 'Category' === $tidied_text ) {
-					$tidied_text = __( 'Categorie', 'activity-log-wp-seo' );
+					$tidied_text = __( 'Categories', 'activity-log-wp-seo' );
 				}
 
 				return $tidied_text;
