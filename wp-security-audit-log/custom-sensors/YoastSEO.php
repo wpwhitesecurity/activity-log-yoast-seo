@@ -215,8 +215,22 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 			// Remove whitespaces at the ends of the titles.
 			$old_title = trim( $old_title );
 			$title     = trim( $title );
+
 			// If title is changed then log alert.
 			if ( $old_title !== $title ) {
+
+				// Ensure default value is not passed as NULL.
+				if ( ! empty( $old_title ) && empty( $title ) ) {
+					if ( strpos( $old_title, '%%title%% %%page%% %%sep%% %%sitename%%' ) !== false ) {
+						$title = '%%title%% %%page%% %%sep%% %%sitename%%';
+					}
+				}
+				if ( empty( $old_title ) && ! empty( $title ) ) {
+					if ( strpos( $title, '%%title%% %%page%% %%sep%% %%sitename%%' ) !== false ) {
+						$old_title = '%%title%% %%page%% %%sep%% %%sitename%%';
+					}
+				}
+
 				$editor_link = $this->get_editor_link( $this->post_id );
 				$this->plugin->alerts->Trigger(
 					8801,
@@ -250,13 +264,14 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 				return;
 			}
 
-			// Replace NULL with a nicer string.
-			if ( empty( $old_desc ) ) {
-				$old_desc = __( 'Not provided', 'activity-log-wp-seo' );
-			}
-
 			// If desc is changed then log alert.
-			if ( $old_desc !== $desc ) {
+			if ( trim( $old_desc ) !== trim( $desc ) ) {
+
+				// Replace NULL with a nicer string.
+				if ( empty( $old_desc ) ) {
+					$old_desc = __( 'Not provided', 'activity-log-wp-seo' );
+				}
+
 				$editor_link = $this->get_editor_link( $this->post_id );
 				$this->plugin->alerts->Trigger(
 					8802,
