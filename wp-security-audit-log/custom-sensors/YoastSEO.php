@@ -903,7 +903,6 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 					$status                    = 1 === $status ? 0 : 1;
 				} else {
 					$seo_post_type  = $this->create_tidy_name( $key );
-					$seo_post_type .= 's';
 
 					// Set alert meta data.
 					$alert_args['SEOPostType'] = $seo_post_type;
@@ -919,7 +918,6 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 				$alert_args['SEOPostType'] = $seo_post_type;
 			} else {
 				$seo_post_type  = $this->create_tidy_name( $key );
-				$seo_post_type .= 's';
 
 				// Set alert meta data.
 				$alert_args['SEOPostType'] = $seo_post_type;
