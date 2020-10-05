@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: WP Activity Log Extension for Yoast SEO
+ * Plugin Name: WP Activity Log for Yoast SEO
  * Plugin URI: https://wpactivitylog.com/extensions/
  * Description: A WP Activity Log plugin extension
  * Text Domain: activity-log-wp-seo
