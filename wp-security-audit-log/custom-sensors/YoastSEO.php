@@ -808,7 +808,8 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 				case 'separator':
 					$alert_code = 8809;
 					if ( class_exists( '\WPSEO_Option_Titles' ) ) {
-						$available_seperators = \WPSEO_Option_Titles::get_separator_options();
+						$titles = \WPSEO_Option_Titles::get_instance();
+						$available_seperators = $titles->get_separator_options();
 						$alert_args['old'] = $available_seperators[$alert_args['old']];
 						$alert_args['new'] = $available_seperators[$alert_args['new']];
 					}
