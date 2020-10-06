@@ -70,8 +70,9 @@ Please refer to our [Support & Documentation pages](https://wpactivitylog.com/su
 
 == Screenshots ==
 
-1. The easiest way to install the extension is from within the WP Activity Log plugin.
-1. Changes in Yoast SEO meta box and settings recorded in the WordPress activity log.
+1. The WP Activity Log plugin will alert you to install the Yoast SEO extension when it detects the Yoast SEO plugin on the website.
+1. Alternatively, you can install the Yoast SEO activity log extension from the Enable/Disable events > Third party plugins section.
+1. Once the extension is installed, thed WP Activity Log plugin will keep a log of the changes you or anyone from your team do in the plugin settings, or on-page SEO details in the Yoast SEO meta box.
 
 == Changelog ==
 
