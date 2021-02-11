@@ -76,8 +76,6 @@ function wsal_yoast_seo_extension_togglealerts_sub_category_events( $sub_categor
  * Add sub cateogry titles to ToggleView page in WSAL.
  */
 function wsal_yoast_seo_extension_togglealerts_sub_category_titles( $subcat_title, $alert_id ) {
-	error_log( print_r( $alert_id, true ) );
-	error_log( print_r( $subcat_title, true ) );
 	if ( 8815 === $alert_id ) {
 		$subcat_title = esc_html_e( 'Features:', 'wp-security-audit-log' );
 	}

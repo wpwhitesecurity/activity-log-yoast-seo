@@ -19,6 +19,7 @@ $custom_alerts = array(
 
 		__( 'Website Changes', 'activity-log-wp-seo' )         => array(
 			array( 8809, WSAL_INFORMATIONAL, __( 'User changed the Title Separator', 'activity-log-wp-seo' ), __( 'Changed the <strong>Title separator</strong> in the plugin settings %LineBreak% Previous separator: %old% %LineBreak% New separator: %new%', 'activity-log-wp-seo' ), 'yoast-seo', 'modified' ),
+			// 8810/8811 Are obsolete but remain for backwards compatibilty.
 			array( 8810, WSAL_MEDIUM, __( 'User changed the Homepage Title', 'activity-log-wp-seo' ), __( 'Changed the homepage Meta title %LineBreak% Previous title: %old% %LineBreak% New title: %new%', 'activity-log-wp-seo' ), 'yoast-seo', 'modified' ),
 			array( 8811, WSAL_MEDIUM, __( 'User changed the Homepage Meta description', 'activity-log-wp-seo' ), __( 'Changed the homepage Meta description %LineBreak% Previous description: %old% %LineBreak% New description: %new%', 'activity-log-wp-seo' ), 'yoast-seo', 'modified' ),
 			array( 8812, WSAL_INFORMATIONAL, __( 'User changed the Knowledge Graph & Schema.org', 'activity-log-wp-seo' ), __( 'Changed the <strong>Knowledge Graph & Schema.org</strong> in the plugin settings %LineBreak% Previous setting: %old% %LineBreak% New setting: %new%', 'activity-log-wp-seo' ), 'yoast-seo', 'modified' ),
