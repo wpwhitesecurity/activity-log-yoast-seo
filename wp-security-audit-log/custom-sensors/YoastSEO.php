@@ -815,16 +815,6 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 					}
 					break;
 
-				case 'title-home-wpseo':
-					$alert_code = 8810;
-					break;
-
-				case 'metadesc-home-wpseo':
-					$alert_code = 8811;
-					$alert_args['old'] = ( ! empty( $alert_args['old'] ) ) ? $alert_args['old'] : __( 'Not provided', 'activity-log-wp-seo' );
-					$alert_args['new'] = ( ! empty( $alert_args['new'] ) ) ? $alert_args['new'] : __( 'Not provided', 'activity-log-wp-seo' );
-					break;
-
 				case 'metadesc-archive-wpseo':
 				case 'metadesc-author-wpseo':
 					$alert_code = 8836;
