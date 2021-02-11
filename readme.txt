@@ -9,13 +9,13 @@ Tested up to: 5.6
 Stable tag: 1.0.1
 Requires PHP: 5.6
 
-Keep a detailed log of your team's changes in the Yoast SEO plugin & metabox.
+Keep a detailed log of your team's changes in the Yoast SEO meta box & plugin settings.
 
 == Description ==
 
-Yoast SEO allows you and your users to configure on-page SEO to help you imporve your website's ranking.
+Yoast SEO allows you and your users to configure on-page SEO to help you improve your website's ranking.
 
-Keep a record of the changes that happen on your Yoast SEO plugin settings and the Yoast metabox and much more by installing this extension alongside the WP Activity Log plugin.
+Keep a record of the changes that you and your team do in your Yoast SEO plugin settings and the Yoast meta box by installing this extension alongside the WP Activity Log plugin.
 
 Refer to [activity log for Yoast SEO](https://wpactivitylog.com/?utm_source=wordpress.org&utm_medium=referral&utm_campaign=WSAL&utm_content=plugin+repos+description) for more detailed information on this integration.
 
@@ -70,12 +70,12 @@ Please refer to our [Support & Documentation pages](https://wpactivitylog.com/su
 
 == Screenshots ==
 
-1. The easiest way to install the extension is from within the WP Activity Log plugin.
-1. Changes in WooCommerce, products and more reported in the WordPress activity log.
+1. The WP Activity Log plugin will alert you to install the Yoast SEO extension when it detects the Yoast SEO plugin on the website.
+1. Alternatively, you can install the Yoast SEO activity log extension from the Enable/Disable events > Third party plugins section.
+1. Once the extension is installed, thed WP Activity Log plugin will keep a log of the changes you or anyone from your team do in the plugin settings, or on-page SEO details in the Yoast SEO meta box.
 
 == Changelog ==
 
-= 1.0 (2020) =
+= 1.0 (20201007) =
 
 	*Initial release.
-
