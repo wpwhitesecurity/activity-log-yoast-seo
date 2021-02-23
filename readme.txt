@@ -76,6 +76,14 @@ Please refer to our [Support & Documentation pages](https://wpactivitylog.com/su
 
 == Changelog ==
 
+= 1.0.1 (20210223) =
+
+* **Improvement**
+	* Removed event IDs 8810 & 8811 (settings are obsolete in plugin).
+	
+* **Bug fix**
+	* Fixed a title formatting issue in the Enable/Disable events section.
+	
 = 1.0 (20201007) =
 
 	*Initial release.
