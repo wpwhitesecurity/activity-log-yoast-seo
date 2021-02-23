@@ -6,7 +6,7 @@
  * Text Domain: activity-log-wp-seo
  * Author: WP White Security
  * Author URI: https://www.wpwhitesecurity.com/
- * Version: 1.0.0
+ * Version: 1.0.1
  * License: GPL2
  * Network: true
  *
