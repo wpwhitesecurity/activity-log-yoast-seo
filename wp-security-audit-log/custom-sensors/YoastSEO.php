@@ -63,6 +63,12 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 
 			// Yoast SEO option alerts.
 			add_action( 'updated_option', array( $this, 'yoast_options_trigger' ), 10, 3 );
+
+			// Yoast SEO Site option alerts.
+			add_action( 'update_site_option', array( $this, 'yoast_site_options_trigger' ), 10, 3 );
+
+			// Yoast SEO blog option default change alerts.
+			add_action( 'add_option_wpseo', array( $this, 'yoast_blog_options_trigger' ), 10, 2 );
 		}
 
 		/**
@@ -526,6 +532,43 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 		 * @param mixed  $old_value – Option old value.
 		 * @param mixed  $new_value – Option new value.
 		 */
+		public function yoast_site_options_trigger( $option, $old_value, $new_value ) {
+			if ( 'wpseo_ms' === $option ) {
+				if ( $old_value['access'] !== $new_value['access'] ) {
+					$this->yoast_setting_change_alert( 'site-access-change', $old_value['access'], $new_value['access'] );
+				}
+				if ( $old_value['defaultblog'] !== $new_value['defaultblog'] ) {
+					$this->yoast_setting_change_alert( 'site-default-seo-inherit-change', $old_value['defaultblog'], $new_value['defaultblog'] );
+				}
+			}
+		}
+
+		/**
+		 * Method: Yoast default blog options change trigger.
+		 * Notes:
+		 * 	- To accomplish that, Yoast is taking the site, removes option (wpseo_ms) and sets the new one
+		 * @see Yoast-Network-Admin::handle_restore_site_request
+		 * 	- wp functions used do not triggering events @see WPSEO_Options::reset_ms_blog :
+		 * 		- delete_blog_option, update_blog_option
+		 * Logic used here is - if add_option_wpseo is triggered (this method is called only then), and global $_POST is set with valid 'site_id' value and 'ms_defaults_set' (in $value parameter) == true - we know which site has been preset with the default options
+		 *
+		 * @param string $option – Option name.
+		 * @param mixed  $value – Option old value.
+		 */
+		public function yoast_blog_options_trigger( $option, $value ) {
+			$site_id = ( isset( $_POST[ 'wpseo_ms' ] ) && ! empty( $_POST[ 'wpseo_ms' ]['site_id'] ) ) ? (int) $_POST[ 'wpseo_ms' ]['site_id'] : 0;
+			if ( $site_id && isset($value['ms_defaults_set']) && true === $value['ms_defaults_set']) {
+				$this->yoast_setting_change_alert( 'site-default-options-change', $site_id, '' );
+			}
+		}
+
+		/**
+		 * Method: Yoast SEO options trigger.
+		 *
+		 * @param string $option – Option name.
+		 * @param mixed  $old_value – Option old value.
+		 * @param mixed  $new_value – Option new value.
+		 */
 		public function yoast_options_trigger( $option, $old_value, $new_value ) {
 
 			// Detect the SEO option.
@@ -854,6 +897,24 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 				case 'disable-attachment':
 					$alert_code              = 8826;
 					$alert_args['EventType'] = $new_value ? 'enabled' : 'disabled';
+					break;
+
+				case 'site-access-change' :
+					$alert_code              = 8838;
+					$alert_args['old'] = ucwords( $alert_args['old'] );
+					$alert_args['new'] = ucwords( $alert_args['new'] );
+					break;
+
+				case 'site-default-seo-inherit-change' :
+					$alert_code              = 8839;
+					$alert_args['old'] = get_blog_details( $alert_args['old'] )->blogname;
+					$alert_args['new'] = get_blog_details( $alert_args['new'] )->blogname;
+					break;
+
+				case 'site-default-options-change' :
+					$alert_code              = 8840;
+					$alert_args['old'] = get_blog_details( $alert_args['old'] )->blogname;
+					$alert_args['new'] = '';
 					break;
 
 				default:

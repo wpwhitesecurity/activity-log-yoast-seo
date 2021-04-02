@@ -53,6 +53,10 @@ $custom_alerts = array(
 			array( 8835, WSAL_LOW, __( 'User Modified the SEO title template for Author or Date archives in the Yoast SEO plugin settings', 'activity-log-wp-seo' ), __( 'Changed the SEO title template for the <strong>%archive_type%</strong> archives %LineBreak% Previous title: %old% %LineBreak% New title: %new%', 'activity-log-wp-seo' ), 'yoast-seo', 'modified' ),
 			array( 8836, WSAL_LOW, __( 'User Modified the SEO Meta description for Author or Date archives in the Yoast SEO plugin settings', 'activity-log-wp-seo' ), __( 'Changed the Meta description template for the <strong>%archive_type%</strong> archives %LineBreak% Previous description: %old% %LineBreak% New description: %new%', 'activity-log-wp-seo' ), 'yoast-seo', 'modified' ),
 			array( 8837, WSAL_LOW, __( 'User Enabled/Disabled the SEO meta box for a taxonomy', 'activity-log-wp-seo' ), __( 'The setting to show SEO settings for the %SEOPostType% taxonomy', 'activity-log-wp-seo' ), 'yoast-seo', 'enabled' ),
+			//Multisite
+			array( 8838, WSAL_HIGH, __( 'User changed who should have access to the setting on Network Level', 'activity-log-wp-seo' ), __( 'The setting to access level has changed from %old% to %new%', 'activity-log-wp-seo' ), 'yoast-seo', 'enabled' ),
+			array( 8839, WSAL_LOW, __( 'New sites inherit their SEO options from site changed', 'activity-log-wp-seo' ), __( 'The setting for SEO options inheritance has changed from %old% to %new%', 'activity-log-wp-seo' ), 'yoast-seo', 'enabled' ),
+			array( 8840, WSAL_MEDIUM, __( 'Default site configuration has been set to the default SEO settings', 'activity-log-wp-seo' ), __( 'The default site configuration has been set to the default SEO settings for %old%', 'activity-log-wp-seo' ), 'yoast-seo', 'enabled' ),
 		),
 	),
 );
