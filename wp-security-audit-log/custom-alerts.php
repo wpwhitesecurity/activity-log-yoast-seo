@@ -53,6 +53,10 @@ $custom_alerts = array(
 			array( 8835, WSAL_LOW, __( 'User Modified the SEO title template for Author or Date archives in the Yoast SEO plugin settings', 'activity-log-wp-seo' ), __( 'Changed the SEO title template for the <strong>%archive_type%</strong> archives %LineBreak% Previous title: %old% %LineBreak% New title: %new%', 'activity-log-wp-seo' ), 'yoast-seo', 'modified' ),
 			array( 8836, WSAL_LOW, __( 'User Modified the SEO Meta description for Author or Date archives in the Yoast SEO plugin settings', 'activity-log-wp-seo' ), __( 'Changed the Meta description template for the <strong>%archive_type%</strong> archives %LineBreak% Previous description: %old% %LineBreak% New description: %new%', 'activity-log-wp-seo' ), 'yoast-seo', 'modified' ),
 			array( 8837, WSAL_LOW, __( 'User Enabled/Disabled the SEO meta box for a taxonomy', 'activity-log-wp-seo' ), __( 'The setting to show SEO settings for the %SEOPostType% taxonomy', 'activity-log-wp-seo' ), 'yoast-seo', 'enabled' ),
+
+			// Network features enabled / disabled
+			array( 8843, WSAL_HIGH, __( 'Disabled a plugin feature networkwide', 'activity-log-wp-seo' ), __( 'Network feature has been <strong>disabled</strong> %LineBreak% Feature: %feature_name%', 'activity-log-wp-seo' ), 'yoast-seo', 'disabled' ),
+			array( 8844, WSAL_HIGH, __( 'Allowed site administrators to toggle a plugin feature on or off for their site', 'activity-log-wp-seo' ), __( 'Network feature has been <strong>enabled</strong> %LineBreak% Feature: %feature_name%', 'activity-log-wp-seo' ), 'yoast-seo', 'enabled' ),
 		),
 	),
 );

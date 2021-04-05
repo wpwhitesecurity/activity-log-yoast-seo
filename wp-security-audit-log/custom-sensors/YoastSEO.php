@@ -63,6 +63,9 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 
 			// Yoast SEO option alerts.
 			add_action( 'updated_option', array( $this, 'yoast_options_trigger' ), 10, 3 );
+
+			// Yoast SEO Site option alerts.
+			add_action( 'update_site_option', array( $this, 'yoast_site_options_trigger' ), 10, 3 );
 		}
 
 		/**
@@ -526,6 +529,130 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 		 * @param mixed  $old_value – Option old value.
 		 * @param mixed  $new_value – Option new value.
 		 */
+		public function yoast_site_options_trigger( $option, $old_value, $new_value ) {
+
+			if ( 'wpseo_ms' === $option ) {
+				// SEO analysis.
+				if ( isset( $old_value['allow_keyword_analysis_active'] ) && isset( $new_value['allow_keyword_analysis_active'] ) ) {
+					if ( $old_value['allow_keyword_analysis_active'] !== $new_value['allow_keyword_analysis_active'] ) {
+
+						$suffix = '-unactive';
+						if (!$new_value['allow_keyword_analysis_active']) {
+							$suffix = '-active';
+						}
+						$this->yoast_setting_switch_alert( 'network-keyword_analysis'.$suffix, $new_value['allow_keyword_analysis_active'] );
+					}
+				}
+
+				// Readability analysis.
+				if ( isset( $old_value['allow_content_analysis_active'] ) && isset( $new_value['allow_content_analysis_active'] ) ) {
+					if ( $old_value['allow_content_analysis_active'] !== $new_value['allow_content_analysis_active'] ) {
+
+						$suffix = '-unactive';
+						if (!$new_value['allow_keyword_analysis_active']) {
+							$suffix = '-active';
+						}
+						$this->yoast_setting_switch_alert( 'network-content_analysis'.$suffix, $new_value['allow_content_analysis_active'] );
+					}
+				}
+
+				// Cornerstone Content.
+				if ( isset( $old_value['allow_enable_cornerstone_content'] ) && isset( $new_value['allow_enable_cornerstone_content'] ) ) {
+					if ( $old_value['allow_enable_cornerstone_content'] !== $new_value['allow_enable_cornerstone_content'] ) {
+						$suffix = '-unactive';
+						if (!$new_value['allow_enable_cornerstone_content']) {
+							$suffix = '-active';
+						}
+						$this->yoast_setting_switch_alert( 'network-cornerstone_content'.$suffix, $new_value['allow_enable_cornerstone_content'] );
+					}
+				}
+
+				// Text Link Counter.
+				if ( isset( $old_value['allow_enable_text_link_counter'] ) && isset( $new_value['allow_enable_text_link_counter'] ) ) {
+					if ( $old_value['allow_enable_text_link_counter'] !== $new_value['allow_enable_text_link_counter'] ) {
+						$suffix = '-unactive';
+						if (!$new_value['allow_enable_text_link_counter']) {
+							$suffix = '-active';
+						}
+						$this->yoast_setting_switch_alert( 'network-text_link_counter'.$suffix, $new_value['allow_enable_text_link_counter'] );
+					}
+				}
+
+				// XML Sitemaps.
+				if ( isset( $old_value['allow_enable_xml_sitemap'] ) && isset( $new_value['allow_enable_xml_sitemap'] ) ) {
+					if ( $old_value['allow_enable_xml_sitemap'] !== $new_value['allow_enable_xml_sitemap'] ) {
+						$suffix = '-unactive';
+						if (!$new_value['allow_enable_xml_sitemap']) {
+							$suffix = '-active';
+						}
+						$this->yoast_setting_switch_alert( 'network-enable_xml_sitemap'.$suffix, $new_value['allow_enable_xml_sitemap'] );
+					}
+				}
+
+				// Admin bar menu.
+				if ( isset( $old_value['allow_enable_admin_bar_menu'] ) && isset( $new_value['allow_enable_admin_bar_menu'] ) ) {
+					if ( $old_value['allow_enable_admin_bar_menu'] !== $new_value['allow_enable_admin_bar_menu'] ) {
+						$suffix = '-unactive';
+						if (!$new_value['allow_enable_admin_bar_menu']) {
+							$suffix = '-active';
+						}
+						$this->yoast_setting_switch_alert( 'network-enable_admin_bar_menu'.$suffix, $new_value['allow_enable_admin_bar_menu'] );
+					}
+				}
+
+				// Advanced settings for authors.
+				if ( isset( $old_value['allow_disableadvanced_meta'] ) && isset( $new_value['allow_disableadvanced_meta'] ) ) {
+					if ( $old_value['allow_disableadvanced_meta'] !== $new_value['allow_disableadvanced_meta'] ) {
+						$suffix = '-unactive';
+						if (!$new_value['allow_disableadvanced_meta']) {
+							$suffix = '-active';
+						}
+						$this->yoast_setting_switch_alert( 'network-disableadvanced_meta'.$suffix, $new_value['allow_disableadvanced_meta'] );
+					}
+				}
+
+				// Usage tracking.
+				if ( isset( $old_value['allow_tracking'] ) && isset( $new_value['allow_tracking'] ) ) {
+					if ( $old_value['allow_tracking'] !== $new_value['allow_tracking'] ) {
+						$suffix = '-unactive';
+						if (!$new_value['allow_tracking']) {
+							$suffix = '-active';
+						}
+						$this->yoast_setting_switch_alert( 'network-tracking'.$suffix, $new_value['allow_tracking'] );
+					}
+				}
+
+				// REST enpoint.
+				if ( isset( $old_value['allow_enable_headless_rest_endpoints'] ) && isset( $new_value['allow_enable_headless_rest_endpoints'] ) ) {
+					if ( $old_value['allow_enable_headless_rest_endpoints'] !== $new_value['allow_enable_headless_rest_endpoints'] ) {
+						$suffix = '-unactive';
+						if (!$new_value['allow_enable_headless_rest_endpoints']) {
+							$suffix = '-active';
+						}
+						$this->yoast_setting_switch_alert( 'network-enable_headless_rest_endpoints'.$suffix, $new_value['allow_enable_headless_rest_endpoints'] );
+					}
+				}
+
+				// Slack sharing.
+				if ( isset( $old_value['allow_enable_enhanced_slack_sharing'] ) && isset( $new_value['allow_enable_enhanced_slack_sharing'] ) ) {
+					if ( $old_value['allow_enable_enhanced_slack_sharing'] !== $new_value['allow_enable_enhanced_slack_sharing'] ) {
+						$suffix = '-unactive';
+						if (!$new_value['allow_enable_enhanced_slack_sharing']) {
+							$suffix = '-active';
+						}
+						$this->yoast_setting_switch_alert( 'network-enable_enhanced_slack_sharing'.$suffix, $new_value['allow_enable_enhanced_slack_sharing'] );
+					}
+				}
+			}
+		}
+
+		/**
+		 * Method: Yoast SEO options trigger.
+		 *
+		 * @param string $option – Option name.
+		 * @param mixed  $old_value – Option old value.
+		 * @param mixed  $new_value – Option new value.
+		 */
 		public function yoast_options_trigger( $option, $old_value, $new_value ) {
 
 			// Detect the SEO option.
@@ -916,6 +1043,51 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 
 			$alert_args['EventType'] = 1 === $status ? 'enabled' : 'disabled';
 
+			// Find network-* in the key.
+			if ( false !== strpos( $key, 'network-' ) ) {
+				$eventKey  = substr($key, strpos( $key, '-') +1 );
+
+				$eventKey = substr($eventKey, 0, strrpos( $eventKey, '-'));
+
+				switch ( $eventKey ) {
+					default:
+					case 'keyword_analysis':
+						$featureName = 'SEO Analysis';
+						break;
+					case 'content_analysis':
+						$featureName = 'Readability Analysis';
+						break;
+					case 'cornerstone_content':
+						$featureName = 'Cornerstone content';
+						break;
+					case 'text_link_counter':
+						$featureName = 'Text link counter';
+						break;
+					case 'enable_xml_sitemap':
+						$featureName = 'XML sitemap';
+						break;
+					case 'enable_admin_bar_menu':
+						$featureName = 'Admin bar menu';
+						break;
+					case 'disableadvanced_meta':
+						$featureName = 'Security: advanced or schema settings for authors';
+						break;
+					case 'tracking':
+						$featureName = 'Usage tracking';
+						break;
+					case 'enable_headless_rest_endpoints':
+						$featureName = 'REST API: Head endpoint';
+						break;
+					case 'enable_enhanced_slack_sharing':
+						$featureName = 'Slack sharing';
+						break;
+				}
+
+				// Set alert meta data.
+				$alert_args['feature_name'] = $featureName;
+				$alert_args['EventType'] = 1 === $status ? 'disabled' : 'enabled';
+			}
+
 			// Set alert code to NULL initially.
 			$alert_code = null;
 
@@ -959,6 +1131,14 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 
 				case 'enable_xml_sitemap':
 					$alert_code = 8819;
+					break;
+
+				case (false !== strpos( $key, 'network-' ) && false !== strpos( $key, '-unactive' )) :
+					$alert_code = 8843;
+					break;
+
+				case (false !== strpos( $key, 'network-' ) && false !== strpos( $key, '-active' )) :
+					$alert_code = 8844;
 					break;
 
 				// renamed to ryte_integration. see: https://github.com/Yoast/wordpress-seo/pull/14123.
