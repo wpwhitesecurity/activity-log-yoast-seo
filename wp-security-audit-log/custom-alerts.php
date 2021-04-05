@@ -56,7 +56,7 @@ $custom_alerts = array(
 			//Multisite
 			array( 8838, WSAL_HIGH, __( 'User changed who should have access to the setting on Network Level', 'activity-log-wp-seo' ), __( 'The setting to access level has changed from %old% to %new%', 'activity-log-wp-seo' ), 'yoast-seo', 'enabled' ),
 			array( 8839, WSAL_LOW, __( 'New sites inherit their SEO options from site changed', 'activity-log-wp-seo' ), __( 'The setting for SEO options inheritance has changed from %old% to %new%', 'activity-log-wp-seo' ), 'yoast-seo', 'enabled' ),
-			array( 8840, WSAL_MEDIUM, __( 'Default site configuration has been set to the default SEO settings', 'activity-log-wp-seo' ), __( 'The default site configuration has been set to the default SEO settings for %old%', 'activity-log-wp-seo' ), 'yoast-seo', 'enabled' ),
+			array( 8840, WSAL_MEDIUM, __( "Reset the site's SEO settings to default", 'activity-log-wp-seo' ), __( 'Site ID: %old%', 'activity-log-wp-seo' ), 'yoast-seo', 'enabled' ),
 		),
 	),
 );

@@ -913,7 +913,7 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 
 				case 'site-default-options-change' :
 					$alert_code              = 8840;
-					$alert_args['old'] = get_blog_details( $alert_args['old'] )->blogname;
+					$alert_args['old'] = get_blog_details( $alert_args['old'] )->blogname.' / '.$alert_args['old'];
 					$alert_args['new'] = '';
 					break;
 
