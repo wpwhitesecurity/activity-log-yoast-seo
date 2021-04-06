@@ -66,6 +66,9 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 
 			// Yoast SEO Site option alerts.
 			add_action( 'update_site_option', array( $this, 'yoast_site_options_trigger' ), 10, 3 );
+
+			// Yoast SEO blog option default change alerts.
+			add_action( 'add_option_wpseo', array( $this, 'yoast_blog_options_trigger' ), 10, 2 );
 		}
 
 		/**
@@ -565,6 +568,12 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 						}
 					}
 				}
+				if ( $old_value['access'] !== $new_value['access'] ) {
+					$this->yoast_setting_change_alert( 'site-access-change', $old_value['access'], $new_value['access'] );
+				}
+				if ( $old_value['defaultblog'] !== $new_value['defaultblog'] ) {
+					$this->yoast_setting_change_alert( 'site-default-seo-inherit-change', $old_value['defaultblog'], $new_value['defaultblog'] );
+				}
 			}
 		}
 
@@ -903,6 +912,24 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 				case 'disable-attachment':
 					$alert_code              = 8826;
 					$alert_args['EventType'] = $new_value ? 'enabled' : 'disabled';
+					break;
+
+				case 'site-access-change' :
+					$alert_code              = 8838;
+					$alert_args['old'] = ucwords( $alert_args['old'] );
+					$alert_args['new'] = ucwords( $alert_args['new'] );
+					break;
+
+				case 'site-default-seo-inherit-change' :
+					$alert_code              = 8839;
+					$alert_args['old'] = get_blog_details( $alert_args['old'] )->blogname;
+					$alert_args['new'] = get_blog_details( $alert_args['new'] )->blogname;
+					break;
+
+				case 'site-default-options-change' :
+					$alert_code              = 8840;
+					$alert_args['old'] = get_blog_details( $alert_args['old'] )->blogname.' / '.$alert_args['old'];
+					$alert_args['new'] = '';
 					break;
 
 				default:
