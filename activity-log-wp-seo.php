@@ -98,6 +98,15 @@ function wsal_yoast_seo_extension_replace_duplicate_event_notice() {
 }
 
 /**
+ * Add obsolete events to the togglealerts view.
+ */
+function wsal_yoast_seo_extension_togglealerts_obsolete_events( $obsolete_events ) {
+	$new_events      = [ 8810, 8811 ];
+	$obsolete_events = array_merge( $obsolete_events, $new_events );
+	return $obsolete_events;
+}
+
+/**
  * Replacement "duplicate event" notice text.
  */
 function wsal_yoast_seo_extension_replacement_duplicate_event_notice() {
@@ -119,3 +128,4 @@ add_filter( 'wsal_event_objects', 'wsal_yoast_seo_extension_add_custom_event_obj
 add_filter( 'wsal_togglealerts_sub_category_events', 'wsal_yoast_seo_extension_togglealerts_sub_category_events' );
 add_filter( 'wsal_togglealerts_sub_category_titles', 'wsal_yoast_seo_extension_togglealerts_sub_category_titles', 10, 2 );
 add_filter( 'admin_init', 'wsal_yoast_seo_extension_replace_duplicate_event_notice' );
+add_filter( 'wsal_togglealerts_obsolete_events', 'wsal_yoast_seo_extension_togglealerts_obsolete_events' );
