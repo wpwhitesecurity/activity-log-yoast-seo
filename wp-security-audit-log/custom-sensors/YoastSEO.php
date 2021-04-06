@@ -1052,34 +1052,34 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 				switch ( $eventKey ) {
 					default:
 					case 'keyword_analysis':
-						$featureName = 'SEO Analysis';
+						$featureName = __( 'SEO Analysis', 'activity-log-wp-seo' );
 						break;
 					case 'content_analysis':
-						$featureName = 'Readability Analysis';
+						$featureName = __( 'Readability Analysis', 'activity-log-wp-seo' );
 						break;
 					case 'cornerstone_content':
-						$featureName = 'Cornerstone content';
+						$featureName = __( 'Cornerstone content', 'activity-log-wp-seo' );
 						break;
 					case 'text_link_counter':
-						$featureName = 'Text link counter';
+						$featureName = __( 'Text link counter', 'activity-log-wp-seo' );
 						break;
 					case 'enable_xml_sitemap':
-						$featureName = 'XML sitemap';
+						$featureName = __( 'XML sitemap', 'activity-log-wp-seo' );
 						break;
 					case 'enable_admin_bar_menu':
-						$featureName = 'Admin bar menu';
+						$featureName = __( 'Admin bar menu', 'activity-log-wp-seo' );
 						break;
 					case 'disableadvanced_meta':
-						$featureName = 'Security: advanced or schema settings for authors';
+						$featureName = __( 'Security: advanced or schema settings for authors', 'activity-log-wp-seo' );
 						break;
 					case 'tracking':
-						$featureName = 'Usage tracking';
+						$featureName = __( 'Usage tracking', 'activity-log-wp-seo' );
 						break;
 					case 'enable_headless_rest_endpoints':
-						$featureName = 'REST API: Head endpoint';
+						$featureName = __( 'REST API: Head endpoint', 'activity-log-wp-seo' );
 						break;
 					case 'enable_enhanced_slack_sharing':
-						$featureName = 'Slack sharing';
+						$featureName = __( 'Slack sharing', 'activity-log-wp-seo' );
 						break;
 				}
 
