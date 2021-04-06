@@ -95,6 +95,31 @@ function wsal_yoast_seo_extension_replace_duplicate_event_notice() {
 	if ( version_compare( $wsal_version, '4.1.3.2', '<=' ) ) {
 		add_action( 'admin_footer', 'wsal_yoast_seo_extension_replacement_duplicate_event_notice' );
 	}
+	if ( isset( $_REQUEST['page'] ) && 'wsal-togglealerts' === $_REQUEST['page'] ) {
+		add_action( 'admin_footer', 'wsal_yoast_seo_extension_hide_obsolete_events' );
+	}
+}
+
+/**
+ * Temporary function to hide events using CSS, to be removed once WSAL 4.3 is released.
+ */
+function wsal_yoast_seo_extension_hide_obsolete_events() {
+	?>
+	<style type="text/css">
+		#tab-yoast-seo #tab-website-changes tr:nth-of-type(2), #tab-yoast-seo #tab-website-changes tr:nth-of-type(2) {
+			display: none;
+		}
+	</style>
+	<?php	
+}
+
+/**
+ * Add obsolete events to the togglealerts view.
+ */
+function wsal_yoast_seo_extension_togglealerts_obsolete_events( $obsolete_events ) {
+	$new_events      = [ 8810, 8811 ];
+	$obsolete_events = array_merge( $obsolete_events, $new_events );
+	return $obsolete_events;
 }
 
 /**
@@ -119,3 +144,4 @@ add_filter( 'wsal_event_objects', 'wsal_yoast_seo_extension_add_custom_event_obj
 add_filter( 'wsal_togglealerts_sub_category_events', 'wsal_yoast_seo_extension_togglealerts_sub_category_events' );
 add_filter( 'wsal_togglealerts_sub_category_titles', 'wsal_yoast_seo_extension_togglealerts_sub_category_titles', 10, 2 );
 add_filter( 'admin_init', 'wsal_yoast_seo_extension_replace_duplicate_event_notice' );
+add_filter( 'wsal_togglealerts_obsolete_events', 'wsal_yoast_seo_extension_togglealerts_obsolete_events' );
