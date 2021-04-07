@@ -20,7 +20,7 @@ $custom_alerts = [
                     __( 'New title', 'activity-log-wp-seo' ) => '%NewSEOTitle%',
                 ],
                 [
-                    __( 'View the post in editor', 'wp-security-audit-log' ) => '%EditorLinkPost%'
+                    __( 'View the post in editor', 'wp-security-audit-log' ) => '%EditorLinkPost%',
                 ],
                 'yoast-seo-metabox',
                 'modified',
@@ -38,7 +38,7 @@ $custom_alerts = [
                     __( 'New description', 'activity-log-wp-seo' ) => '%new_desc%',
                 ],
                 [
-                    __( 'View the post in editor', 'wp-security-audit-log' ) => '%EditorLinkPost%'
+                    __( 'View the post in editor', 'wp-security-audit-log' ) => '%EditorLinkPost%',
                 ],
                 'yoast-seo-metabox',
                 'modified',
@@ -56,7 +56,7 @@ $custom_alerts = [
                     __( 'New setting', 'activity-log-wp-seo' ) => '%NewStatus%',
                 ],
                 [
-                    __( 'View the post in editor', 'wp-security-audit-log' ) => '%EditorLinkPost%'
+                    __( 'View the post in editor', 'wp-security-audit-log' ) => '%EditorLinkPost%',
                 ],
                 'yoast-seo-metabox',
                 'modified',
@@ -72,7 +72,7 @@ $custom_alerts = [
                     __( 'Post status', 'activity-log-wp-seo' ) => '%PostStatus%',
                 ],
                 [
-                    __( 'View the post in editor', 'wp-security-audit-log' ) => '%EditorLinkPost%'
+                    __( 'View the post in editor', 'wp-security-audit-log' ) => '%EditorLinkPost%',
                 ],
                 'yoast-seo-metabox',
                 'enabled',
@@ -90,7 +90,7 @@ $custom_alerts = [
                     __( 'New setting', 'activity-log-wp-seo' ) => '%NewStatus%',
                 ],
                 [
-                    __( 'View the post in editor', 'wp-security-audit-log' ) => '%EditorLinkPost%'
+                    __( 'View the post in editor', 'wp-security-audit-log' ) => '%EditorLinkPost%',
                 ],
                 'yoast-seo-metabox',
                 'modified',
@@ -108,7 +108,7 @@ $custom_alerts = [
                     __( 'New URL', 'activity-log-wp-seo' ) => '%NewCanonicalUrl%',
                 ],
                 [
-					__( 'View the post in editor', 'wp-security-audit-log' ) => '%EditorLinkPost%'
+                    __( 'View the post in editor', 'wp-security-audit-log' ) => '%EditorLinkPost%',
                 ],
                 'yoast-seo-metabox',
                 'modified',
@@ -126,7 +126,7 @@ $custom_alerts = [
                     __( 'New keyword', 'activity-log-wp-seo' ) => '%new_keywords%',
                 ],
                 [
-                    __( 'View the post in editor', 'wp-security-audit-log' ) => '%EditorLinkPost%'
+                    __( 'View the post in editor', 'wp-security-audit-log' ) => '%EditorLinkPost%',
                 ],
                 'yoast-seo-metabox',
                 'modified',
@@ -142,7 +142,7 @@ $custom_alerts = [
                     __( 'Post status', 'activity-log-wp-seo' ) => '%PostStatus%',
                 ],
                 [
-                    __( 'View the post in editor', 'wp-security-audit-log' ) => '%EditorLinkPost%'
+                    __( 'View the post in editor', 'wp-security-audit-log' ) => '%EditorLinkPost%',
                 ],
                 'yoast-seo-metabox',
                 'enabled',
@@ -466,6 +466,72 @@ $custom_alerts = [
                 __( 'User Enabled/Disabled the SEO meta box for a taxonomy', 'activity-log-wp-seo' ),
                 __( 'The setting to show SEO settings for the %SEOPostType% taxonomy', 'activity-log-wp-seo' ),
                 [],
+                [],
+                'yoast-seo',
+                'enabled',
+            ],
+
+            //Multisite
+            [
+                8838,
+                WSAL_HIGH,
+                __( 'User changed who should have access to the setting on Network Level', 'activity-log-wp-seo' ),
+                __( 'The setting to access level has changed from %old% to %new%', 'activity-log-wp-seo' ),
+                [
+                    __( 'Previous setting', 'activity-log-wp-seo' ) => '%old%',
+                    __( 'New setting', 'activity-log-wp-seo' ) => '%new%',
+                ],
+                [],
+                'yoast-seo',
+                'enabled',
+            ],
+            [
+                8839,
+                WSAL_LOW,
+                __( 'New sites inherit their SEO options from site changed', 'activity-log-wp-seo' ),
+                __( 'The setting for SEO options inheritance has changed from %old% to %new%', 'activity-log-wp-seo' ),
+                [
+                    __( 'Previous setting', 'activity-log-wp-seo' ) => '%old%',
+                    __( 'New setting', 'activity-log-wp-seo' ) => '%new%',
+                ],
+                [],
+                'yoast-seo',
+                'enabled',
+            ],
+            [
+                8840,
+                WSAL_MEDIUM,
+                __( "Reset the site's SEO settings to default", 'activity-log-wp-seo' ),
+                __( "Reset the site's SEO settings to default", 'activity-log-wp-seo' ),
+                [
+                    __( 'Site ID: %old%', 'activity-log-wp-seo' ) => '%old%',
+                ],
+                [],
+                'yoast-seo',
+                'enabled',
+            ],
+
+            // Network features enabled / disabled
+            [
+                8843,
+                WSAL_HIGH,
+                __( 'Disabled a plugin feature networkwide', 'activity-log-wp-seo' ),
+                __( 'Network feature has been <strong>disabled</strong>', 'activity-log-wp-seo' ),
+                [
+                    __( 'Feature: %feature_name%', 'activity-log-wp-seo' ) => '%feature_name%',
+                ],
+                [],
+                'yoast-seo',
+                'disabled',
+            ],
+            [
+                8844,
+                WSAL_HIGH,
+                __( 'Allowed site administrators to toggle a plugin feature on or off for their site', 'activity-log-wp-seo' ),
+                __( 'Network feature has been <strong>enabled</strong>', 'activity-log-wp-seo' ),
+                [
+                    __( 'Feature: %feature_name%', 'activity-log-wp-seo' ) => '%feature_name%',
+                ],
                 [],
                 'yoast-seo',
                 'enabled',
