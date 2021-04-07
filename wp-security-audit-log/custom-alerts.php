@@ -20,7 +20,7 @@ $custom_alerts = [
                     __( 'New title', 'activity-log-wp-seo' ) => '%NewSEOTitle%',
                 ],
                 [
-                    '%EditorLinkPost%',
+                    __( 'View the post in editor', 'wp-security-audit-log' ) => '%EditorLinkPost%'
                 ],
                 'yoast-seo-metabox',
                 'modified',
@@ -38,7 +38,7 @@ $custom_alerts = [
                     __( 'New description', 'activity-log-wp-seo' ) => '%new_desc%',
                 ],
                 [
-                    '%EditorLinkPost%',
+                    __( 'View the post in editor', 'wp-security-audit-log' ) => '%EditorLinkPost%'
                 ],
                 'yoast-seo-metabox',
                 'modified',
@@ -56,7 +56,7 @@ $custom_alerts = [
                     __( 'New setting', 'activity-log-wp-seo' ) => '%NewStatus%',
                 ],
                 [
-                    '%EditorLinkPost%',
+                    __( 'View the post in editor', 'wp-security-audit-log' ) => '%EditorLinkPost%'
                 ],
                 'yoast-seo-metabox',
                 'modified',
@@ -72,7 +72,7 @@ $custom_alerts = [
                     __( 'Post status', 'activity-log-wp-seo' ) => '%PostStatus%',
                 ],
                 [
-                    '%EditorLinkPost%',
+                    __( 'View the post in editor', 'wp-security-audit-log' ) => '%EditorLinkPost%'
                 ],
                 'yoast-seo-metabox',
                 'enabled',
@@ -90,7 +90,7 @@ $custom_alerts = [
                     __( 'New setting', 'activity-log-wp-seo' ) => '%NewStatus%',
                 ],
                 [
-                    '%EditorLinkPost%',
+                    __( 'View the post in editor', 'wp-security-audit-log' ) => '%EditorLinkPost%'
                 ],
                 'yoast-seo-metabox',
                 'modified',
@@ -108,7 +108,7 @@ $custom_alerts = [
                     __( 'New URL', 'activity-log-wp-seo' ) => '%NewCanonicalUrl%',
                 ],
                 [
-                    '%EditorLinkPost%',
+					__( 'View the post in editor', 'wp-security-audit-log' ) => '%EditorLinkPost%'
                 ],
                 'yoast-seo-metabox',
                 'modified',
@@ -126,7 +126,7 @@ $custom_alerts = [
                     __( 'New keyword', 'activity-log-wp-seo' ) => '%new_keywords%',
                 ],
                 [
-                    '%EditorLinkPost%',
+                    __( 'View the post in editor', 'wp-security-audit-log' ) => '%EditorLinkPost%'
                 ],
                 'yoast-seo-metabox',
                 'modified',
@@ -142,7 +142,7 @@ $custom_alerts = [
                     __( 'Post status', 'activity-log-wp-seo' ) => '%PostStatus%',
                 ],
                 [
-                    '%EditorLinkPost%',
+                    __( 'View the post in editor', 'wp-security-audit-log' ) => '%EditorLinkPost%'
                 ],
                 'yoast-seo-metabox',
                 'enabled',
