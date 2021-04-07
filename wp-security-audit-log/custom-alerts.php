@@ -504,7 +504,7 @@ $custom_alerts = [
                 __( "Reset the site's SEO settings to default", 'activity-log-wp-seo' ),
                 __( "Reset the site's SEO settings to default", 'activity-log-wp-seo' ),
                 [
-                    __( 'Site ID: %old%', 'activity-log-wp-seo' ) => '%old%',
+                    __( 'Site ID', 'activity-log-wp-seo' ) => '%old%',
                 ],
                 [],
                 'yoast-seo',
@@ -518,7 +518,7 @@ $custom_alerts = [
                 __( 'Disabled a plugin feature networkwide', 'activity-log-wp-seo' ),
                 __( 'Network feature has been <strong>disabled</strong>', 'activity-log-wp-seo' ),
                 [
-                    __( 'Feature: %feature_name%', 'activity-log-wp-seo' ) => '%feature_name%',
+                    __( 'Feature', 'activity-log-wp-seo' ) => '%feature_name%',
                 ],
                 [],
                 'yoast-seo',
@@ -530,7 +530,7 @@ $custom_alerts = [
                 __( 'Allowed site administrators to toggle a plugin feature on or off for their site', 'activity-log-wp-seo' ),
                 __( 'Network feature has been <strong>enabled</strong>', 'activity-log-wp-seo' ),
                 [
-                    __( 'Feature: %feature_name%', 'activity-log-wp-seo' ) => '%feature_name%',
+                    __( 'Feature', 'activity-log-wp-seo' ) => '%feature_name%',
                 ],
                 [],
                 'yoast-seo',
