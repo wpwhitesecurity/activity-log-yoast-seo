@@ -526,6 +526,25 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 		}
 
 		/**
+		 * Method: Yoast default blog options change trigger.
+		 * Notes:
+		 * 	- To accomplish that, Yoast is taking the site, removes option (wpseo_ms) and sets the new one
+		 * @see Yoast-Network-Admin::handle_restore_site_request
+		 * 	- wp functions used do not triggering events @see WPSEO_Options::reset_ms_blog :
+		 * 		- delete_blog_option, update_blog_option
+		 * Logic used here is - if add_option_wpseo is triggered (this method is called only then), and global $_POST is set with valid 'site_id' value and 'ms_defaults_set' (in $value parameter) == true - we know which site has been preset with the default options
+		 *
+		 * @param string $option – Option name.
+		 * @param mixed  $value – Option old value.
+		 */
+		public function yoast_blog_options_trigger( $option, $value ) {
+			$site_id = ( isset( $_POST[ 'wpseo_ms' ] ) && ! empty( $_POST[ 'wpseo_ms' ]['site_id'] ) ) ? (int) $_POST[ 'wpseo_ms' ]['site_id'] : 0;
+			if ( $site_id && isset($value['ms_defaults_set']) && true === $value['ms_defaults_set']) {
+				$this->yoast_setting_change_alert( 'site-default-options-change', $site_id, '' );
+			}
+		}
+
+		/**
 		 * Method: Yoast SEO options trigger.
 		 *
 		 * @param string $option – Option name.
