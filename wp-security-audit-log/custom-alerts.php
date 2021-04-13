@@ -470,13 +470,27 @@ $custom_alerts = [
                 'yoast-seo',
                 'enabled',
             ],
+            [
+                8841,
+                WSAL_MEDIUM,
+                __( "User Added/Removed/Modified a Webmaster Tools verification code for a search engine", 'activity-log-wp-seo' ),
+                __( "The <strong>Webmaster Tools verification code</strong> for a search engine", 'activity-log-wp-seo' ),
+                [
+                    __( 'Search engine', 'activity-log-wp-seo' ) => '%search_engine_type%',
+                    __( 'Previous code', 'activity-log-wp-seo' ) => '%old%',
+                    __( 'New code', 'activity-log-wp-seo' )      => '%new%',
+                ],
+                [],
+                'yoast-seo',
+                'added',
+            ],
 
             //Multisite
             [
                 8838,
                 WSAL_HIGH,
                 __( 'User changed who should have access to the setting on Network Level', 'activity-log-wp-seo' ),
-                __( 'The setting to access level has changed from %old% to %new%', 'activity-log-wp-seo' ),
+                __( 'The setting <strong>Who should have access to the Yoast SEO settings</strong> on a multisite network', 'activity-log-wp-seo' ),
                 [
                     __( 'Previous setting', 'activity-log-wp-seo' ) => '%old%',
                     __( 'New setting', 'activity-log-wp-seo' ) => '%new%',
@@ -489,7 +503,7 @@ $custom_alerts = [
                 8839,
                 WSAL_LOW,
                 __( 'New sites inherit their SEO options from site changed', 'activity-log-wp-seo' ),
-                __( 'The setting for SEO options inheritance has changed from %old% to %new%', 'activity-log-wp-seo' ),
+                __( 'The setting <strong>New sites in the network inherit their SEO settings from this site</strong>', 'activity-log-wp-seo' ),
                 [
                     __( 'Previous setting', 'activity-log-wp-seo' ) => '%old%',
                     __( 'New setting', 'activity-log-wp-seo' ) => '%new%',
@@ -513,10 +527,10 @@ $custom_alerts = [
 
             // Network features enabled / disabled
             [
-                8843,
+                8842,
                 WSAL_HIGH,
                 __( 'Disabled a plugin feature networkwide', 'activity-log-wp-seo' ),
-                __( 'Network feature has been <strong>disabled</strong>', 'activity-log-wp-seo' ),
+                __( 'Disabled a plugin feature networkwide', 'activity-log-wp-seo' ),
                 [
                     __( 'Feature', 'activity-log-wp-seo' ) => '%feature_name%',
                 ],
@@ -525,10 +539,10 @@ $custom_alerts = [
                 'disabled',
             ],
             [
-                8844,
+                8843,
                 WSAL_HIGH,
                 __( 'Allowed site administrators to toggle a plugin feature on or off for their site', 'activity-log-wp-seo' ),
-                __( 'Network feature has been <strong>enabled</strong>', 'activity-log-wp-seo' ),
+                __( 'Allowed site administrators to toggle a plugin feature on or off for their site', 'activity-log-wp-seo' ),
                 [
                     __( 'Feature', 'activity-log-wp-seo' ) => '%feature_name%',
                 ],

@@ -801,6 +801,14 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 							$this->yoast_setting_switch_alert( 'enable_headless_rest_endpoints', $new_value['enable_headless_rest_endpoints'] );
 						}
 					}
+
+					$search_engines = [ 'baiduverify', 'googleverify', 'msverify', 'yandexverify' ];
+
+					foreach ( $search_engines as $search_engine ) {
+						if ( $old_value[ $search_engine ] !== $new_value[ $search_engine ] ) {
+							$this->yoast_setting_change_alert( $search_engine, $old_value[ $search_engine ], $new_value[ $search_engine ] );
+						}
+					}
 				}
 
 				// Social profile alerts.
@@ -949,6 +957,26 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 					$alert_code              = 8840;
 					$alert_args['old'] = get_blog_details( $alert_args['old'] )->blogname.' / '.$alert_args['old'];
 					$alert_args['new'] = '';
+					break;
+
+				case 'baiduverify':
+				case 'googleverify':
+				case 'msverify':
+				case 'yandexverify':
+					$alert_code        = 8841;
+					$alert_args['search_engine_type'] = ucwords( str_replace( 'verify', '', $key ) );
+
+					if ( empty( $alert_args['old'] ) && ! empty( $alert_args['new'] ) ) {
+						$event_type = 'added';
+					} elseif ( empty( $alert_args['new'] ) && ! empty( $alert_args['old'] ) ) {
+						$event_type = 'removed';
+					} else {
+						$event_type = 'modified';
+					}
+
+					$alert_args['EventType'] = $event_type;
+					$alert_args['old']       = ( empty( $alert_args['old'] ) ) ? __( 'Not provided', 'activity-log-wp-seo' ) : $alert_args['old'];
+					$alert_args['new']       = ( empty( $alert_args['new'] ) ) ? __( 'Not provided', 'activity-log-wp-seo' ) : $alert_args['new'];
 					break;
 
 				default:
