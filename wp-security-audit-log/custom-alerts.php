@@ -344,8 +344,9 @@ $custom_alerts = [
                 8829,
                 WSAL_LOW,
                 __( 'User Added/Removed a social profile in the Yoast SEO plugin settings', 'activity-log-wp-seo' ),
-                __( 'The %social_profile% URL', 'activity-log-wp-seo' ),
+                __( 'The URL of an <strong>Organization social profile</strong>', 'activity-log-wp-seo' ),
                 [
+                    __( 'Social media profile', 'activity-log-wp-seo' ) => '%social_profile%',
                     __( 'Old URL', 'activity-log-wp-seo' ) => '%old_url%',
                     __( 'New URL', 'activity-log-wp-seo' ) => '%new_url%',
                 ],
