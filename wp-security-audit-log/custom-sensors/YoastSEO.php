@@ -1130,11 +1130,11 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 					break;
 
 				case (false !== strpos( $key, 'network-' ) && false !== strpos( $key, '-inactive' )) :
-					$alert_code = 8843;
+					$alert_code = 8842;
 					break;
 
 				case (false !== strpos( $key, 'network-' ) && false !== strpos( $key, '-active' )) :
-					$alert_code = 8844;
+					$alert_code = 8843;
 					break;
 
 				// renamed to ryte_integration. see: https://github.com/Yoast/wordpress-seo/pull/14123.
