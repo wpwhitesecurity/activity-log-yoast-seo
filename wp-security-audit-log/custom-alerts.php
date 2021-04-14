@@ -355,6 +355,72 @@ $custom_alerts = [
                 'added',
             ],
 
+            //Multisite
+            [
+                8838,
+                WSAL_HIGH,
+                __( 'User changed who should have access to the setting on Network Level', 'activity-log-wp-seo' ),
+                __( 'The setting <strong>Who should have access to the Yoast SEO settings</strong> on a multisite network', 'activity-log-wp-seo' ),
+                [
+                    __( 'Previous setting', 'activity-log-wp-seo' ) => '%old%',
+                    __( 'New setting', 'activity-log-wp-seo' ) => '%new%',
+                ],
+                [],
+                'yoast-seo',
+                'enabled',
+            ],
+            [
+                8839,
+                WSAL_LOW,
+                __( 'New sites inherit their SEO options from site changed', 'activity-log-wp-seo' ),
+                __( 'The setting <strong>New sites in the network inherit their SEO settings from this site</strong>', 'activity-log-wp-seo' ),
+                [
+                    __( 'Previous setting', 'activity-log-wp-seo' ) => '%old%',
+                    __( 'New setting', 'activity-log-wp-seo' ) => '%new%',
+                ],
+                [],
+                'yoast-seo',
+                'enabled',
+            ],
+            [
+                8840,
+                WSAL_MEDIUM,
+                __( "Reset the site's SEO settings to default", 'activity-log-wp-seo' ),
+                __( "Reset the site's SEO settings to default", 'activity-log-wp-seo' ),
+                [
+                    __( 'Site ID', 'activity-log-wp-seo' ) => '%old%',
+                ],
+                [],
+                'yoast-seo',
+                'enabled',
+            ],
+
+            // Network features enabled / disabled
+            [
+                8842,
+                WSAL_HIGH,
+                __( 'Disabled a plugin feature networkwide', 'activity-log-wp-seo' ),
+                __( 'Disabled a plugin feature networkwide', 'activity-log-wp-seo' ),
+                [
+                    __( 'Feature', 'activity-log-wp-seo' ) => '%feature_name%',
+                ],
+                [],
+                'yoast-seo',
+                'disabled',
+            ],
+            [
+                8843,
+                WSAL_HIGH,
+                __( 'Allowed site administrators to toggle a plugin feature on or off for their site', 'activity-log-wp-seo' ),
+                __( 'Allowed site administrators to toggle a plugin feature on or off for their site', 'activity-log-wp-seo' ),
+                [
+                    __( 'Feature', 'activity-log-wp-seo' ) => '%feature_name%',
+                ],
+                [],
+                'yoast-seo',
+                'enabled',
+            ],
+
             [
                 8813,
                 WSAL_MEDIUM,
@@ -484,72 +550,6 @@ $custom_alerts = [
                 [],
                 'yoast-seo',
                 'added',
-            ],
-
-            //Multisite
-            [
-                8838,
-                WSAL_HIGH,
-                __( 'User changed who should have access to the setting on Network Level', 'activity-log-wp-seo' ),
-                __( 'The setting <strong>Who should have access to the Yoast SEO settings</strong> on a multisite network', 'activity-log-wp-seo' ),
-                [
-                    __( 'Previous setting', 'activity-log-wp-seo' ) => '%old%',
-                    __( 'New setting', 'activity-log-wp-seo' ) => '%new%',
-                ],
-                [],
-                'yoast-seo',
-                'enabled',
-            ],
-            [
-                8839,
-                WSAL_LOW,
-                __( 'New sites inherit their SEO options from site changed', 'activity-log-wp-seo' ),
-                __( 'The setting <strong>New sites in the network inherit their SEO settings from this site</strong>', 'activity-log-wp-seo' ),
-                [
-                    __( 'Previous setting', 'activity-log-wp-seo' ) => '%old%',
-                    __( 'New setting', 'activity-log-wp-seo' ) => '%new%',
-                ],
-                [],
-                'yoast-seo',
-                'enabled',
-            ],
-            [
-                8840,
-                WSAL_MEDIUM,
-                __( "Reset the site's SEO settings to default", 'activity-log-wp-seo' ),
-                __( "Reset the site's SEO settings to default", 'activity-log-wp-seo' ),
-                [
-                    __( 'Site ID', 'activity-log-wp-seo' ) => '%old%',
-                ],
-                [],
-                'yoast-seo',
-                'enabled',
-            ],
-
-            // Network features enabled / disabled
-            [
-                8842,
-                WSAL_HIGH,
-                __( 'Disabled a plugin feature networkwide', 'activity-log-wp-seo' ),
-                __( 'Disabled a plugin feature networkwide', 'activity-log-wp-seo' ),
-                [
-                    __( 'Feature', 'activity-log-wp-seo' ) => '%feature_name%',
-                ],
-                [],
-                'yoast-seo',
-                'disabled',
-            ],
-            [
-                8843,
-                WSAL_HIGH,
-                __( 'Allowed site administrators to toggle a plugin feature on or off for their site', 'activity-log-wp-seo' ),
-                __( 'Allowed site administrators to toggle a plugin feature on or off for their site', 'activity-log-wp-seo' ),
-                [
-                    __( 'Feature', 'activity-log-wp-seo' ) => '%feature_name%',
-                ],
-                [],
-                'yoast-seo',
-                'enabled',
             ],
         ],
     ],

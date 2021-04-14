@@ -62,7 +62,7 @@ function wsal_yoast_seo_extension_add_custom_event_objects( $objects ) {
  * Add specific events so we can use them for category titles.
  */
 function wsal_yoast_seo_extension_togglealerts_sub_category_events( $sub_category_events ) {
-	$new_events          = array( 8813, 8815 );
+	$new_events          = array( 8813, 8815, 8838 );
 	$sub_category_events = array_merge( $sub_category_events, $new_events );
 	return $sub_category_events;
 }
@@ -75,7 +75,10 @@ function wsal_yoast_seo_extension_togglealerts_sub_category_titles( $subcat_titl
 		$subcat_title = esc_html_e( 'Features:', 'wp-security-audit-log' );
 	}
 	if ( 8813 === $alert_id ) {
-		$subcat_title= esc_html_e( 'Search Appearance', 'wp-security-audit-log' );
+		$subcat_title = esc_html_e( 'Search Appearance', 'wp-security-audit-log' );
+	}
+	if ( 8838 === $alert_id ) {
+		$subcat_title = esc_html_e( 'Multisite network', 'wp-security-audit-log' );
 	}
 	return $subcat_title;
 }
@@ -105,7 +108,7 @@ function wsal_yoast_seo_extension_hide_obsolete_events() {
 			display: none;
 		}
 	</style>
-	<?php	
+	<?php
 }
 
 /**
