@@ -591,7 +591,7 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 					$this->yoast_setting_change_alert( 'site-access-change', $old_value['access'], $new_value['access'] );
 				}
 				if ( $old_value['defaultblog'] !== $new_value['defaultblog'] ) {
-					$this->yoast_setting_change_alert( 'site-default-seo-inherit-change', $old_value['defaultblog'], $new_value['defaultblog'] );
+					$this->yoast_setting_change_alert( 'site-default-seo-inherit-change', $new_value['defaultblog'], $old_value['defaultblog'] );
 				}
 			}
 		}
@@ -949,8 +949,8 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 
 				case 'site-default-seo-inherit-change' :
 					$alert_code              = 8839;
-					$alert_args['old'] = get_blog_details( $alert_args['old'] )->blogname;
-					$alert_args['new'] = get_blog_details( $alert_args['new'] )->blogname;
+					$alert_args['old'] = ( ! empty( $alert_args['old'] ) ) ? get_blog_details( $alert_args['old'] )->blogname : __( 'None', 'activity-log-wp-seo' );
+					$alert_args['new'] = ( ! empty( $alert_args['new'] ) ) ? get_blog_details( $alert_args['new'] )->blogname : __( 'None', 'activity-log-wp-seo' );
 					break;
 
 				case 'site-default-options-change' :
