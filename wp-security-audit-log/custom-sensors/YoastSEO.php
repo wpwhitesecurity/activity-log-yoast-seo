@@ -590,8 +590,10 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 				if ( $old_value['access'] !== $new_value['access'] ) {
 					$this->yoast_setting_change_alert( 'site-access-change', $old_value['access'], $new_value['access'] );
 				}
+				// We are aware the variables are being fed in backwards here, however this appears to be the only way.
+				// to get a reliable outcome. Issue https://github.com/WPWhiteSecurity/activity-log-yoast-seo/issues/63.
 				if ( $old_value['defaultblog'] !== $new_value['defaultblog'] ) {
-					$this->yoast_setting_change_alert( 'site-default-seo-inherit-change', $old_value['defaultblog'], $new_value['defaultblog'] );
+					$this->yoast_setting_change_alert( 'site-default-seo-inherit-change', $new_value['defaultblog'], $old_value['defaultblog'] );
 				}
 			}
 		}
@@ -949,8 +951,8 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 
 				case 'site-default-seo-inherit-change' :
 					$alert_code              = 8839;
-					$alert_args['old'] = get_blog_details( $alert_args['old'] )->blogname;
-					$alert_args['new'] = get_blog_details( $alert_args['new'] )->blogname;
+					$alert_args['old'] = ( ! empty( $alert_args['old'] ) ) ? get_blog_details( $alert_args['old'] )->blogname : __( 'None', 'activity-log-wp-seo' );
+					$alert_args['new'] = ( ! empty( $alert_args['new'] ) ) ? get_blog_details( $alert_args['new'] )->blogname : __( 'None', 'activity-log-wp-seo' );
 					break;
 
 				case 'site-default-options-change' :
@@ -1130,11 +1132,11 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 					break;
 
 				case (false !== strpos( $key, 'network-' ) && false !== strpos( $key, '-inactive' )) :
-					$alert_code = 8843;
+					$alert_code = 8842;
 					break;
 
 				case (false !== strpos( $key, 'network-' ) && false !== strpos( $key, '-active' )) :
-					$alert_code = 8844;
+					$alert_code = 8843;
 					break;
 
 				// renamed to ryte_integration. see: https://github.com/Yoast/wordpress-seo/pull/14123.
