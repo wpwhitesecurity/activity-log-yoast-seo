@@ -4,9 +4,9 @@ Plugin URI: https://www.wpsecurityauditlog.com
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl.html
 Tags: activity log for Yoast SEO, WP Activity Log extension, activity logs
-Requires at least: 3.6
-Tested up to: 5.7
-Stable tag: 1.0.1
+Requires at least: 4.4
+Tested up to: 5.7.1
+Stable tag: 1.1.0
 Requires PHP: 5.6
 
 Keep a detailed log of your team's changes in the Yoast SEO meta box & plugin settings.
@@ -75,6 +75,32 @@ Please refer to our [Support & Documentation pages](https://wpactivitylog.com/su
 1. Once the extension is installed, thed WP Activity Log plugin will keep a log of the changes you or anyone from your team do in the plugin settings, or on-page SEO details in the Yoast SEO meta box.
 
 == Changelog ==
+
+= 1.1.0 (2021-04-21) =
+
+Release notes: [Improved coverage of Yoast SEO plugin multisite settings](https://wpactivitylog.com/yoast-seo-extension-1-1-0/)
+
+* **New functionality**
+	* Coverage of multsite network plugin settings changes - new event IDs below.
+	
+* **New event IDs**
+	* 8841: Added / changed / removed a search engine webmaster tools verification code.
+	* 8838: Changed the setting of who should have access to the Yoast SEO plugin settings on a multisite network.
+	* 8839: Changed the setting from where new sites on the multisite network should inherit the SEO settings.
+	* 8840: User has reset the SEO settings of a site on the multisite network to default.
+	* 8842: Disabled a plugin feature at multisite network level.
+	* 8843: Allowed site administrators to toggle a plugin feature on or off at site level on a multisite network.
+
+* **Improvements**
+	* Improved text and readability of some of the events. 
+	* Removed obsolete events (Event IDs 8810 and 8811).
+	* Events now use the latest event format used in [WP Activity Log](https://wpactivitylog.com).
+	* Updated the core to the latest improved core (better performance and more efficient).
+	* Extension can now be activated only at network level.
+	* Extension name added to plugin's admin notices.
+	
+* **Bug fixes**
+	* Fixed broken backward compatability issue.
 
 = 1.0.1 (20210223) =
 
