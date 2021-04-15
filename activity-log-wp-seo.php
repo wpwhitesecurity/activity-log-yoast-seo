@@ -2,11 +2,11 @@
 /**
  * Plugin Name: WP Activity Log for Yoast SEO
  * Plugin URI: https://wpactivitylog.com/extensions/
- * Description: A WP Activity Log plugin extension
+ * Description: A WP Activity Log plugin extension for Yoast SEO
  * Text Domain: activity-log-wp-seo
  * Author: WP White Security
  * Author URI: https://www.wpwhitesecurity.com/
- * Version: 1.0.1
+ * Version: 1.1.0
  * License: GPL2
  * Network: true
  *
@@ -15,7 +15,7 @@
  */
 
 /*
-	Copyright(c) 2020  WP White Security  (email : info@wpwhitesecurity.com)
+	Copyright(c) 2021  WP White Security  (email : info@wpwhitesecurity.com)
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License, version 2, as
