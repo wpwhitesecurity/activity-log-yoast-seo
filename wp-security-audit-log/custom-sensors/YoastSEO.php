@@ -590,6 +590,8 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 				if ( $old_value['access'] !== $new_value['access'] ) {
 					$this->yoast_setting_change_alert( 'site-access-change', $old_value['access'], $new_value['access'] );
 				}
+				// We are aware the variables are being fed in backwards here, however this appears to be the only way.
+				// to get a reliable outcome. Issue https://github.com/WPWhiteSecurity/activity-log-yoast-seo/issues/63.
 				if ( $old_value['defaultblog'] !== $new_value['defaultblog'] ) {
 					$this->yoast_setting_change_alert( 'site-default-seo-inherit-change', $new_value['defaultblog'], $old_value['defaultblog'] );
 				}

@@ -74,10 +74,10 @@ function wsal_yoast_seo_extension_togglealerts_sub_category_titles( $subcat_titl
 	if ( 8815 === $alert_id ) {
 		$subcat_title = esc_html_e( 'Features:', 'wp-security-audit-log' );
 	}
-	if ( 8813 === $alert_id ) {
+	else if ( 8813 === $alert_id ) {
 		$subcat_title = esc_html_e( 'Search Appearance', 'wp-security-audit-log' );
 	}
-	if ( 8838 === $alert_id ) {
+	else if ( 8838 === $alert_id ) {
 		$subcat_title = esc_html_e( 'Multisite network', 'wp-security-audit-log' );
 	}
 	return $subcat_title;
