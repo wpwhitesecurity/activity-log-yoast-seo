@@ -76,7 +76,7 @@ Please refer to our [Support & Documentation pages](https://wpactivitylog.com/su
 
 == Changelog ==
 
-= 1.1.0 (2021-04-21) =
+= 1.1.0 (2021-04-28) =
 
 Release notes: [Improved coverage of Yoast SEO plugin multisite settings](https://wpactivitylog.com/yoast-seo-extension-1-1-0/)
 
