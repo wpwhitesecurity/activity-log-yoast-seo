@@ -2,11 +2,11 @@
 /**
  * Plugin Name: WP Activity Log for Yoast SEO
  * Plugin URI: https://wpactivitylog.com/extensions/
- * Description: A WP Activity Log plugin extension
+ * Description: A WP Activity Log plugin extension for Yoast SEO
  * Text Domain: activity-log-wp-seo
  * Author: WP White Security
  * Author URI: https://www.wpwhitesecurity.com/
- * Version: 1.0.1
+ * Version: 1.1.0
  * License: GPL2
  * Network: true
  *
@@ -15,7 +15,7 @@
  */
 
 /*
-	Copyright(c) 2020  WP White Security  (email : info@wpwhitesecurity.com)
+	Copyright(c) 2021  WP White Security  (email : info@wpwhitesecurity.com)
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License, version 2, as
@@ -62,7 +62,7 @@ function wsal_yoast_seo_extension_add_custom_event_objects( $objects ) {
  * Add specific events so we can use them for category titles.
  */
 function wsal_yoast_seo_extension_togglealerts_sub_category_events( $sub_category_events ) {
-	$new_events          = array( 8813, 8815 );
+	$new_events          = array( 8813, 8815, 8838 );
 	$sub_category_events = array_merge( $sub_category_events, $new_events );
 	return $sub_category_events;
 }
@@ -74,8 +74,11 @@ function wsal_yoast_seo_extension_togglealerts_sub_category_titles( $subcat_titl
 	if ( 8815 === $alert_id ) {
 		$subcat_title = esc_html_e( 'Features:', 'wp-security-audit-log' );
 	}
-	if ( 8813 === $alert_id ) {
-		$subcat_title= esc_html_e( 'Search Appearance', 'wp-security-audit-log' );
+	else if ( 8813 === $alert_id ) {
+		$subcat_title = esc_html_e( 'Search Appearance', 'wp-security-audit-log' );
+	}
+	else if ( 8838 === $alert_id ) {
+		$subcat_title = esc_html_e( 'Multisite network', 'wp-security-audit-log' );
 	}
 	return $subcat_title;
 }
@@ -105,7 +108,7 @@ function wsal_yoast_seo_extension_hide_obsolete_events() {
 			display: none;
 		}
 	</style>
-	<?php	
+	<?php
 }
 
 /**

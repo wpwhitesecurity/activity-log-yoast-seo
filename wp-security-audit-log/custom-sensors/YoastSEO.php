@@ -526,6 +526,25 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 		}
 
 		/**
+		 * Method: Yoast default blog options change trigger.
+		 * Notes:
+		 * 	- To accomplish that, Yoast is taking the site, removes option (wpseo_ms) and sets the new one
+		 * @see Yoast-Network-Admin::handle_restore_site_request
+		 * 	- wp functions used do not triggering events @see WPSEO_Options::reset_ms_blog :
+		 * 		- delete_blog_option, update_blog_option
+		 * Logic used here is - if add_option_wpseo is triggered (this method is called only then), and global $_POST is set with valid 'site_id' value and 'ms_defaults_set' (in $value parameter) == true - we know which site has been preset with the default options
+		 *
+		 * @param string $option – Option name.
+		 * @param mixed  $value – Option old value.
+		 */
+		public function yoast_blog_options_trigger( $option, $value ) {
+			$site_id = ( isset( $_POST[ 'wpseo_ms' ] ) && ! empty( $_POST[ 'wpseo_ms' ]['site_id'] ) ) ? (int) $_POST[ 'wpseo_ms' ]['site_id'] : 0;
+			if ( $site_id && isset($value['ms_defaults_set']) && true === $value['ms_defaults_set']) {
+				$this->yoast_setting_change_alert( 'site-default-options-change', $site_id, '' );
+			}
+		}
+
+		/**
 		 * Method: Yoast SEO options trigger.
 		 *
 		 * @param string $option – Option name.
@@ -571,8 +590,10 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 				if ( $old_value['access'] !== $new_value['access'] ) {
 					$this->yoast_setting_change_alert( 'site-access-change', $old_value['access'], $new_value['access'] );
 				}
+				// We are aware the variables are being fed in backwards here, however this appears to be the only way.
+				// to get a reliable outcome. Issue https://github.com/WPWhiteSecurity/activity-log-yoast-seo/issues/63.
 				if ( $old_value['defaultblog'] !== $new_value['defaultblog'] ) {
-					$this->yoast_setting_change_alert( 'site-default-seo-inherit-change', $old_value['defaultblog'], $new_value['defaultblog'] );
+					$this->yoast_setting_change_alert( 'site-default-seo-inherit-change', $new_value['defaultblog'], $old_value['defaultblog'] );
 				}
 			}
 		}
@@ -782,6 +803,14 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 							$this->yoast_setting_switch_alert( 'enable_headless_rest_endpoints', $new_value['enable_headless_rest_endpoints'] );
 						}
 					}
+
+					$search_engines = [ 'baiduverify', 'googleverify', 'msverify', 'yandexverify' ];
+
+					foreach ( $search_engines as $search_engine ) {
+						if ( $old_value[ $search_engine ] !== $new_value[ $search_engine ] ) {
+							$this->yoast_setting_change_alert( $search_engine, $old_value[ $search_engine ], $new_value[ $search_engine ] );
+						}
+					}
 				}
 
 				// Social profile alerts.
@@ -922,14 +951,34 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 
 				case 'site-default-seo-inherit-change' :
 					$alert_code              = 8839;
-					$alert_args['old'] = get_blog_details( $alert_args['old'] )->blogname;
-					$alert_args['new'] = get_blog_details( $alert_args['new'] )->blogname;
+					$alert_args['old'] = ( ! empty( $alert_args['old'] ) ) ? get_blog_details( $alert_args['old'] )->blogname : __( 'None', 'activity-log-wp-seo' );
+					$alert_args['new'] = ( ! empty( $alert_args['new'] ) ) ? get_blog_details( $alert_args['new'] )->blogname : __( 'None', 'activity-log-wp-seo' );
 					break;
 
 				case 'site-default-options-change' :
 					$alert_code              = 8840;
 					$alert_args['old'] = get_blog_details( $alert_args['old'] )->blogname.' / '.$alert_args['old'];
 					$alert_args['new'] = '';
+					break;
+
+				case 'baiduverify':
+				case 'googleverify':
+				case 'msverify':
+				case 'yandexverify':
+					$alert_code        = 8841;
+					$alert_args['search_engine_type'] = ucwords( str_replace( 'verify', '', $key ) );
+
+					if ( empty( $alert_args['old'] ) && ! empty( $alert_args['new'] ) ) {
+						$event_type = 'added';
+					} elseif ( empty( $alert_args['new'] ) && ! empty( $alert_args['old'] ) ) {
+						$event_type = 'removed';
+					} else {
+						$event_type = 'modified';
+					}
+
+					$alert_args['EventType'] = $event_type;
+					$alert_args['old']       = ( empty( $alert_args['old'] ) ) ? __( 'Not provided', 'activity-log-wp-seo' ) : $alert_args['old'];
+					$alert_args['new']       = ( empty( $alert_args['new'] ) ) ? __( 'Not provided', 'activity-log-wp-seo' ) : $alert_args['new'];
 					break;
 
 				default:
@@ -1083,11 +1132,11 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 					break;
 
 				case (false !== strpos( $key, 'network-' ) && false !== strpos( $key, '-inactive' )) :
-					$alert_code = 8843;
+					$alert_code = 8842;
 					break;
 
 				case (false !== strpos( $key, 'network-' ) && false !== strpos( $key, '-active' )) :
-					$alert_code = 8844;
+					$alert_code = 8843;
 					break;
 
 				// renamed to ryte_integration. see: https://github.com/Yoast/wordpress-seo/pull/14123.
