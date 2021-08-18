@@ -468,7 +468,7 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 			if ( $old_focus_keys !== $focus_keys ) {
 
 				// Replace NULL with a nicer string.
-				if ( empty( $old_desc ) ) {
+				if ( empty( $old_focus_keys ) ) {
 					$old_focus_keys = __( 'Not provided', 'activity-log-wp-seo' );
 				}
 
