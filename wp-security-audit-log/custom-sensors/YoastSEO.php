@@ -1242,7 +1242,34 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 				$alert_args = array(
 					'image_name' => ( empty( $new_value[ 'og_default_image_id' ] ) ) ? __( 'None supplied', 'wsal-yoast' ) : get_the_title( $new_value[ 'og_default_image_id' ] ),
 					'image_path' => ( empty( $new_value[ 'og_default_image' ] ) ) ? __( 'None supplied', 'wsal-yoast' ) : $new_value[ 'og_default_image' ],
-					'old_image'  => ( empty( $old_value[ 'og_default_image' ] ) ) ? __( 'None supplied', 'wsal-yoast' ) : get_the_title( $old_value[ 'og_default_image_id' ] ) . ' | ' . $old_value[ 'og_default_image' ],
+					'old_image'  => ( empty( $old_value[ 'og_default_image' ] ) ) ? __( 'None supplied', 'wsal-yoast' ) : get_the_title( $old_value[ 'og_default_image_id' ] ),
+					'old_path'   => ( empty( $old_value[ 'og_default_image' ] ) ) ? __( 'None supplied', 'wsal-yoast' ) : $old_value[ 'og_default_image' ],
+				);
+				$this->plugin->alerts->Trigger( $alert_code, $alert_args );
+			}
+
+			if ( $new_value[ 'twitter' ] !== $old_value[ 'twitter' ] ) {
+				$alert_code = 8846;
+				$alert_args = array(
+					'EventType' => ( ! $new_value[ 'twitter' ] ) ? 'disabled' : 'enabled',
+				);
+				$this->plugin->alerts->Trigger( $alert_code, $alert_args );
+			}
+
+			if ( $new_value[ 'twitter_card_type' ] !== $old_value[ 'twitter_card_type' ] ) {
+				$alert_code = 8847;
+				$alert_args = array(
+					'new_setting' => $new_value[ 'twitter_card_type' ],
+					'old_setting' => $old_value[ 'twitter_card_type' ],
+				);
+				$this->plugin->alerts->Trigger( $alert_code, $alert_args );
+			}
+
+			if ( $new_value[ 'pinterestverify' ] !== $old_value[ 'pinterestverify' ] ) {
+				$alert_code = 8848;
+				$alert_args = array(
+					'new_value' => ( empty( $new_value[ 'pinterestverify' ] ) ) ? __( 'None supplied', 'wsal-yoast' ) : $new_value[ 'pinterestverify' ],
+					'old_value' => ( empty( $old_value[ 'pinterestverify' ] ) ) ? __( 'None supplied', 'wsal-yoast' ) : $old_value[ 'pinterestverify' ]
 				);
 				$this->plugin->alerts->Trigger( $alert_code, $alert_args );
 			}
