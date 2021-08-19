@@ -1202,8 +1202,6 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 		 */
 		private function yoast_social_profile_setting_change_alert( $old_value, $new_value ) {
 
-			$alert_code = 8829;
-
 			// Array of keys we want to look for.
 			$profiles_to_monitor = array(
 				'facebook_site',
@@ -1218,6 +1216,7 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 			foreach ( $old_value as $social_profile => $value ) {
 
 				if ( in_array( $social_profile, $profiles_to_monitor, true ) && $old_value[ $social_profile ] !== $new_value[ $social_profile ] ) {
+					$alert_code = 8829;
 					$event_type = $this->determine_social_event_type( $old_value[ $social_profile ], $new_value[ $social_profile ] );
 					$alert_args = array(
 						'social_profile' => ucwords( substr( $social_profile, 0, strpos( $social_profile, '_' ) ) ),
@@ -1227,6 +1226,25 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 					);
 					$this->plugin->alerts->Trigger( $alert_code, $alert_args );
 				}
+			}
+
+			// Facebook social settings.
+			if ( $new_value[ 'opengraph' ] !== $old_value[ 'opengraph' ] ) {
+				$alert_code = 8844;
+				$alert_args = array(
+					'EventType' => ( ! $new_value[ 'opengraph' ] ) ? 'disabled' : 'enabled',
+				);
+				$this->plugin->alerts->Trigger( $alert_code, $alert_args );
+			}
+
+			if ( $new_value[ 'og_default_image' ] !== $old_value[ 'og_default_image' ] ) {
+				$alert_code = 8845;
+				$alert_args = array(
+					'image_name' => ( empty( $new_value[ 'og_default_image_id' ] ) ) ? __( 'None supplied', 'wsal-yoast' ) : get_the_title( $new_value[ 'og_default_image_id' ] ),
+					'image_path' => ( empty( $new_value[ 'og_default_image' ] ) ) ? __( 'None supplied', 'wsal-yoast' ) : $new_value[ 'og_default_image' ],
+					'old_image'  => ( empty( $old_value[ 'og_default_image' ] ) ) ? __( 'None supplied', 'wsal-yoast' ) : get_the_title( $old_value[ 'og_default_image_id' ] ) . ' | ' . $old_value[ 'og_default_image' ],
+				);
+				$this->plugin->alerts->Trigger( $alert_code, $alert_args );
 			}
 		}
 
