@@ -179,9 +179,7 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 				'yoast_wpseo_is_cornerstone'        => FILTER_VALIDATE_BOOLEAN,
 				'yoast_wpseo_meta-robots-noindex'   => FILTER_VALIDATE_INT,
 				'yoast_wpseo_meta-robots-nofollow'  => FILTER_VALIDATE_INT,
-				'yoast_wpseo_meta-robots-adv-react' => array(
-					'flags' => FILTER_REQUIRE_ARRAY,
-				),
+				'yoast_wpseo_meta-robots-adv'       => FILTER_SANITIZE_STRING,
 				'yoast_wpseo_canonical'             => FILTER_VALIDATE_URL,
 			);
 
@@ -197,7 +195,7 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 				$this->check_desc_change( $post_array['yoast_wpseo_metadesc'] ); // Meta description.
 				$this->check_robots_index_change( $post_array['yoast_wpseo_meta-robots-noindex'] ); // Meta Robots Index.
 				$this->check_robots_follow_change( $post_array['yoast_wpseo_meta-robots-nofollow'] ); // Meta Robots Follow.
-				$this->check_robots_advanced_change( $post_array['yoast_wpseo_meta-robots-adv-react'] ); // Meta Robots Advanced.
+				$this->check_robots_advanced_change( $post_array['yoast_wpseo_meta-robots-adv'] ); // Meta Robots Advanced.
 				$this->check_canonical_url_change( $post_array['yoast_wpseo_canonical'] ); // Canonical URL.
 				$this->check_focus_keys_change( $post_array['yoast_wpseo_focuskw'] ); // Focus keywords.
 				$this->check_cornerstone_change( $post_array['yoast_wpseo_is_cornerstone'] ); // Cornerstone.
@@ -468,7 +466,7 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 			if ( $old_focus_keys !== $focus_keys ) {
 
 				// Replace NULL with a nicer string.
-				if ( empty( $old_desc ) ) {
+				if ( empty( $old_focus_keys ) ) {
 					$old_focus_keys = __( 'Not provided', 'activity-log-wp-seo' );
 				}
 
@@ -1202,8 +1200,6 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 		 */
 		private function yoast_social_profile_setting_change_alert( $old_value, $new_value ) {
 
-			$alert_code = 8829;
-
 			// Array of keys we want to look for.
 			$profiles_to_monitor = array(
 				'facebook_site',
@@ -1218,6 +1214,7 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 			foreach ( $old_value as $social_profile => $value ) {
 
 				if ( in_array( $social_profile, $profiles_to_monitor, true ) && $old_value[ $social_profile ] !== $new_value[ $social_profile ] ) {
+					$alert_code = 8829;
 					$event_type = $this->determine_social_event_type( $old_value[ $social_profile ], $new_value[ $social_profile ] );
 					$alert_args = array(
 						'social_profile' => ucwords( substr( $social_profile, 0, strpos( $social_profile, '_' ) ) ),
@@ -1227,6 +1224,52 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 					);
 					$this->plugin->alerts->Trigger( $alert_code, $alert_args );
 				}
+			}
+
+			// Facebook social settings.
+			if ( $new_value[ 'opengraph' ] !== $old_value[ 'opengraph' ] ) {
+				$alert_code = 8844;
+				$alert_args = array(
+					'EventType' => ( ! $new_value[ 'opengraph' ] ) ? 'disabled' : 'enabled',
+				);
+				$this->plugin->alerts->Trigger( $alert_code, $alert_args );
+			}
+
+			if ( $new_value[ 'og_default_image' ] !== $old_value[ 'og_default_image' ] ) {
+				$alert_code = 8845;
+				$alert_args = array(
+					'image_name' => ( empty( $new_value[ 'og_default_image_id' ] ) ) ? __( 'None supplied', 'wsal-yoast' ) : get_the_title( $new_value[ 'og_default_image_id' ] ),
+					'image_path' => ( empty( $new_value[ 'og_default_image' ] ) ) ? __( 'None supplied', 'wsal-yoast' ) : $new_value[ 'og_default_image' ],
+					'old_image'  => ( empty( $old_value[ 'og_default_image' ] ) ) ? __( 'None supplied', 'wsal-yoast' ) : get_the_title( $old_value[ 'og_default_image_id' ] ),
+					'old_path'   => ( empty( $old_value[ 'og_default_image' ] ) ) ? __( 'None supplied', 'wsal-yoast' ) : $old_value[ 'og_default_image' ],
+				);
+				$this->plugin->alerts->Trigger( $alert_code, $alert_args );
+			}
+
+			if ( $new_value[ 'twitter' ] !== $old_value[ 'twitter' ] ) {
+				$alert_code = 8846;
+				$alert_args = array(
+					'EventType' => ( ! $new_value[ 'twitter' ] ) ? 'disabled' : 'enabled',
+				);
+				$this->plugin->alerts->Trigger( $alert_code, $alert_args );
+			}
+
+			if ( $new_value[ 'twitter_card_type' ] !== $old_value[ 'twitter_card_type' ] ) {
+				$alert_code = 8847;
+				$alert_args = array(
+					'new_setting' => $new_value[ 'twitter_card_type' ],
+					'old_setting' => $old_value[ 'twitter_card_type' ],
+				);
+				$this->plugin->alerts->Trigger( $alert_code, $alert_args );
+			}
+
+			if ( $new_value[ 'pinterestverify' ] !== $old_value[ 'pinterestverify' ] ) {
+				$alert_code = 8848;
+				$alert_args = array(
+					'new_value' => ( empty( $new_value[ 'pinterestverify' ] ) ) ? __( 'None supplied', 'wsal-yoast' ) : $new_value[ 'pinterestverify' ],
+					'old_value' => ( empty( $old_value[ 'pinterestverify' ] ) ) ? __( 'None supplied', 'wsal-yoast' ) : $old_value[ 'pinterestverify' ]
+				);
+				$this->plugin->alerts->Trigger( $alert_code, $alert_args );
 			}
 		}
 

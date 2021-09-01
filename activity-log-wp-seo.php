@@ -6,7 +6,7 @@
  * Text Domain: activity-log-wp-seo
  * Author: WP White Security
  * Author URI: https://www.wpwhitesecurity.com/
- * Version: 1.1.0
+ * Version: 1.2.0
  * License: GPL2
  * Network: true
  *
@@ -93,22 +93,6 @@ function wsal_yoast_seo_extension_replace_duplicate_event_notice() {
 	if ( version_compare( $wsal_version, '4.1.3.2', '<=' ) ) {
 		add_action( 'admin_footer', 'wsal_yoast_seo_extension_replacement_duplicate_event_notice' );
 	}
-	if ( isset( $_REQUEST['page'] ) && 'wsal-togglealerts' === $_REQUEST['page'] ) {
-		add_action( 'admin_footer', 'wsal_yoast_seo_extension_hide_obsolete_events' );
-	}
-}
-
-/**
- * Temporary function to hide events using CSS, to be removed once WSAL 4.3 is released.
- */
-function wsal_yoast_seo_extension_hide_obsolete_events() {
-	?>
-	<style type="text/css">
-		#tab-yoast-seo #tab-website-changes tr:nth-of-type(2), #tab-yoast-seo #tab-website-changes tr:nth-of-type(2) {
-			display: none;
-		}
-	</style>
-	<?php
 }
 
 /**
