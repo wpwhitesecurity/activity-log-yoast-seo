@@ -1,12 +1,12 @@
 === WP Activity Log for Yoast SEO ===
 Contributors: WPWhiteSecurity
-Plugin URI: https://www.wpsecurityauditlog.com
+Plugin URI: https://wpactivitylog.com/
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl.html
 Tags: activity log for Yoast SEO, WP Activity Log extension, activity logs
 Requires at least: 4.4
 Tested up to: 5.8
-Stable tag: 1.1.0
+Stable tag: 1.2.0
 Requires PHP: 5.6
 
 Keep a detailed log of your team's changes in the Yoast SEO meta box & plugin settings.
@@ -75,6 +75,23 @@ Please refer to our [Support & Documentation pages](https://wpactivitylog.com/su
 1. Once the extension is installed, thed WP Activity Log plugin will keep a log of the changes you or anyone from your team do in the plugin settings, or on-page SEO details in the Yoast SEO meta box.
 
 == Changelog ==
+
+= 1.2.0 (2021-09-01) =
+
+Release notes: [Activity log extensions for Yoast SEO, WooCommerce & WPForms get a maintenance update](https://wpactivitylog.com/extensions-september-2021-update/)
+
+* **New event IDs**
+	* 8844: The setting Add Open Graph meta data in the Facebook settings page was changed.
+	* 8845: The Default image in the Facebook settings page was changed.
+	* 8846: The setting Add Twitter card meta data in the Twitter settings page was changed.
+	* 8847: The Default card type setting in the Twitter settings page was changed.
+	* 8848: Changed the Pinterest confirmation meta tag in the Pinterest settings page was changed.
+	
+* **Improvements**
+	* Removed obsolete functions from the extension.
+	
+* **Bug fix**
+	* Event ID 8807 was not reporting the previous focus keyword when changed.
 
 = 1.1.0 (2021-04-28) =
 
