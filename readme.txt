@@ -4,8 +4,8 @@ Plugin URI: https://wpactivitylog.com/
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl.html
 Tags: activity log for Yoast SEO, WP Activity Log extension, activity logs
-Requires at least: 4.4
-Tested up to: 5.8
+Requires at least: 5.0
+Tested up to: 5.8.3
 Stable tag: 1.2.0
 Requires PHP: 5.6
 
