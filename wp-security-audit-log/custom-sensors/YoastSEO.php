@@ -768,9 +768,10 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 					 *
 					 * @see: https://github.com/Yoast/wordpress-seo/pull/14123
 					 */
-					if ( isset( $old_value['ryte_indexability'] ) && isset( $new_value['ryte_indexability'] ) ) {
-						if ( $old_value['ryte_indexability'] !== $new_value['ryte_indexability'] ) {
-							$this->yoast_setting_switch_alert( 'ryte_indexability', $new_value['ryte_indexability'] );
+					$integrations = [ 'semrush_integration_active', 'zapier_integration_active', 'algolia_integration_active', 'wincher_integration_active', 'ryte_indexability' ];
+					foreach ( $integrations as $integration ) {
+						if ( $old_value[ $integration] !== $new_value[ $integration ] ) {
+							$this->yoast_setting_switch_alert( $integration, $new_value[ $integration ] );
 						}
 					}
 
@@ -800,7 +801,7 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 						if ( $old_value['enable_headless_rest_endpoints'] !== $new_value['enable_headless_rest_endpoints'] ) {
 							$this->yoast_setting_switch_alert( 'enable_headless_rest_endpoints', $new_value['enable_headless_rest_endpoints'] );
 						}
-					}
+					}					
 
 					$search_engines = [ 'baiduverify', 'googleverify', 'msverify', 'yandexverify' ];
 
@@ -1140,7 +1141,12 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 				// renamed to ryte_integration. see: https://github.com/Yoast/wordpress-seo/pull/14123.
 				case 'onpage_indexability':
 				case 'ryte_indexability':
+				case 'semrush_integration_active':
+				case 'zapier_integration_active':
+				case 'algolia_integration_active':
+				case 'wincher_integration_active':
 					$alert_code = 8820;
+					$alert_args['type'] = ucfirst( str_replace( '_integration_active', '', $key ) );
 					break;
 
 				case 'enable_admin_bar_menu':
