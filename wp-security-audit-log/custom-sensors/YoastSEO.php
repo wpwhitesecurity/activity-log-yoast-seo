@@ -50,6 +50,8 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 			'_yoast_wpseo_meta-robots-nofollow' => '',
 			'_yoast_wpseo_meta-robots-adv'      => '',
 			'_yoast_wpseo_canonical'            => '',
+			'_yoast_wpseo_schema_page_type'     => '',
+			'_yoast_wpseo_schema_articlr_type'  => '',
 		);
 
 		/**
@@ -119,6 +121,8 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 				'_yoast_wpseo_meta-robots-nofollow' => get_post_meta( $this->post_id, '_yoast_wpseo_meta-robots-nofollow', true ),
 				'_yoast_wpseo_meta-robots-adv'      => get_post_meta( $this->post_id, '_yoast_wpseo_meta-robots-adv', true ),
 				'_yoast_wpseo_canonical'            => get_post_meta( $this->post_id, '_yoast_wpseo_canonical', true ),
+				'_yoast_wpseo_schema_page_type'     => get_post_meta( $this->post_id, '_yoast_wpseo_schema_page_type', true ),
+				'_yoast_wpseo_schema_article_type'  => get_post_meta( $this->post_id, '_yoast_wpseo_schema_article_type', true ),
 			);
 		}
 
@@ -181,7 +185,11 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 				'yoast_wpseo_meta-robots-nofollow' => FILTER_VALIDATE_INT,
 				'yoast_wpseo_meta-robots-adv'      => FILTER_SANITIZE_STRING,
 				'yoast_wpseo_canonical'            => FILTER_VALIDATE_URL,
+				'yoast_wpseo_schema_page_type'     => FILTER_SANITIZE_STRING,
+				'yoast_wpseo_schema_article_type'  => FILTER_SANITIZE_STRING,
 			);
+
+			error_log( print_r( $_POST, true ) );
 
 			// Filter POST global array.
 			$post_array = filter_input_array( INPUT_POST, $filter_input_args );
@@ -199,6 +207,8 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 				$this->check_canonical_url_change( $post_array['yoast_wpseo_canonical'] ); // Canonical URL.
 				$this->check_focus_keys_change( $post_array['yoast_wpseo_focuskw'] ); // Focus keywords.
 				$this->check_cornerstone_change( $post_array['yoast_wpseo_is_cornerstone'] ); // Cornerstone.
+				$this->check_schema_change( $post_array['yoast_wpseo_schema_page_type'], 'page_type' );
+				$this->check_schema_change( $post_array['yoast_wpseo_schema_article_type'], 'article_type' );
 			}
 		}
 
@@ -517,6 +527,58 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 						'PostDate'           => $this->post->post_date,
 						'PostUrl'            => get_permalink( $this->post->ID ),
 						'EventType'          => $alert_status,
+						$editor_link['name'] => $editor_link['value'],
+					)
+				);
+			}
+		}
+
+		/**
+		 * Method: Check Schema Change.
+		 *
+		 * @param string $schema – Changed Schema.
+		 */
+		protected function check_schema_change( $schema, $type = 'page_type' ) {
+			// Get old title value.
+			$old_schema    = ( 'page_type' === $type ) ? $this->get_post_seo_data( 'schema_page_type' ) : $this->get_post_seo_data( 'schema_article_type' );
+			$event_code    = ( 'page_type' === $type ) ? 8851 : 8852;
+			$schema_labels = array(
+				'Article'                  => 'Article',
+				'BlogPosting'              => 'Blog Post',
+				'SocialMediaPosting'       => 'Social Media Posting',
+				'NewsArticle'              => 'News Article',
+				'AdvertiserContentArticle' => 'Advertiser Content Article',
+				'SatiricalArticle'         => 'Satirical Article',
+				'ScholarlyArticle'         => 'Scholarly Article',
+				'TechArticle'              => 'Tech Article',
+				'Report'                   => 'Report',
+				'WebPage'                  => 'Web Page',
+				'ItemPage'                 => 'Item Page',
+				'AboutPage'                => 'About Page',
+				'FAQPage'                  => 'FAQ Page',
+				'QAPage'                   => 'QA Page',
+				'ContactPage'              => 'Contact Page',
+				'MedicalWebPage'           => 'Medical Web Page',
+				'CollectionPage'           => 'Collection Page',
+				'CheckoutPage'             => 'Checkout Page',
+				'RealEstateListing'        => 'Real Estate Listing',
+				'SearchResultsPage'        => 'Search Results Page',
+			);
+
+			// If setting is changed then log alert.
+			if ( $old_schema !== $schema ) {
+				$editor_link = $this->get_editor_link( $this->post_id );
+				$this->plugin->alerts->Trigger(
+					$event_code,
+					array(
+						'PostID'             => $this->post->ID,
+						'PostType'           => $this->post->post_type,
+						'PostTitle'          => $this->post->post_title,
+						'PostStatus'         => $this->post->post_status,
+						'PostDate'           => $this->post->post_date,
+						'PostUrl'            => get_permalink( $this->post->ID ),
+						'old_type'           => ( $old_schema ) ? $schema_labels[ $old_schema ] : __( 'Default', 'activity-log-wp-seo' ),
+						'new_type'           => ( $schema ) ? $schema_labels[ $schema ] : __( 'Default', 'activity-log-wp-seo' ),
 						$editor_link['name'] => $editor_link['value'],
 					)
 				);
