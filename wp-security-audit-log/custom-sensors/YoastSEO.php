@@ -667,6 +667,21 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 						$this->yoast_setting_change_alert( 'metadesc-archive-wpseo', $old_value['metadesc-archive-wpseo'], $new_value['metadesc-archive-wpseo'] );
 					}
 
+					$schemas = array(
+						'schema-page-type-post',
+						'schema-article-type-post',
+						'schema-page-type-page',
+						'schema-article-type-page',
+						'schema-page-type-attachment',
+						'schema-article-type-attachment',
+					);
+
+					foreach ( $schemas as $schema ) {
+						if ( $old_value[ $schema ] !== $new_value[ $schema ] ) {
+							$this->yoast_setting_change_alert( $schema, $old_value[ $schema ], $new_value[ $schema ] );
+						}
+					}
+
 					// Get public post types.
 					$post_types = get_post_types( array( 'public' => true ) );
 
@@ -989,6 +1004,24 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 					$alert_args['EventType'] = $event_type;
 					$alert_args['old']       = ( empty( $alert_args['old'] ) ) ? __( 'Not provided', 'activity-log-wp-seo' ) : $alert_args['old'];
 					$alert_args['new']       = ( empty( $alert_args['new'] ) ) ? __( 'Not provided', 'activity-log-wp-seo' ) : $alert_args['new'];
+					break;
+				
+				case 'schema-page-type-post':
+				case 'schema-page-type-page':
+				case 'schema-page-type-attachment':
+					$alert_code                = 8853;
+					$alert_args['SEOPostType'] = ucwords( str_replace( 'schema-page-type-', '', $key ) );
+					$alert_args['old_type']    = $alert_args['old'];
+					$alert_args['new_type']    = $alert_args['new'];
+					break;
+
+				case 'schema-article-type-page':
+				case 'schema-article-type-post':
+				case 'schema-article-type-attachment':
+					$alert_code                = 8854;
+					$alert_args['SEOPostType'] = ucwords( str_replace( 'schema-article-type-', '', $key ) );
+					$alert_args['old_type']    = $alert_args['old'];
+					$alert_args['new_type']    = $alert_args['new'];
 					break;
 
 				default:

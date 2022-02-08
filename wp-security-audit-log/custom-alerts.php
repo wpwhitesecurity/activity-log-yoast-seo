@@ -520,6 +520,30 @@ $custom_alerts = [
                 'enabled',
             ],
             [
+                8853,
+                WSAL_MEDIUM,
+                __( "User the Default Page type in the Scheme settings", 'activity-log-wp-seo' ),
+                __( "Changed the Default Page type in the Schema settings for <strong>%SEOPostType%</strong> to <strong>%new_type%.</strong>", 'activity-log-wp-seo' ),
+                [
+                    __( 'Previous Default Page type', 'activity-log-wp-seo' ) => '%old_type%',
+                ],
+                [],
+                'yoast-seo',
+                'added',
+            ],
+            [
+                8854,
+                WSAL_MEDIUM,
+                __( "User the Default Article type in the Scheme settings", 'activity-log-wp-seo' ),
+                __( "Changed the Default Artcle type in the Schema settings for <strong>%SEOPostType%</strong> to <strong>%new_type%.</strong>", 'activity-log-wp-seo' ),
+                [
+                    __( 'Previous Default Article type', 'activity-log-wp-seo' ) => '%old_type%',
+                ],
+                [],
+                'yoast-seo',
+                'added',
+            ],
+            [
                 8841,
                 WSAL_MEDIUM,
                 __( "User Added/Removed/Modified a Webmaster Tools verification code for a search engine", 'activity-log-wp-seo' ),
