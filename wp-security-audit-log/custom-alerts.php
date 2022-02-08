@@ -158,7 +158,7 @@ $custom_alerts = [
                     __( 'View the post in editor', 'wp-security-audit-log' ) => '%EditorLinkPost%',
                 ],
                 'yoast-seo-metabox',
-                'enabled',
+                'modified',
             ],
         ],
 

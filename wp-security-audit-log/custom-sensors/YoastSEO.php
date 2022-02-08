@@ -50,6 +50,7 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 			'_yoast_wpseo_meta-robots-nofollow' => '',
 			'_yoast_wpseo_meta-robots-adv'      => '',
 			'_yoast_wpseo_canonical'            => '',
+			'_yoast_wpseo_bctitle'              => '',
 		);
 
 		/**
@@ -119,6 +120,7 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 				'_yoast_wpseo_meta-robots-nofollow' => get_post_meta( $this->post_id, '_yoast_wpseo_meta-robots-nofollow', true ),
 				'_yoast_wpseo_meta-robots-adv'      => get_post_meta( $this->post_id, '_yoast_wpseo_meta-robots-adv', true ),
 				'_yoast_wpseo_canonical'            => get_post_meta( $this->post_id, '_yoast_wpseo_canonical', true ),
+				'_yoast_wpseo_bctitle'              => get_post_meta( $this->post_id, '_yoast_wpseo_bctitle', true ),
 			);
 		}
 
@@ -181,9 +183,9 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 				'yoast_wpseo_meta-robots-nofollow'  => FILTER_VALIDATE_INT,
 				'yoast_wpseo_meta-robots-adv'       => FILTER_SANITIZE_STRING,
 				'yoast_wpseo_canonical'             => FILTER_VALIDATE_URL,
+				'yoast_wpseo_bctitle'               => FILTER_SANITIZE_STRING,
+				
 			);
-
-			error_log( print_r( INPUT_POST, true ) );
 
 			// Filter POST global array.
 			$post_array = filter_input_array( INPUT_POST, $filter_input_args );
@@ -201,6 +203,7 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 				$this->check_canonical_url_change( $post_array['yoast_wpseo_canonical'] ); // Canonical URL.
 				$this->check_focus_keys_change( $post_array['yoast_wpseo_focuskw'] ); // Focus keywords.
 				$this->check_cornerstone_change( $post_array['yoast_wpseo_is_cornerstone'] ); // Cornerstone.
+				$this->check_breadcrumb_change( $post_array['yoast_wpseo_bctitle'] );
 			}
 		}
 
@@ -527,26 +530,21 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 
 
 		/**
-		 * Method: Check Cornerstone Change.
+		 * Method: Check Breadcrumb Change.
 		 *
-		 * @param string $cornerstone – Changed Cornerstone.
+		 * @param string $breadcrumb – Changed Breadcrumb.
 		 */
-		protected function check_breadcrumb_change( $cornerstone ) {
+		protected function check_breadcrumb_change( $breadcrumb ) {
 			// Get old title value.
-			$old_cornerstone = (int) $this->get_post_seo_data( 'is_cornerstone' );
-			$cornerstone     = (int) $cornerstone;
-
-			if ( 1 === $cornerstone ) {
-				$alert_status = 'enabled';
-			} else {
-				$alert_status = 'disabled';
-			}
+			$old_breadcrumb = $this->get_post_seo_data( 'bctitle' );
+			
+			$breadcrumb     = $breadcrumb;
 
 			// If setting is changed then log alert.
-			if ( $old_cornerstone !== $cornerstone ) {
+			if ( $old_breadcrumb !== $breadcrumb ) {
 				$editor_link = $this->get_editor_link( $this->post_id );
 				$this->plugin->alerts->Trigger(
-					8808,
+					8850,
 					array(
 						'PostID'             => $this->post->ID,
 						'PostType'           => $this->post->post_type,
@@ -554,7 +552,8 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 						'PostStatus'         => $this->post->post_status,
 						'PostDate'           => $this->post->post_date,
 						'PostUrl'            => get_permalink( $this->post->ID ),
-						'EventType'          => $alert_status,
+						'old_breadcrumb'     => $old_breadcrumb,
+						'new_breadcrumb'     => $breadcrumb,
 						$editor_link['name'] => $editor_link['value'],
 					)
 				);
