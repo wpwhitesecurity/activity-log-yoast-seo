@@ -172,18 +172,18 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 		protected function check_seo_data_change() {
 			// Set filter input args.
 			$filter_input_args = array(
-				'post_ID'                           => FILTER_VALIDATE_INT,
-				'_wpnonce'                          => FILTER_SANITIZE_STRING,
-				'action'                            => FILTER_SANITIZE_STRING,
-				'yoast_wpseo_title'                 => FILTER_SANITIZE_STRING,
-				'yoast_wpseo_metadesc'              => FILTER_SANITIZE_STRING,
-				'yoast_wpseo_focuskw'               => FILTER_SANITIZE_STRING,
-				'yoast_wpseo_is_cornerstone'        => FILTER_VALIDATE_BOOLEAN,
-				'yoast_wpseo_meta-robots-noindex'   => FILTER_VALIDATE_INT,
-				'yoast_wpseo_meta-robots-nofollow'  => FILTER_VALIDATE_INT,
-				'yoast_wpseo_meta-robots-adv'       => FILTER_SANITIZE_STRING,
-				'yoast_wpseo_canonical'             => FILTER_VALIDATE_URL,
-				'yoast_wpseo_bctitle'               => FILTER_SANITIZE_STRING,
+				'post_ID'                          => FILTER_VALIDATE_INT,
+				'_wpnonce'                         => FILTER_SANITIZE_STRING,
+				'action'                           => FILTER_SANITIZE_STRING,
+				'yoast_wpseo_title'                => FILTER_SANITIZE_STRING,
+				'yoast_wpseo_metadesc'             => FILTER_SANITIZE_STRING,
+				'yoast_wpseo_focuskw'              => FILTER_SANITIZE_STRING,
+				'yoast_wpseo_is_cornerstone'       => FILTER_VALIDATE_BOOLEAN,
+				'yoast_wpseo_meta-robots-noindex'  => FILTER_VALIDATE_INT,
+				'yoast_wpseo_meta-robots-nofollow' => FILTER_VALIDATE_INT,
+				'yoast_wpseo_meta-robots-adv'      => FILTER_SANITIZE_STRING,
+				'yoast_wpseo_canonical'            => FILTER_VALIDATE_URL,
+				'yoast_wpseo_bctitle'              => FILTER_SANITIZE_STRING,
 				
 			);
 
