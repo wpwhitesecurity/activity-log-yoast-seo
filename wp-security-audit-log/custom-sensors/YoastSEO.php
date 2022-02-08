@@ -183,6 +183,8 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 				'yoast_wpseo_canonical'             => FILTER_VALIDATE_URL,
 			);
 
+			error_log( print_r( INPUT_POST, true ) );
+
 			// Filter POST global array.
 			$post_array = filter_input_array( INPUT_POST, $filter_input_args );
 
@@ -494,6 +496,42 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 		 * @param string $cornerstone – Changed Cornerstone.
 		 */
 		protected function check_cornerstone_change( $cornerstone ) {
+			// Get old title value.
+			$old_cornerstone = (int) $this->get_post_seo_data( 'is_cornerstone' );
+			$cornerstone     = (int) $cornerstone;
+
+			if ( 1 === $cornerstone ) {
+				$alert_status = 'enabled';
+			} else {
+				$alert_status = 'disabled';
+			}
+
+			// If setting is changed then log alert.
+			if ( $old_cornerstone !== $cornerstone ) {
+				$editor_link = $this->get_editor_link( $this->post_id );
+				$this->plugin->alerts->Trigger(
+					8808,
+					array(
+						'PostID'             => $this->post->ID,
+						'PostType'           => $this->post->post_type,
+						'PostTitle'          => $this->post->post_title,
+						'PostStatus'         => $this->post->post_status,
+						'PostDate'           => $this->post->post_date,
+						'PostUrl'            => get_permalink( $this->post->ID ),
+						'EventType'          => $alert_status,
+						$editor_link['name'] => $editor_link['value'],
+					)
+				);
+			}
+		}
+
+
+		/**
+		 * Method: Check Cornerstone Change.
+		 *
+		 * @param string $cornerstone – Changed Cornerstone.
+		 */
+		protected function check_breadcrumb_change( $cornerstone ) {
 			// Get old title value.
 			$old_cornerstone = (int) $this->get_post_seo_data( 'is_cornerstone' );
 			$cornerstone     = (int) $cornerstone;

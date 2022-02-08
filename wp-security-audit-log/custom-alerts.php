@@ -143,6 +143,23 @@ $custom_alerts = [
                 'yoast-seo-metabox',
                 'enabled',
             ],
+            [
+                8850,
+                WSAL_INFORMATIONAL,
+                __( 'User changed Breadcrumbs Title for a post', 'activity-log-wp-seo' ),
+                __( 'Changed the Breadcrumbs Title for the post %PostTitle% to %new_breadcrumb%.', 'activity-log-wp-seo' ),
+                [
+                    __( 'Post ID', 'activity-log-wp-seo' ) => '%PostID%',
+                    __( 'Post type', 'activity-log-wp-seo' ) => '%PostType%',
+                    __( 'Post status', 'activity-log-wp-seo' ) => '%PostStatus%',
+                    __( 'Previous Breadcrumbs Title:', 'activity-log-wp-seo' ) => '%old_breadcrumb%',
+                ],
+                [
+                    __( 'View the post in editor', 'wp-security-audit-log' ) => '%EditorLinkPost%',
+                ],
+                'yoast-seo-metabox',
+                'enabled',
+            ],
         ],
 
         __( 'Website Changes', 'activity-log-wp-seo' ) => [
