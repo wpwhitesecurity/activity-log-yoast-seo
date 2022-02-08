@@ -279,7 +279,7 @@ $custom_alerts = [
                     __( 'Previous template', 'activity-log-wp-seo' ) => '%old%',
                 ],
                 [],
-                'yoast-seo',
+                'yoast-seo-search-appearance',
                 'modified',
             ],
             [
@@ -289,7 +289,7 @@ $custom_alerts = [
                 __( 'Changed the status of the option to show the <strong>Yoast SEO Meta Box</strong> for %SEOPostType%.', 'activity-log-wp-seo' ),
                 [],
                 [],
-                'yoast-seo',
+                'yoast-seo-search-appearance',
                 'enabled',
             ],
             [
@@ -415,7 +415,7 @@ $custom_alerts = [
                 __( 'Changed the status of the content type setting to show %SEOPostType% in search results.', 'activity-log-wp-seo' ),
                 [],
                 [],
-                'yoast-seo',
+                'yoast-seo-search-appearance',
                 'enabled',
             ],
             [
@@ -427,7 +427,7 @@ $custom_alerts = [
                     __( 'Previous template', 'activity-log-wp-seo' ) => '%old%',
                 ],
                 [],
-                'yoast-seo',
+                'yoast-seo-search-appearance',
                 'modified',
             ],
 
@@ -438,7 +438,7 @@ $custom_alerts = [
                 __( 'Changed the status of the taxonomies setting to show %SEOPostType% in search results.', 'activity-log-wp-seo' ),
                 [],
                 [],
-                'yoast-seo',
+                'yoast-seo-search-appearance',
                 'enabled',
             ],
             [
@@ -450,7 +450,7 @@ $custom_alerts = [
                     __( 'Previous title', 'activity-log-wp-seo' ) => '%old%',
                 ],
                 [],
-                'yoast-seo',
+                'yoast-seo-search-appearance',
                 'modified',
             ],
             [
@@ -462,7 +462,7 @@ $custom_alerts = [
                     __( 'Previous description', 'activity-log-wp-seo' ) => '%old%',
                 ],
                 [],
-                'yoast-seo',
+                'yoast-seo-search-appearance',
                 'modified',
             ],
             [
@@ -472,7 +472,7 @@ $custom_alerts = [
                 __( 'Changed the status of the %archive_type% archives in the plugin settings.' ),
                 [],
                 [],
-                'yoast-seo',
+                'yoast-seo-search-appearance',
                 'enabled',
             ],
             [
@@ -482,7 +482,7 @@ $custom_alerts = [
                 __( 'Changed the status of the setting to show the %archive_type% archives in the search results.', 'activity-log-wp-seo' ),
                 [],
                 [],
-                'yoast-seo',
+                'yoast-seo-search-appearance',
                 'enabled',
             ],
             [
@@ -494,7 +494,7 @@ $custom_alerts = [
                     __( 'Previous title', 'activity-log-wp-seo' ) => '%old%',
                 ],
                 [],
-                'yoast-seo',
+                'yoast-seo-search-appearance',
                 'modified',
             ],
             [
@@ -506,7 +506,7 @@ $custom_alerts = [
                     __( 'Previous description', 'activity-log-wp-seo' ) => '%old%',
                 ],
                 [],
-                'yoast-seo',
+                'yoast-seo-search-appearance',
                 'modified',
             ],
             [
@@ -516,7 +516,7 @@ $custom_alerts = [
                 __( 'Changed the status of the setting to show SEO settings for the %SEOPostType% taxonomy.', 'activity-log-wp-seo' ),
                 [],
                 [],
-                'yoast-seo',
+                'yoast-seo-search-appearance',
                 'enabled',
             ],
             [

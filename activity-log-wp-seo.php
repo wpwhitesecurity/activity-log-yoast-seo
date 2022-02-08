@@ -48,8 +48,9 @@ $wsal_extension = new WPWhiteSecurity\ActivityLog\Extensions\Common\Core( __FILE
  */
 function wsal_yoast_seo_extension_add_custom_event_objects( $objects ) {
 	$new_objects = array(
-		'yoast-seo'         => __( 'Yoast SEO', 'wp-security-audit-log' ),
-		'yoast-seo-metabox' => __( 'Yoast SEO Meta Box', 'wp-security-audit-log' ),
+		'yoast-seo'                   => __( 'Yoast SEO', 'wp-security-audit-log' ),
+		'yoast-seo-metabox'           => __( 'Yoast SEO Meta Box', 'wp-security-audit-log' ),
+		'yoast-seo-search-appearance' => __( 'Yoast SEO Search Appearance', 'wp-security-audit-log' ),
 	);
 
 	// combine the two arrays.
