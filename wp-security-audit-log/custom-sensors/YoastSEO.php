@@ -1141,6 +1141,10 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 				// renamed to ryte_integration. see: https://github.com/Yoast/wordpress-seo/pull/14123.
 				case 'onpage_indexability':
 				case 'ryte_indexability':
+					$alert_code = 8820;
+					$alert_args['type'] = ucfirst( str_replace( '_indexability', '', $key ) );
+					break;
+
 				case 'semrush_integration_active':
 				case 'zapier_integration_active':
 				case 'algolia_integration_active':

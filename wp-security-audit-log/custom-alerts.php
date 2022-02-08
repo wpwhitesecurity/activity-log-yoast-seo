@@ -253,7 +253,7 @@ $custom_alerts = [
                 8820,
                 WSAL_MEDIUM,
                 __( 'User Enabled/Disabled an integration in the Yoast SEO plugin settings', 'activity-log-wp-seo' ),
-                __( 'Changed the %type% plugin feature.', 'activity-log-wp-seo' ),
+                __( 'Changed the <strong>%type%</strong> plugin feature.', 'activity-log-wp-seo' ),
                 [],
                 [],
                 'yoast-seo',
