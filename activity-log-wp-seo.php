@@ -73,11 +73,9 @@ function wsal_yoast_seo_extension_togglealerts_sub_category_events( $sub_categor
 function wsal_yoast_seo_extension_togglealerts_sub_category_titles( $subcat_title, $alert_id ) {
 	if ( 8815 === $alert_id ) {
 		$subcat_title = esc_html_e( 'Features:', 'wp-security-audit-log' );
-	}
-	else if ( 8813 === $alert_id ) {
+	} elseif ( 8813 === $alert_id ) {
 		$subcat_title = esc_html_e( 'Search Appearance', 'wp-security-audit-log' );
-	}
-	else if ( 8838 === $alert_id ) {
+	} elseif ( 8838 === $alert_id ) {
 		$subcat_title = esc_html_e( 'Multisite network', 'wp-security-audit-log' );
 	}
 	return $subcat_title;
@@ -99,7 +97,7 @@ function wsal_yoast_seo_extension_replace_duplicate_event_notice() {
  * Add obsolete events to the togglealerts view.
  */
 function wsal_yoast_seo_extension_togglealerts_obsolete_events( $obsolete_events ) {
-	$new_events      = [ 8810, 8811 ];
+	$new_events      = array( 8810, 8811 );
 	$obsolete_events = array_merge( $obsolete_events, $new_events );
 	return $obsolete_events;
 }
@@ -115,7 +113,7 @@ function wsal_yoast_seo_extension_replacement_duplicate_event_notice() {
 			jQuery( '.notice.notice-error span[style="color:#dc3232; font-weight:bold;"]' ).parent().text( '<?php echo esc_html( $replacement_text ); ?>' );
 		}
 	</script>
-<?php
+	<?php
 }
 
 
