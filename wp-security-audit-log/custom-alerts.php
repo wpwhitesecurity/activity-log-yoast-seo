@@ -269,13 +269,14 @@ $custom_alerts = [
             [
                 8820,
                 WSAL_MEDIUM,
-                __( 'User Enabled/Disabled ryte integration in the Yoast SEO plugin settings', 'activity-log-wp-seo' ),
-                __( 'Changed the <strong>Ryte integration</strong> plugin feature.', 'activity-log-wp-seo' ),
+                __( 'User Enabled/Disabled an integration in the Yoast SEO plugin settings', 'activity-log-wp-seo' ),
+                __( 'Changed the <strong>%type%</strong> plugin feature.', 'activity-log-wp-seo' ),
                 [],
                 [],
                 'yoast-seo',
                 'enabled',
             ],
+            
             [
                 8821,
                 WSAL_MEDIUM,
