@@ -143,6 +143,40 @@ $custom_alerts = [
                 'yoast-seo-metabox',
                 'enabled',
             ],
+            [
+                8851,
+                WSAL_INFORMATIONAL,
+                __( 'User changed to the Schema settings of a post', 'activity-log-wp-seo' ),
+                __( 'Changed the Page type in the Schema settings to <strong>%new_type%</strong>', 'activity-log-wp-seo' ),
+                [
+                    __( 'Post ID', 'activity-log-wp-seo' ) => '%PostID%',
+                    __( 'Post type', 'activity-log-wp-seo' ) => '%PostType%',
+                    __( 'Post status', 'activity-log-wp-seo' ) => '%PostStatus%',
+                    __( 'Previous Page type', 'activity-log-wp-seo' ) => '%old_type%',
+                ],
+                [
+                    __( 'View the post in editor', 'wp-security-audit-log' ) => '%EditorLinkPost%',
+                ],
+                'yoast-seo-metabox',
+                'modified',
+            ],
+            [
+                8852,
+                WSAL_INFORMATIONAL,
+                __( 'User changed to the Schema settings of a post', 'activity-log-wp-seo' ),
+                __( 'Changed the Article type in the Schema settings to <strong>%new_type%</strong>', 'activity-log-wp-seo' ),
+                [
+                    __( 'Post ID', 'activity-log-wp-seo' ) => '%PostID%',
+                    __( 'Post type', 'activity-log-wp-seo' ) => '%PostType%',
+                    __( 'Post status', 'activity-log-wp-seo' ) => '%PostStatus%',
+                    __( 'Previous Article type', 'activity-log-wp-seo' ) => '%old_type%',
+                ],
+                [
+                    __( 'View the post in editor', 'wp-security-audit-log' ) => '%EditorLinkPost%',
+                ],
+                'yoast-seo-metabox',
+                'modified',
+            ],
         ],
 
         __( 'Website Changes', 'activity-log-wp-seo' ) => [
