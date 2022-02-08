@@ -54,6 +54,30 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 			'_yoast_wpseo_schema_articlr_type'  => '',
 		);
 
+		private $schema_labels = array(
+			'Article'                  => 'Article',
+			'BlogPosting'              => 'Blog Post',
+			'SocialMediaPosting'       => 'Social Media Posting',
+			'NewsArticle'              => 'News Article',
+			'AdvertiserContentArticle' => 'Advertiser Content Article',
+			'SatiricalArticle'         => 'Satirical Article',
+			'ScholarlyArticle'         => 'Scholarly Article',
+			'TechArticle'              => 'Tech Article',
+			'Report'                   => 'Report',
+			'WebPage'                  => 'Web Page',
+			'ItemPage'                 => 'Item Page',
+			'AboutPage'                => 'About Page',
+			'FAQPage'                  => 'FAQ Page',
+			'QAPage'                   => 'QA Page',
+			'ProfilePage'              => 'Profile Page',
+			'ContactPage'              => 'Contact Page',
+			'MedicalWebPage'           => 'Medical Web Page',
+			'CollectionPage'           => 'Collection Page',
+			'CheckoutPage'             => 'Checkout Page',
+			'RealEstateListing'        => 'Real Estate Listing',
+			'SearchResultsPage'        => 'Search Results Page',
+		);
+
 		/**
 		 * Listening to events using hooks.
 		 */
@@ -540,30 +564,8 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 		 */
 		protected function check_schema_change( $schema, $type = 'page_type' ) {
 			// Get old title value.
-			$old_schema    = ( 'page_type' === $type ) ? $this->get_post_seo_data( 'schema_page_type' ) : $this->get_post_seo_data( 'schema_article_type' );
-			$event_code    = ( 'page_type' === $type ) ? 8851 : 8852;
-			$schema_labels = array(
-				'Article'                  => 'Article',
-				'BlogPosting'              => 'Blog Post',
-				'SocialMediaPosting'       => 'Social Media Posting',
-				'NewsArticle'              => 'News Article',
-				'AdvertiserContentArticle' => 'Advertiser Content Article',
-				'SatiricalArticle'         => 'Satirical Article',
-				'ScholarlyArticle'         => 'Scholarly Article',
-				'TechArticle'              => 'Tech Article',
-				'Report'                   => 'Report',
-				'WebPage'                  => 'Web Page',
-				'ItemPage'                 => 'Item Page',
-				'AboutPage'                => 'About Page',
-				'FAQPage'                  => 'FAQ Page',
-				'QAPage'                   => 'QA Page',
-				'ContactPage'              => 'Contact Page',
-				'MedicalWebPage'           => 'Medical Web Page',
-				'CollectionPage'           => 'Collection Page',
-				'CheckoutPage'             => 'Checkout Page',
-				'RealEstateListing'        => 'Real Estate Listing',
-				'SearchResultsPage'        => 'Search Results Page',
-			);
+			$old_schema = ( 'page_type' === $type ) ? $this->get_post_seo_data( 'schema_page_type' ) : $this->get_post_seo_data( 'schema_article_type' );
+			$event_code = ( 'page_type' === $type ) ? 8851 : 8852;
 
 			// If setting is changed then log alert.
 			if ( $old_schema !== $schema ) {
@@ -577,8 +579,8 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 						'PostStatus'         => $this->post->post_status,
 						'PostDate'           => $this->post->post_date,
 						'PostUrl'            => get_permalink( $this->post->ID ),
-						'old_type'           => ( $old_schema ) ? $schema_labels[ $old_schema ] : __( 'Default', 'activity-log-wp-seo' ),
-						'new_type'           => ( $schema ) ? $schema_labels[ $schema ] : __( 'Default', 'activity-log-wp-seo' ),
+						'old_type'           => ( $old_schema ) ? $this->schema_labels[ $old_schema ] : __( 'Default', 'activity-log-wp-seo' ),
+						'new_type'           => ( $schema ) ? $this->schema_labels[ $schema ] : __( 'Default', 'activity-log-wp-seo' ),
 						$editor_link['name'] => $editor_link['value'],
 					)
 				);
@@ -1067,14 +1069,14 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 					$alert_args['old']       = ( empty( $alert_args['old'] ) ) ? __( 'Not provided', 'activity-log-wp-seo' ) : $alert_args['old'];
 					$alert_args['new']       = ( empty( $alert_args['new'] ) ) ? __( 'Not provided', 'activity-log-wp-seo' ) : $alert_args['new'];
 					break;
-				
+
 				case 'schema-page-type-post':
 				case 'schema-page-type-page':
 				case 'schema-page-type-attachment':
 					$alert_code                = 8853;
 					$alert_args['SEOPostType'] = ucwords( str_replace( 'schema-page-type-', '', $key ) );
-					$alert_args['old_type']    = $alert_args['old'];
-					$alert_args['new_type']    = $alert_args['new'];
+					$alert_args['old_type']    = ( $alert_args['old'] ) ? $this->schema_labels[ $alert_args['old'] ] : __( 'Default', 'activity-log-wp-seo' );
+					$alert_args['new_type']    = ( $alert_args['new'] ) ? $this->schema_labels[ $alert_args['new'] ] : __( 'Default', 'activity-log-wp-seo' );
 					break;
 
 				case 'schema-article-type-page':
@@ -1082,8 +1084,8 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 				case 'schema-article-type-attachment':
 					$alert_code                = 8854;
 					$alert_args['SEOPostType'] = ucwords( str_replace( 'schema-article-type-', '', $key ) );
-					$alert_args['old_type']    = $alert_args['old'];
-					$alert_args['new_type']    = $alert_args['new'];
+					$alert_args['old_type']    = ( $alert_args['old'] ) ? $this->schema_labels[ $alert_args['old'] ] : __( 'Default', 'activity-log-wp-seo' );
+					$alert_args['new_type']    = ( $alert_args['new'] ) ? $this->schema_labels[ $alert_args['new'] ] : __( 'Default', 'activity-log-wp-seo' );
 					break;
 
 				default:
