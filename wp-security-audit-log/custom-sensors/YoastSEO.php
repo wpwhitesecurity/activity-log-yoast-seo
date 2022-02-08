@@ -1235,13 +1235,13 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 				$this->plugin->alerts->Trigger( $alert_code, $alert_args );
 			}
 
-			if ( $new_value[ 'og_default_image' ] !== $old_value[ 'og_default_image' ] ) {
+			if ( $new_value['og_default_image'] !== $old_value['og_default_image'] ) {
 				$alert_code = 8845;
 				$alert_args = array(
-					'image_name' => ( empty( $new_value[ 'og_default_image_id' ] ) ) ? __( 'None supplied', 'wsal-yoast' ) : basename( $new_value[ 'og_default_image' ] ),
-					'image_path' => ( empty( $new_value[ 'og_default_image' ] ) ) ? __( 'None supplied', 'wsal-yoast' ) : str_replace( basename( $new_value[ 'og_default_image' ] ), '', wp_get_original_image_path( $new_value[ 'og_default_image_id' ] ) ),
-					'old_image'  => ( empty( $old_value[ 'og_default_image' ] ) ) ? __( 'None supplied', 'wsal-yoast' ) : basename( $old_value[ 'og_default_image' ] ),
-					'old_path'   => ( empty( $old_value[ 'og_default_image' ] ) ) ? __( 'None supplied', 'wsal-yoast' ) : str_replace( basename( $old_value[ 'og_default_image' ] ), '', wp_get_original_image_path( $old_value[ 'og_default_image_id' ] ) ),
+					'image_name' => ( empty( $new_value['og_default_image_id'] ) ) ? __( 'None supplied', 'wsal-yoast' ) : wp_basename( $new_value['og_default_image'] ),
+					'image_path' => ( empty( $new_value['og_default_image'] ) ) ? __( 'None supplied', 'wsal-yoast' ) : dirname( $new_value['og_default_image'] ),
+					'old_image'  => ( empty( $old_value['og_default_image'] ) ) ? __( 'None supplied', 'wsal-yoast' ) : wp_basename( $old_value['og_default_image'] ),
+					'old_path'   => ( empty( $old_value['og_default_image'] ) ) ? __( 'None supplied', 'wsal-yoast' ) : dirname( $old_value['og_default_image'] ),
 				);
 				$this->plugin->alerts->Trigger( $alert_code, $alert_args );
 			}
