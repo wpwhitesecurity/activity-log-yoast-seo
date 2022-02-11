@@ -50,8 +50,8 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 			'_yoast_wpseo_meta-robots-nofollow' => '',
 			'_yoast_wpseo_meta-robots-adv'      => '',
 			'_yoast_wpseo_canonical'            => '',
-            '_yoast_wpseo_schema_page_type'     => '',
-			'_yoast_wpseo_schema_articlr_type'  => '',
+			'_yoast_wpseo_schema_page_type'     => '',
+			'_yoast_wpseo_schema_article_type'  => '',
 		);
 
 		private $schema_labels = array(
@@ -76,8 +76,8 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 			'CheckoutPage'             => 'Checkout Page',
 			'RealEstateListing'        => 'Real Estate Listing',
 			'SearchResultsPage'        => 'Search Results Page',
-            '_yoast_wpseo_bctitle'     => '',
-        );
+			'_yoast_wpseo_bctitle'     => '',
+		);
 
 		/**
 		 * Listening to events using hooks.
@@ -138,7 +138,7 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 		private function set_post_seo_data() {
 			$post_meta = get_post_meta( $this->post_id, '', true );
 
-			$wanted_keys  = array(
+			$wanted_keys = array(
 				'_yoast_wpseo_title',
 				'_yoast_wpseo_metadesc',
 				'_yoast_wpseo_focuskw',
@@ -148,8 +148,8 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 				'_yoast_wpseo_meta-robots-adv',
 				'_yoast_wpseo_canonical',
 				'_yoast_wpseo_bctitle',
-                '_yoast_wpseo_schema_page_type',
-                '_yoast_wpseo_schema_article_type',
+				'_yoast_wpseo_schema_page_type',
+				'_yoast_wpseo_schema_article_type',
 			);
 
 			// Set post SEO meta data.
@@ -240,7 +240,7 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 				$this->check_cornerstone_change( $post_array['yoast_wpseo_is_cornerstone'] ); // Cornerstone.
 				$this->check_schema_change( $post_array['yoast_wpseo_schema_page_type'], 'page_type' );
 				$this->check_schema_change( $post_array['yoast_wpseo_schema_article_type'], 'article_type' );
-                $this->check_breadcrumb_change( $post_array['yoast_wpseo_bctitle'] );
+				$this->check_breadcrumb_change( $post_array['yoast_wpseo_bctitle'] );
 			}
 		}
 
@@ -1401,7 +1401,7 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 					'image_path' => ( empty( $new_value['og_default_image'] ) ) ? __( 'None supplied', 'wsal-yoast' ) : dirname( $new_value['og_default_image'] ),
 					'old_image'  => ( empty( $old_value['og_default_image'] ) ) ? __( 'None supplied', 'wsal-yoast' ) : wp_basename( $old_value['og_default_image'] ),
 					'old_path'   => ( empty( $old_value['og_default_image'] ) ) ? __( 'None supplied', 'wsal-yoast' ) : dirname( $old_value['og_default_image'] ),
-        );
+				);
 				$this->plugin->alerts->Trigger( $alert_code, $alert_args );
 			}
 
