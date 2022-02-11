@@ -143,6 +143,23 @@ $custom_alerts = array(
 				'enabled',
 			),
 			array(
+				8850,
+				WSAL_INFORMATIONAL,
+				__( 'User changed Breadcrumbs Title for a post', 'activity-log-wp-seo' ),
+				__( 'Changed the <strong>Breadcrumbs Title</strong> for the post %PostTitle% to %new_breadcrumb%.', 'activity-log-wp-seo' ),
+				array(
+					__( 'Post ID', 'activity-log-wp-seo' ) => '%PostID%',
+					__( 'Post type', 'activity-log-wp-seo' ) => '%PostType%',
+					__( 'Post status', 'activity-log-wp-seo' ) => '%PostStatus%',
+					__( 'Previous Breadcrumbs Title:', 'activity-log-wp-seo' ) => '%old_breadcrumb%',
+				),
+				array(
+					__( 'View the post in editor', 'wp-security-audit-log' ) => '%EditorLinkPost%',
+				),
+				'yoast-seo-metabox',
+				'modified',
+			),
+			array(
 				8851,
 				WSAL_INFORMATIONAL,
 				__( 'User changed to the Schema settings of a post', 'activity-log-wp-seo' ),
@@ -169,7 +186,6 @@ $custom_alerts = array(
 					__( 'Post type', 'activity-log-wp-seo' ) => '%PostType%',
 					__( 'Post status', 'activity-log-wp-seo' ) => '%PostStatus%',
 					__( 'Previous Article type', 'activity-log-wp-seo' ) => '%old_type%',
-					__( 'Previous Breadcrumbs Title:', 'activity-log-wp-seo' ) => '%old_breadcrumb%',
 				),
 				array(
 					__( 'View the post in editor', 'wp-security-audit-log' ) => '%EditorLinkPost%',

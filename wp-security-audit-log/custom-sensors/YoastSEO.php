@@ -602,11 +602,16 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 		 */
 		protected function check_schema_change( $schema, $type = 'page_type' ) {
 
+            // Get old title value.
+            $old_schema = ( 'page_type' === $type ) ? $this->get_post_seo_data( 'schema_page_type' ) : $this->get_post_seo_data( 'schema_article_type' );
+            $schema     = ( empty( $schema ) ) ? false : $schema;
+
 			// If setting is changed then log alert.
 			if ( $old_schema !== $schema ) {
 
-				// Get old title value.
-				$old_schema = ( 'page_type' === $type ) ? $this->get_post_seo_data( 'schema_page_type' ) : $this->get_post_seo_data( 'schema_article_type' );
+                
+            error_log( print_r('xxxx', true) );
+
 				$event_code = ( 'page_type' === $type ) ? 8851 : 8852;
 
 				$editor_link = $this->get_editor_link( $this->post_id );
