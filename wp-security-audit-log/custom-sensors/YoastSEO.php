@@ -50,7 +50,7 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 			'_yoast_wpseo_meta-robots-nofollow' => '',
 			'_yoast_wpseo_meta-robots-adv'      => '',
 			'_yoast_wpseo_canonical'            => '',
-			'_yoast_wpseo_schema_page_type'     => '',
+            '_yoast_wpseo_schema_page_type'     => '',
 			'_yoast_wpseo_schema_articlr_type'  => '',
 		);
 
@@ -76,7 +76,8 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 			'CheckoutPage'             => 'Checkout Page',
 			'RealEstateListing'        => 'Real Estate Listing',
 			'SearchResultsPage'        => 'Search Results Page',
-		);
+            '_yoast_wpseo_bctitle'     => '',
+        );
 
 		/**
 		 * Listening to events using hooks.
@@ -135,19 +136,26 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 		 * Method: Set Post SEO Data.
 		 */
 		private function set_post_seo_data() {
-			// Set post SEO meta data.
-			$this->post_seo_data = array(
-				'_yoast_wpseo_title'                => get_post_meta( $this->post_id, '_yoast_wpseo_title', true ),
-				'_yoast_wpseo_metadesc'             => get_post_meta( $this->post_id, '_yoast_wpseo_metadesc', true ),
-				'_yoast_wpseo_focuskw'              => get_post_meta( $this->post_id, '_yoast_wpseo_focuskw', true ),
-				'_yoast_wpseo_is_cornerstone'       => get_post_meta( $this->post_id, '_yoast_wpseo_is_cornerstone', true ),
-				'_yoast_wpseo_meta-robots-noindex'  => get_post_meta( $this->post_id, '_yoast_wpseo_meta-robots-noindex', true ),
-				'_yoast_wpseo_meta-robots-nofollow' => get_post_meta( $this->post_id, '_yoast_wpseo_meta-robots-nofollow', true ),
-				'_yoast_wpseo_meta-robots-adv'      => get_post_meta( $this->post_id, '_yoast_wpseo_meta-robots-adv', true ),
-				'_yoast_wpseo_canonical'            => get_post_meta( $this->post_id, '_yoast_wpseo_canonical', true ),
-				'_yoast_wpseo_schema_page_type'     => get_post_meta( $this->post_id, '_yoast_wpseo_schema_page_type', true ),
-				'_yoast_wpseo_schema_article_type'  => get_post_meta( $this->post_id, '_yoast_wpseo_schema_article_type', true ),
+			$post_meta = get_post_meta( $this->post_id, '', true );
+
+			$wanted_keys  = array(
+				'_yoast_wpseo_title',
+				'_yoast_wpseo_metadesc',
+				'_yoast_wpseo_focuskw',
+				'_yoast_wpseo_is_cornerstone',
+				'_yoast_wpseo_meta-robots-noindex',
+				'_yoast_wpseo_meta-robots-nofollow',
+				'_yoast_wpseo_meta-robots-adv',
+				'_yoast_wpseo_canonical',
+				'_yoast_wpseo_bctitle',
+                '_yoast_wpseo_schema_page_type',
+                '_yoast_wpseo_schema_article_type',
 			);
+
+			// Set post SEO meta data.
+			foreach ( $wanted_keys as $yoast_meta_key ) {
+				$this->post_seo_data[ $yoast_meta_key ] = isset( $post_meta[ $yoast_meta_key ][0] ) ? $post_meta[ $yoast_meta_key ][0] : false;
+			}
 		}
 
 		/**
@@ -211,6 +219,7 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 				'yoast_wpseo_canonical'            => FILTER_VALIDATE_URL,
 				'yoast_wpseo_schema_page_type'     => FILTER_SANITIZE_STRING,
 				'yoast_wpseo_schema_article_type'  => FILTER_SANITIZE_STRING,
+				'yoast_wpseo_bctitle'              => FILTER_SANITIZE_STRING,
 			);
 
 			// Filter POST global array.
@@ -231,6 +240,7 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 				$this->check_cornerstone_change( $post_array['yoast_wpseo_is_cornerstone'] ); // Cornerstone.
 				$this->check_schema_change( $post_array['yoast_wpseo_schema_page_type'], 'page_type' );
 				$this->check_schema_change( $post_array['yoast_wpseo_schema_article_type'], 'article_type' );
+                $this->check_breadcrumb_change( $post_array['yoast_wpseo_bctitle'] );
 			}
 		}
 
@@ -549,6 +559,36 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 						'PostDate'           => $this->post->post_date,
 						'PostUrl'            => get_permalink( $this->post->ID ),
 						'EventType'          => $alert_status,
+						$editor_link['name'] => $editor_link['value'],
+					)
+				);
+			}
+		}
+
+
+		/**
+		 * Method: Check Breadcrumb Change.
+		 *
+		 * @param string $breadcrumb – Changed Breadcrumb.
+		 */
+		protected function check_breadcrumb_change( $breadcrumb ) {
+			// Get old title value.
+			$old_breadcrumb = $this->get_post_seo_data( 'bctitle' );
+
+			// If setting is changed then log alert.
+			if ( $old_breadcrumb !== $breadcrumb ) {
+				$editor_link = $this->get_editor_link( $this->post_id );
+				$this->plugin->alerts->Trigger(
+					8850,
+					array(
+						'PostID'             => $this->post->ID,
+						'PostType'           => $this->post->post_type,
+						'PostTitle'          => $this->post->post_title,
+						'PostStatus'         => $this->post->post_status,
+						'PostDate'           => $this->post->post_date,
+						'PostUrl'            => get_permalink( $this->post->ID ),
+						'old_breadcrumb'     => $old_breadcrumb,
+						'new_breadcrumb'     => $breadcrumb,
 						$editor_link['name'] => $editor_link['value'],
 					)
 				);
@@ -1357,11 +1397,11 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 			if ( $new_value['og_default_image'] !== $old_value['og_default_image'] ) {
 				$alert_code = 8845;
 				$alert_args = array(
-					'image_name' => ( empty( $new_value['og_default_image_id'] ) ) ? __( 'None supplied', 'wsal-yoast' ) : get_the_title( $new_value['og_default_image_id'] ),
-					'image_path' => ( empty( $new_value['og_default_image'] ) ) ? __( 'None supplied', 'wsal-yoast' ) : $new_value['og_default_image'],
-					'old_image'  => ( empty( $old_value['og_default_image'] ) ) ? __( 'None supplied', 'wsal-yoast' ) : get_the_title( $old_value['og_default_image_id'] ),
-					'old_path'   => ( empty( $old_value['og_default_image'] ) ) ? __( 'None supplied', 'wsal-yoast' ) : $old_value['og_default_image'],
-				);
+					'image_name' => ( empty( $new_value['og_default_image_id'] ) ) ? __( 'None supplied', 'wsal-yoast' ) : wp_basename( $new_value['og_default_image'] ),
+					'image_path' => ( empty( $new_value['og_default_image'] ) ) ? __( 'None supplied', 'wsal-yoast' ) : dirname( $new_value['og_default_image'] ),
+					'old_image'  => ( empty( $old_value['og_default_image'] ) ) ? __( 'None supplied', 'wsal-yoast' ) : wp_basename( $old_value['og_default_image'] ),
+					'old_path'   => ( empty( $old_value['og_default_image'] ) ) ? __( 'None supplied', 'wsal-yoast' ) : dirname( $old_value['og_default_image'] ),
+        );
 				$this->plugin->alerts->Trigger( $alert_code, $alert_args );
 			}
 

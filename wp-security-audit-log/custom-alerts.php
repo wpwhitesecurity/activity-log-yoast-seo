@@ -1,5 +1,5 @@
 <?php
-// phpcs:ignoreFile
+// phpcs:
 /**
  * File is ignored by PHPCS as it falsly flags a get_text error.
  */
@@ -147,8 +147,7 @@ $custom_alerts = [
                 8851,
                 WSAL_INFORMATIONAL,
                 __( 'User changed to the Schema settings of a post', 'activity-log-wp-seo' ),
-                __( 'Changed the Page type in the Schema settings to <strong>%new_type%</strong>', 'activity-log-wp-seo' ),
-                [
+                __( 'Changed the Page type in the Schema settings to <strong>%new_type%</strong>', 'activity-log-wp-seo' ),[
                     __( 'Post ID', 'activity-log-wp-seo' ) => '%PostID%',
                     __( 'Post type', 'activity-log-wp-seo' ) => '%PostType%',
                     __( 'Post status', 'activity-log-wp-seo' ) => '%PostStatus%',
@@ -170,6 +169,7 @@ $custom_alerts = [
                     __( 'Post type', 'activity-log-wp-seo' ) => '%PostType%',
                     __( 'Post status', 'activity-log-wp-seo' ) => '%PostStatus%',
                     __( 'Previous Article type', 'activity-log-wp-seo' ) => '%old_type%',
+                    __( 'Previous Breadcrumbs Title:', 'activity-log-wp-seo' ) => '%old_breadcrumb%',
                 ],
                 [
                     __( 'View the post in editor', 'wp-security-audit-log' ) => '%EditorLinkPost%',
