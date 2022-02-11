@@ -213,8 +213,6 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 				'yoast_wpseo_schema_article_type'  => FILTER_SANITIZE_STRING,
 			);
 
-			error_log( print_r( $_POST, true ) );
-
 			// Filter POST global array.
 			$post_array = filter_input_array( INPUT_POST, $filter_input_args );
 
@@ -563,12 +561,14 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 		 * @param string $schema – Changed Schema.
 		 */
 		protected function check_schema_change( $schema, $type = 'page_type' ) {
-			// Get old title value.
-			$old_schema = ( 'page_type' === $type ) ? $this->get_post_seo_data( 'schema_page_type' ) : $this->get_post_seo_data( 'schema_article_type' );
-			$event_code = ( 'page_type' === $type ) ? 8851 : 8852;
 
 			// If setting is changed then log alert.
 			if ( $old_schema !== $schema ) {
+
+				// Get old title value.
+				$old_schema = ( 'page_type' === $type ) ? $this->get_post_seo_data( 'schema_page_type' ) : $this->get_post_seo_data( 'schema_article_type' );
+				$event_code = ( 'page_type' === $type ) ? 8851 : 8852;
+
 				$editor_link = $this->get_editor_link( $this->post_id );
 				$this->plugin->alerts->Trigger(
 					$event_code,
@@ -591,6 +591,7 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 		 * Method: Yoast default blog options change trigger.
 		 * Notes:
 		 *    - To accomplish that, Yoast is taking the site, removes option (wpseo_ms) and sets the new one
+		 *
 		 *    @see Yoast-Network-Admin::handle_restore_site_request
 		 *    - wp functions used do not triggering events @see WPSEO_Options::reset_ms_blog :
 		 *    - delete_blog_option, update_blog_option
