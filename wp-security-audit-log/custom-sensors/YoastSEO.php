@@ -110,18 +110,26 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 		 * Method: Set Post SEO Data.
 		 */
 		private function set_post_seo_data() {
-			// Set post SEO meta data.
-			$this->post_seo_data = array(
-				'_yoast_wpseo_title'                => get_post_meta( $this->post_id, '_yoast_wpseo_title', true ),
-				'_yoast_wpseo_metadesc'             => get_post_meta( $this->post_id, '_yoast_wpseo_metadesc', true ),
-				'_yoast_wpseo_focuskw'              => get_post_meta( $this->post_id, '_yoast_wpseo_focuskw', true ),
-				'_yoast_wpseo_is_cornerstone'       => get_post_meta( $this->post_id, '_yoast_wpseo_is_cornerstone', true ),
-				'_yoast_wpseo_meta-robots-noindex'  => get_post_meta( $this->post_id, '_yoast_wpseo_meta-robots-noindex', true ),
-				'_yoast_wpseo_meta-robots-nofollow' => get_post_meta( $this->post_id, '_yoast_wpseo_meta-robots-nofollow', true ),
-				'_yoast_wpseo_meta-robots-adv'      => get_post_meta( $this->post_id, '_yoast_wpseo_meta-robots-adv', true ),
-				'_yoast_wpseo_canonical'            => get_post_meta( $this->post_id, '_yoast_wpseo_canonical', true ),
-				'_yoast_wpseo_bctitle'              => get_post_meta( $this->post_id, '_yoast_wpseo_bctitle', true ),
+
+			$post_meta = get_post_meta( $this->post_id, '', true );
+
+			$found_values = array();
+			$wanted_keys  = array(
+				'_yoast_wpseo_title',
+				'_yoast_wpseo_metadesc',
+				'_yoast_wpseo_focuskw',
+				'_yoast_wpseo_is_cornerstone',
+				'_yoast_wpseo_meta-robots-noindex',
+				'_yoast_wpseo_meta-robots-nofollow',
+				'_yoast_wpseo_meta-robots-adv',
+				'_yoast_wpseo_canonical',
+				'_yoast_wpseo_bctitle',
 			);
+
+			// Set post SEO meta data.
+			foreach ( $wanted_keys as $yoast_meta_key ) {
+				$this->post_seo_data[ $yoast_meta_key ] = isset( $post_meta[ $yoast_meta_key ][0] ) ? $post_meta[ $yoast_meta_key ][0] : false;
+			}
 		}
 
 		/**
@@ -184,7 +192,7 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 				'yoast_wpseo_meta-robots-adv'      => FILTER_SANITIZE_STRING,
 				'yoast_wpseo_canonical'            => FILTER_VALIDATE_URL,
 				'yoast_wpseo_bctitle'              => FILTER_SANITIZE_STRING,
-      );
+			);
 
 			// Filter POST global array.
 			$post_array = filter_input_array( INPUT_POST, $filter_input_args );
@@ -536,8 +544,6 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 		protected function check_breadcrumb_change( $breadcrumb ) {
 			// Get old title value.
 			$old_breadcrumb = $this->get_post_seo_data( 'bctitle' );
-			
-			$breadcrumb     = $breadcrumb;
 
 			// If setting is changed then log alert.
 			if ( $old_breadcrumb !== $breadcrumb ) {
@@ -563,6 +569,7 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 		 * Method: Yoast default blog options change trigger.
 		 * Notes:
 		 *    - To accomplish that, Yoast is taking the site, removes option (wpseo_ms) and sets the new one
+		 *
 		 *    @see Yoast-Network-Admin::handle_restore_site_request
 		 *    - wp functions used do not triggering events @see WPSEO_Options::reset_ms_blog :
 		 *    - delete_blog_option, update_blog_option

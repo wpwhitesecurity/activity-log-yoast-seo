@@ -147,7 +147,7 @@ $custom_alerts = [
                 8850,
                 WSAL_INFORMATIONAL,
                 __( 'User changed Breadcrumbs Title for a post', 'activity-log-wp-seo' ),
-                __( 'Changed the Breadcrumbs Title for the post %PostTitle% to %new_breadcrumb%.', 'activity-log-wp-seo' ),
+                __( 'Changed the <strong>Breadcrumbs Title</strong> for the post %PostTitle% to %new_breadcrumb%.', 'activity-log-wp-seo' ),
                 [
                     __( 'Post ID', 'activity-log-wp-seo' ) => '%PostID%',
                     __( 'Post type', 'activity-log-wp-seo' ) => '%PostType%',
