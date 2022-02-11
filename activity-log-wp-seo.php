@@ -48,8 +48,9 @@ $wsal_extension = new WPWhiteSecurity\ActivityLog\Extensions\Common\Core( __FILE
  */
 function wsal_yoast_seo_extension_add_custom_event_objects( $objects ) {
 	$new_objects = array(
-		'yoast-seo'         => __( 'Yoast SEO', 'wp-security-audit-log' ),
-		'yoast-seo-metabox' => __( 'Yoast SEO Meta Box', 'wp-security-audit-log' ),
+		'yoast-seo'                   => esc_html__( 'Yoast SEO', 'wp-security-audit-log' ),
+		'yoast-seo-metabox'           => esc_html__( 'Yoast SEO Meta Box', 'wp-security-audit-log' ),
+		'yoast-seo-search-appearance' => esc_html__( 'Yoast SEO Search Appearance', 'wp-security-audit-log' ),
 	);
 
 	// combine the two arrays.
@@ -106,7 +107,7 @@ function wsal_yoast_seo_extension_togglealerts_obsolete_events( $obsolete_events
  * Replacement "duplicate event" notice text.
  */
 function wsal_yoast_seo_extension_replacement_duplicate_event_notice() {
-	$replacement_text = __( 'You are running an old version of WP Activity Log. Please update the plugin to run it alongside this extension: Yoast SEO', 'wp-security-audit-log' );
+	$replacement_text = esc_html__( 'You are running an old version of WP Activity Log. Please update the plugin to run it alongside this extension: Yoast SEO', 'wp-security-audit-log' );
 	?>
 	<script type="text/javascript">
 		if ( jQuery( '.notice.notice-error span[style="color:#dc3232; font-weight:bold;"]' ).length ) {
