@@ -960,7 +960,20 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 			if ( 'wpseo-premium-redirects-export-regex' === $option ) {
 				$this->yoast_redirects_change_alert( $option, $old_value, $new_value, 'regex' );
 			}
+
+            if ( 'wpseo_redirect' === $option ) {
+				$this->yoast_redirects_system_change_alert( $option, $old_value, $new_value );
+			}            
 		}
+
+        private function yoast_redirects_system_change_alert( $option, $old_value, $new_value ) {
+            $alert_code = 8861;
+            $alert_args = array(
+                'new_method' => ( 'off' === $new_value['disable_php_redirect'] ) ? esc_html__( 'PHP', 'activity-log-wp-seo' ) : esc_html__( 'Web server', 'activity-log-wp-seo' ),
+                'old_method' => ( 'off' === $old_value['disable_php_redirect'] ) ? esc_html__( 'PHP', 'activity-log-wp-seo' ) : esc_html__( 'Web server', 'activity-log-wp-seo' ),
+            );
+            $this->plugin->alerts->Trigger( $alert_code, $alert_args );
+        }
 
 		/**
 		 * Monitor and alert for changes related to Yoast redirects (Premium only)
