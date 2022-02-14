@@ -665,7 +665,7 @@ $custom_alerts = array(
 				'yoast-seo',
 				'modified',
 			),
-            array(
+			array(
 				8855,
 				WSAL_MEDIUM,
 				__( 'A new plain redirect was added', 'activity-log-wp-seo' ),
@@ -677,24 +677,59 @@ $custom_alerts = array(
 				'yoast-seo-redirects',
 				'added',
 			),
-            array(
+			array(
 				8856,
 				WSAL_MEDIUM,
 				__( 'A plain redirect was modified', 'activity-log-wp-seo' ),
 				__( 'A <strong>%redirect_type%</strong> plain redirect for the old URL <strong>%old_url%</strong> was modified.', 'activity-log-wp-seo' ),
 				array(
 					__( 'Old redirect type', 'activity-log-wp-seo' ) => '%new_url%',
-                    __( 'New URL', 'activity-log-wp-seo' ) => '%new_url%',
+					__( 'New URL', 'activity-log-wp-seo' ) => '%new_url%',
 				),
 				array(),
 				'yoast-seo-redirects',
 				'modified',
 			),
-            array(
+			array(
 				8857,
 				WSAL_MEDIUM,
 				__( 'A plain redirect was deleted', 'activity-log-wp-seo' ),
 				__( 'A <strong>%redirect_type%</strong> plain redirect for the old URL <strong>%old_url% </strong> was deleted.', 'activity-log-wp-seo' ),
+				array(),
+				array(),
+				'yoast-seo-redirects',
+				'deleted',
+			),
+			array(
+				8858,
+				WSAL_MEDIUM,
+				__( 'A new regex redirect was added', 'activity-log-wp-seo' ),
+				__( 'A <strong>%redirect_type%</strong> regex redirect for the old URL <strong>%old_url%.</strong>', 'activity-log-wp-seo' ),
+				array(
+					__( 'New URL', 'activity-log-wp-seo' ) => '%new_url%',
+				),
+				array(),
+				'yoast-seo-redirects',
+				'added',
+			),
+			array(
+				8859,
+				WSAL_MEDIUM,
+				__( 'A regex redirect was modified', 'activity-log-wp-seo' ),
+				__( 'A <strong>%redirect_type%</strong> regex redirect for the old URL <strong>%old_url%</strong> was modified.', 'activity-log-wp-seo' ),
+				array(
+					__( 'Old redirect type', 'activity-log-wp-seo' ) => '%new_url%',
+					__( 'New URL', 'activity-log-wp-seo' ) => '%new_url%',
+				),
+				array(),
+				'yoast-seo-redirects',
+				'modified',
+			),
+			array(
+				8860,
+				WSAL_MEDIUM,
+				__( 'A regex redirect was deleted', 'activity-log-wp-seo' ),
+				__( 'A <strong>%redirect_type%</strong> regex redirect for the old URL <strong>%old_url% </strong> was deleted.', 'activity-log-wp-seo' ),
 				array(),
 				array(),
 				'yoast-seo-redirects',

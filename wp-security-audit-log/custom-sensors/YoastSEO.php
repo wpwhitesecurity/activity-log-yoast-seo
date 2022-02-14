@@ -602,15 +602,14 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 		 */
 		protected function check_schema_change( $schema, $type = 'page_type' ) {
 
-            // Get old title value.
-            $old_schema = ( 'page_type' === $type ) ? $this->get_post_seo_data( 'schema_page_type' ) : $this->get_post_seo_data( 'schema_article_type' );
-            $schema     = ( empty( $schema ) ) ? false : $schema;
+			// Get old title value.
+			$old_schema = ( 'page_type' === $type ) ? $this->get_post_seo_data( 'schema_page_type' ) : $this->get_post_seo_data( 'schema_article_type' );
+			$schema     = ( empty( $schema ) ) ? false : $schema;
 
 			// If setting is changed then log alert.
 			if ( $old_schema !== $schema ) {
 
-                
-            error_log( print_r('xxxx', true) );
+				error_log( print_r( 'xxxx', true ) );
 
 				$event_code = ( 'page_type' === $type ) ? 8851 : 8852;
 
@@ -954,61 +953,81 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 				}
 			}
 
+			if ( 'wpseo-premium-redirects-export-plain' === $option ) {
+				$this->yoast_redirects_change_alert( $option, $old_value, $new_value, 'plain' );
+			}
 
-            if ( 'wpseo-premium-redirects-export-regex' === $option || 'wpseo-premium-redirects-export-plain' === $option ) {
-                $this->yoast_redirects_change_alert( $option, $old_value, $new_value );
-            }
+			if ( 'wpseo-premium-redirects-export-regex' === $option ) {
+				$this->yoast_redirects_change_alert( $option, $old_value, $new_value, 'regex' );
+			}
 		}
 
-        private function yoast_redirects_change_alert( $option, $old_value, $new_value ) {
-            $alert_args    = null;
-            $alert_code    = null;
+		/**
+		 * Monitor and alert for changes related to Yoast redirects (Premium only)
+		 *
+		 * @param string $option
+		 * @param array  $old_value
+		 * @param array  $new_value
+		 * @param string $redirect_type
+		 *
+		 * @return void
+		 */
+		private function yoast_redirects_change_alert( $option, $old_value, $new_value, $redirect_type = 'plain' ) {
+			$alert_args = null;
+			$alert_code = null;
+			$is_regex   = ( $redirect_type === $redirect_type ) ? true : false;
 
-            if ( count( $old_value ) !== count( $new_value ) ) {
+			if ( count( $old_value ) !== count( $new_value ) ) {
 
-                $compare_added_items = array_diff_assoc(
-                    array_map( 'serialize', $new_value ),
-                    array_map( 'serialize', $old_value )
-                );
-                $added_items         = array_map( 'unserialize', $compare_added_items );
-    
-                $compare_removed_items = array_diff_assoc(
-                    array_map( 'serialize', $old_value ),
-                    array_map( 'serialize', $new_value )
-                );
-                $removed_items         = array_map( 'unserialize', $compare_removed_items );
-    
-                // error_log( print_r( 'NEW', true ) );
-                // error_log( print_r( $added_items  , true ) );
-                
-                // error_log( print_r( 'DEL', true ) );
-                // error_log( print_r( $removed_items, true ) );
-                // error_log( print_r( key( $removed_items ), true ) );
-                // error_log( print_r( $removed_items['type'], true ) );
+				$compare_added_items = array_diff_assoc(
+					array_map( 'serialize', $new_value ),
+					array_map( 'serialize', $old_value )
+				);
+				$added_items         = array_map( 'unserialize', $compare_added_items );
 
-                if ( ! empty( $added_items ) ) {
-                    $added_items = end( $added_items );
-                    $alert_code                  = 8855;
-                    $alert_args['old_url']       = key( $added_items );
-                    $alert_args['new_url']       = ( isset( $added_items['url'] ) ) ? $added_items['url'] : esc_html__( 'Not applicable', 'activity-log-wp-seo' );
-                    $alert_args['redirect_type'] = $added_items['type'];
-                }
+				$compare_removed_items = array_diff_assoc(
+					array_map( 'serialize', $old_value ),
+					array_map( 'serialize', $new_value )
+				);
+				$removed_items         = array_map( 'unserialize', $compare_removed_items );
 
-                if ( ! empty( $removed_items ) ) {
-                    $removed_items = end( $removed_items );
-                    $alert_code                  = 8857;
-                    $alert_args['old_url']       = key( $removed_items) ;
-                    $alert_args['new_url']       = ( isset( $removed_items['url'] ) ) ? $removed_items['url'] : esc_html__( 'Not applicable', 'activity-log-wp-seo' );
-                    $alert_args['redirect_type'] = $removed_items['type'];
-                }
-            }
+				if ( ! empty( $added_items ) ) {
+					$alert_code                  = ( $is_regex ) ? 8858 : 8855;
+					$alert_args['old_url']       = key( $added_items );
+					$added_items                 = end( $added_items );
+					$alert_args['new_url']       = ( isset( $added_items['url'] ) && ! empty( $added_items['url'] ) ) ? $added_items['url'] : esc_html__( 'Not applicable', 'activity-log-wp-seo' );
+					$alert_args['redirect_type'] = $added_items['type'];
+				}
 
+				if ( ! empty( $removed_items ) ) {
+					$alert_code                  = ( $is_regex ) ? 8860 : 8855;
+					$alert_args['old_url']       = key( $removed_items );
+					$removed_items               = end( $removed_items );
+					$alert_args['new_url']       = ( isset( $removed_items['url'] ) && ! empty( $added_items['url'] ) ) ? $removed_items['url'] : esc_html__( 'Not applicable', 'activity-log-wp-seo' );
+					$alert_args['redirect_type'] = $removed_items['type'];
+				}
+			}
 
-            
-            if ( ! empty( $alert_code ) ) {
+			if ( count( $old_value ) === count( $new_value ) ) {
+				$compare_modified_items = array_diff_assoc(
+					array_map( 'serialize', $new_value ),
+					array_map( 'serialize', $old_value )
+				);
+				$modified_items         = array_map( 'unserialize', $compare_modified_items );
+
+				if ( ! empty( $modified_items ) ) {
+					$alert_code                  = ( $is_regex ) ? 8859 : 8856;
+					$alert_args['old_url']       = key( $modified_items );
+					$modified_items              = end( $modified_items );
+					$alert_args['new_url']       = ( isset( $modified_items['url'] ) && ! empty( $added_items['url'] ) ) ? $modified_items['url'] : esc_html__( 'Not applicable', 'activity-log-wp-seo' );
+					$alert_args['redirect_type'] = $modified_items['type'];
+				}
+			}
+
+			if ( ! empty( $alert_code ) ) {
 				$this->plugin->alerts->Trigger( $alert_code, $alert_args );
 			}
-        }
+		}
 
 		/**
 		 * Method: Trigger Yoast Setting Change Alerts.
