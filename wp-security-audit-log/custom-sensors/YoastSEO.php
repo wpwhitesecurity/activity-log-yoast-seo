@@ -953,7 +953,62 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 					$this->yoast_social_profile_setting_change_alert( $old_value, $new_value );
 				}
 			}
+
+
+            if ( 'wpseo-premium-redirects-export-regex' === $option || 'wpseo-premium-redirects-export-plain' === $option ) {
+                $this->yoast_redirects_change_alert( $option, $old_value, $new_value );
+            }
 		}
+
+        private function yoast_redirects_change_alert( $option, $old_value, $new_value ) {
+            $alert_args    = null;
+            $alert_code    = null;
+
+            if ( count( $old_value ) !== count( $new_value ) ) {
+
+                $compare_added_items = array_diff_assoc(
+                    array_map( 'serialize', $new_value ),
+                    array_map( 'serialize', $old_value )
+                );
+                $added_items         = array_map( 'unserialize', $compare_added_items );
+    
+                $compare_removed_items = array_diff_assoc(
+                    array_map( 'serialize', $old_value ),
+                    array_map( 'serialize', $new_value )
+                );
+                $removed_items         = array_map( 'unserialize', $compare_removed_items );
+    
+                // error_log( print_r( 'NEW', true ) );
+                // error_log( print_r( $added_items  , true ) );
+                
+                // error_log( print_r( 'DEL', true ) );
+                // error_log( print_r( $removed_items, true ) );
+                // error_log( print_r( key( $removed_items ), true ) );
+                // error_log( print_r( $removed_items['type'], true ) );
+
+                if ( ! empty( $added_items ) ) {
+                    $added_items = end( $added_items );
+                    $alert_code                  = 8855;
+                    $alert_args['old_url']       = key( $added_items );
+                    $alert_args['new_url']       = ( isset( $added_items['url'] ) ) ? $added_items['url'] : esc_html__( 'Not applicable', 'activity-log-wp-seo' );
+                    $alert_args['redirect_type'] = $added_items['type'];
+                }
+
+                if ( ! empty( $removed_items ) ) {
+                    $removed_items = end( $removed_items );
+                    $alert_code                  = 8857;
+                    $alert_args['old_url']       = key( $removed_items) ;
+                    $alert_args['new_url']       = ( isset( $removed_items['url'] ) ) ? $removed_items['url'] : esc_html__( 'Not applicable', 'activity-log-wp-seo' );
+                    $alert_args['redirect_type'] = $removed_items['type'];
+                }
+            }
+
+
+            
+            if ( ! empty( $alert_code ) ) {
+				$this->plugin->alerts->Trigger( $alert_code, $alert_args );
+			}
+        }
 
 		/**
 		 * Method: Trigger Yoast Setting Change Alerts.

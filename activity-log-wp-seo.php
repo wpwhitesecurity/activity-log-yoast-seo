@@ -51,6 +51,7 @@ function wsal_yoast_seo_extension_add_custom_event_objects( $objects ) {
 		'yoast-seo'                   => esc_html__( 'Yoast SEO', 'wp-security-audit-log' ),
 		'yoast-seo-metabox'           => esc_html__( 'Yoast SEO Meta Box', 'wp-security-audit-log' ),
 		'yoast-seo-search-appearance' => esc_html__( 'Yoast SEO Search Appearance', 'wp-security-audit-log' ),
+		'yoast-seo-redirects'         => esc_html__( 'Yoast SEO Redirects', 'wp-security-audit-log' ),
 	);
 
 	// combine the two arrays.
