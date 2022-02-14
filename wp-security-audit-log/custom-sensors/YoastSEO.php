@@ -961,19 +961,19 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 				$this->yoast_redirects_change_alert( $option, $old_value, $new_value, 'regex' );
 			}
 
-            if ( 'wpseo_redirect' === $option ) {
+			if ( 'wpseo_redirect' === $option ) {
 				$this->yoast_redirects_system_change_alert( $option, $old_value, $new_value );
-			}            
+			}
 		}
 
-        private function yoast_redirects_system_change_alert( $option, $old_value, $new_value ) {
-            $alert_code = 8858;
-            $alert_args = array(
-                'new_method' => ( 'off' === $new_value['disable_php_redirect'] ) ? esc_html__( 'PHP', 'activity-log-wp-seo' ) : esc_html__( 'Web server', 'activity-log-wp-seo' ),
-                'old_method' => ( 'off' === $old_value['disable_php_redirect'] ) ? esc_html__( 'PHP', 'activity-log-wp-seo' ) : esc_html__( 'Web server', 'activity-log-wp-seo' ),
-            );
-            $this->plugin->alerts->Trigger( $alert_code, $alert_args );
-        }
+		private function yoast_redirects_system_change_alert( $option, $old_value, $new_value ) {
+			$alert_code = 8858;
+			$alert_args = array(
+				'new_method' => ( 'off' === $new_value['disable_php_redirect'] ) ? esc_html__( 'PHP', 'activity-log-wp-seo' ) : esc_html__( 'Web server', 'activity-log-wp-seo' ),
+				'old_method' => ( 'off' === $old_value['disable_php_redirect'] ) ? esc_html__( 'PHP', 'activity-log-wp-seo' ) : esc_html__( 'Web server', 'activity-log-wp-seo' ),
+			);
+			$this->plugin->alerts->Trigger( $alert_code, $alert_args );
+		}
 
 		/**
 		 * Monitor and alert for changes related to Yoast redirects (Premium only)
@@ -1010,7 +1010,7 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 					$added_items                 = end( $added_items );
 					$alert_args['new_url']       = ( isset( $added_items['url'] ) && ! empty( $added_items['url'] ) ) ? $added_items['url'] : esc_html__( 'Not applicable', 'activity-log-wp-seo' );
 					$alert_args['redirect_code'] = $added_items['type'];
-                    $alert_args['redirect_type'] = ( $is_regex ) ? 'regex' : 'plain';
+					$alert_args['redirect_type'] = ( $is_regex ) ? 'regex' : 'plain';
 				}
 
 				if ( ! empty( $removed_items ) ) {
@@ -1019,7 +1019,7 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 					$removed_items               = end( $removed_items );
 					$alert_args['new_url']       = ( isset( $removed_items['url'] ) && ! empty( $added_items['url'] ) ) ? $removed_items['url'] : esc_html__( 'Not applicable', 'activity-log-wp-seo' );
 					$alert_args['redirect_code'] = $removed_items['type'];
-                    $alert_args['redirect_type'] = ( $is_regex ) ? 'regex' : 'plain';
+					$alert_args['redirect_type'] = ( $is_regex ) ? 'regex' : 'plain';
 				}
 			}
 
@@ -1030,25 +1030,23 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 				);
 				$modified_items         = array_map( 'unserialize', $compare_modified_items );
 
-                $compare_removed_items = array_diff_assoc(
+				$compare_removed_items = array_diff_assoc(
 					array_map( 'serialize', $old_value ),
 					array_map( 'serialize', $new_value )
 				);
 				$removed_items         = array_map( 'unserialize', $compare_removed_items );
 
 				if ( ! empty( $modified_items ) ) {
-					$alert_code                  = 8856;
-                    $alert_args['redirect_type'] = ( $is_regex ) ? 'regex' : 'plain';
-
-					$alert_args['old_url']       = key( $removed_items );
-                    $alert_args['new_old_url']   = key( $modified_items );
-
-					$modified_items              = end( $modified_items );
-                    $removed_items               = end( $removed_items );
-                    $alert_args['old_new_url']   = ( isset( $removed_items['url'] ) && ! empty(  $removed_items['url'] ) ) ?  $removed_items['url'] : esc_html__( 'Not applicable', 'activity-log-wp-seo' );
-					$alert_args['new_new_url']   = ( isset( $modified_items['url'] ) && ! empty( $added_items['url'] ) ) ? $modified_items['url'] : esc_html__( 'Not applicable', 'activity-log-wp-seo' );
-                    $alert_args['new_redirect_code'] = $modified_items['type'];
-                    $alert_args['old_redirect_code'] = $removed_items['type'];
+					$alert_code                      = 8856;
+					$alert_args['redirect_type']     = ( $is_regex ) ? 'regex' : 'plain';
+					$alert_args['old_url']           = ( key( $removed_items ) !== key( $modified_items ) ) ? key( $removed_items ) : esc_html__( 'Not applicable', 'activity-log-wp-seo' );
+					$alert_args['new_old_url']       = ( key( $modified_items ) !== key( $removed_items ) ) ? key( $modified_items ) : esc_html__( 'Not applicable', 'activity-log-wp-seo' );
+					$modified_items                  = end( $modified_items );
+					$removed_items                   = end( $removed_items );
+					$alert_args['old_new_url']       = ( isset( $removed_items['url'] ) && ! empty( $removed_items['url'] ) && $modified_items['url'] !== $removed_items['url'] ) ? $removed_items['url'] : esc_html__( 'Not applicable', 'activity-log-wp-seo' );
+					$alert_args['new_new_url']       = ( isset( $modified_items['url'] ) && ! empty( $added_items['url'] ) && $modified_items['url'] !== $removed_items['url'] ) ? $modified_items['url'] : esc_html__( 'Not applicable', 'activity-log-wp-seo' );
+					$alert_args['new_redirect_code'] = ( $removed_items['type'] !== $modified_items['type'] ) ? $modified_items['type'] : esc_html__( 'Not applicable', 'activity-log-wp-seo' );
+					$alert_args['old_redirect_code'] = ( $modified_items['type'] !== $removed_items['type'] ) ? $removed_items['type'] : esc_html__( 'Not applicable', 'activity-log-wp-seo' );
 				}
 			}
 
