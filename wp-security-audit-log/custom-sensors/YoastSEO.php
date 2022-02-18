@@ -1,4 +1,4 @@
-<?php // phpcs:ignore
+<?php // phpcs:disable WordPress.Files.FileName.NotHyphenatedLowercase
 /**
  * Sensor: Yoast SEO
  *
@@ -20,6 +20,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @subpackage Sensors
  */
 if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
+	/**
+	 * The main sensor class.
+	 */
 	class WSAL_Sensors_YoastSEO extends WSAL_AbstractSensor {
 
 		/**
@@ -54,6 +57,11 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 			'_yoast_wpseo_schema_article_type'  => '',
 		);
 
+		/**
+		 * Possible scheme types and labels.
+		 *
+		 * @var array
+		 */
 		private $schema_labels = array(
 			'Article'                  => 'Article',
 			'BlogPosting'              => 'Blog Post',
@@ -599,6 +607,7 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 		 * Method: Check Schema Change.
 		 *
 		 * @param string $schema – Changed Schema.
+		 * @param string $type   – Page type.
 		 */
 		protected function check_schema_change( $schema, $type = 'page_type' ) {
 
@@ -608,8 +617,6 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 
 			// If setting is changed then log alert.
 			if ( $old_schema !== $schema ) {
-
-				error_log( print_r( 'xxxx', true ) );
 
 				$event_code = ( 'page_type' === $type ) ? 8851 : 8852;
 
@@ -679,8 +686,8 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 				);
 
 				foreach ( $event_names as $event_name ) {
-					$yoast_name = $prefix_yoast . $event_name; // Yoast event names - starting with active-[YoastEventName]
-					$wsal_name  = $prefix_network . $event_name; // internal use name - network-[YoastEventName]
+					$yoast_name = $prefix_yoast . $event_name; // Yoast event names - starting with active-[YoastEventName].
+					$wsal_name  = $prefix_network . $event_name; // internal use name - network-[YoastEventName].
 
 					if ( isset( $old_value[ $yoast_name ] ) && isset( $new_value[ $yoast_name ] ) ) {
 						if ( $old_value[ $yoast_name ] !== $new_value[ $yoast_name ] ) {
@@ -966,6 +973,14 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 			}
 		}
 
+		/**
+		 * Trigger an alert for redirect changes.
+		 *
+		 * @param string $option - Current option being changes.
+		 * @param array  $old_value - Old value.
+		 * @param array  $new_value - new value.
+		 * @return void
+		 */
 		private function yoast_redirects_system_change_alert( $option, $old_value, $new_value ) {
 			$alert_code = 8858;
 			$alert_args = array(
@@ -978,10 +993,10 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 		/**
 		 * Monitor and alert for changes related to Yoast redirects (Premium only)
 		 *
-		 * @param string $option
-		 * @param array  $old_value
-		 * @param array  $new_value
-		 * @param string $redirect_type
+		 * @param string $option - Option being changed.
+		 * @param array  $old_value - Old value.
+		 * @param array  $new_value - New Value.
+		 * @param string $redirect_type - Redirection type.
 		 *
 		 * @return void
 		 */

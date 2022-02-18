@@ -1,7 +1,12 @@
 <?php
 /**
- * File is ignored by PHPCS as it falsly flags a get_text error.
+ * Our list of events.
+ *
+ * @package WSAL_GravityForms
  */
+
+// phpcs:disable WordPress.WP.I18n.UnorderedPlaceholdersText 
+// phpcs:disable WordPress.WP.I18n.MissingTranslatorsComment
 
 $custom_alerts = array(
 	__( 'Yoast SEO', 'activity-log-wp-seo' ) => array(
@@ -398,7 +403,7 @@ $custom_alerts = array(
 				'added',
 			),
 
-			// Multisite
+			// Multisite.
 			array(
 				8838,
 				WSAL_HIGH,
@@ -436,7 +441,7 @@ $custom_alerts = array(
 				'enabled',
 			),
 
-			// Network features enabled / disabled
+			// Network features enabled / disabled.
 			array(
 				8842,
 				WSAL_HIGH,
@@ -684,11 +689,11 @@ $custom_alerts = array(
 				__( 'A <strong>%redirect_type%</strong> redirect was modified.', 'activity-log-wp-seo' ),
 				array(
 					__( 'Previous old URL', 'activity-log-wp-seo' ) => '%old_url%',
-                    __( 'New old URL', 'activity-log-wp-seo' ) => '%new_old_url%',
-                    __( 'Previous new URL', 'activity-log-wp-seo' ) => '%old_new_url%',
-                    __( 'New new URL', 'activity-log-wp-seo' ) => '%new_new_url%',
-                    __( 'Previous redirect type', 'activity-log-wp-seo' ) => '%old_redirect_code%',
-                    __( 'New redirect type', 'activity-log-wp-seo' ) => '%new_redirect_code%',
+					__( 'New old URL', 'activity-log-wp-seo' ) => '%new_old_url%',
+					__( 'Previous new URL', 'activity-log-wp-seo' ) => '%old_new_url%',
+					__( 'New new URL', 'activity-log-wp-seo' ) => '%new_new_url%',
+					__( 'Previous redirect type', 'activity-log-wp-seo' ) => '%old_redirect_code%',
+					__( 'New redirect type', 'activity-log-wp-seo' ) => '%new_redirect_code%',
 				),
 				array(),
 				'yoast-seo-redirects',
@@ -704,14 +709,14 @@ $custom_alerts = array(
 				'yoast-seo-redirects',
 				'deleted',
 			),
-            array(
+			array(
 				8858,
 				WSAL_MEDIUM,
 				__( 'The Redirect method was modified', 'activity-log-wp-seo' ),
 				__( 'The <strong>Redirect method</strong> has been modified to <strong>%new_method%.</strong>', 'activity-log-wp-seo' ),
 				array(
-                    __( 'Old redirect mmethod', 'activity-log-wp-seo' ) => '%old_method%',
-                ),
+					__( 'Old redirect mmethod', 'activity-log-wp-seo' ) => '%old_method%',
+				),
 				array(),
 				'yoast-seo-redirects',
 				'modified',
