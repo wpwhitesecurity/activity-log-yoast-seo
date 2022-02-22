@@ -962,13 +962,9 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 
 			if ( 'wpseo-premium-redirects-export-plain' === $option ) {
 				$this->yoast_redirects_change_alert( $option, $old_value, $new_value, 'plain' );
-			}
-
-			if ( 'wpseo-premium-redirects-export-regex' === $option ) {
+			} elseif ( 'wpseo-premium-redirects-export-regex' === $option ) {
 				$this->yoast_redirects_change_alert( $option, $old_value, $new_value, 'regex' );
-			}
-
-			if ( 'wpseo_redirect' === $option ) {
+			} elseif ( 'wpseo_redirect' === $option ) {
 				$this->yoast_redirects_system_change_alert( $option, $old_value, $new_value );
 			}
 		}
