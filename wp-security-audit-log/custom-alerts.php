@@ -675,7 +675,7 @@ $custom_alerts = array(
 				8855,
 				WSAL_MEDIUM,
 				esc_html__( 'A new plain / regex redirect was added', 'activity-log-wp-seo' ),
-				esc_html__( 'A <strong>%redirect_code%</strong> %redirect_type% redirect for the old URL <strong>%old_url%.</strong>', 'activity-log-wp-seo' ),
+				__( 'A <strong>%redirect_code%</strong> %redirect_type% redirect for the old URL <strong>%old_url%.</strong>', 'activity-log-wp-seo' ),
 				array(
 					esc_html__( 'New URL', 'activity-log-wp-seo' ) => '%new_url%',
 				),
