@@ -1,4 +1,4 @@
-<?php // phpcs:ignore
+<?php // phpcs:disable WordPress.Files.FileName.NotHyphenatedLowercase
 /**
  * Sensor: Yoast SEO
  *
@@ -20,6 +20,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @subpackage Sensors
  */
 if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
+	/**
+	 * The main sensor class.
+	 */
 	class WSAL_Sensors_YoastSEO extends WSAL_AbstractSensor {
 
 		/**
@@ -54,6 +57,11 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 			'_yoast_wpseo_schema_article_type'  => '',
 		);
 
+		/**
+		 * Possible scheme types and labels.
+		 *
+		 * @var array
+		 */
 		private $schema_labels = array(
 			'Article'                  => 'Article',
 			'BlogPosting'              => 'Blog Post',
@@ -599,18 +607,16 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 		 * Method: Check Schema Change.
 		 *
 		 * @param string $schema – Changed Schema.
+		 * @param string $type   – Page type.
 		 */
 		protected function check_schema_change( $schema, $type = 'page_type' ) {
 
-            // Get old title value.
-            $old_schema = ( 'page_type' === $type ) ? $this->get_post_seo_data( 'schema_page_type' ) : $this->get_post_seo_data( 'schema_article_type' );
-            $schema     = ( empty( $schema ) ) ? false : $schema;
+			// Get old title value.
+			$old_schema = ( 'page_type' === $type ) ? $this->get_post_seo_data( 'schema_page_type' ) : $this->get_post_seo_data( 'schema_article_type' );
+			$schema     = ( empty( $schema ) ) ? false : $schema;
 
 			// If setting is changed then log alert.
 			if ( $old_schema !== $schema ) {
-
-                
-            error_log( print_r('xxxx', true) );
 
 				$event_code = ( 'page_type' === $type ) ? 8851 : 8852;
 
@@ -680,8 +686,8 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 				);
 
 				foreach ( $event_names as $event_name ) {
-					$yoast_name = $prefix_yoast . $event_name; // Yoast event names - starting with active-[YoastEventName]
-					$wsal_name  = $prefix_network . $event_name; // internal use name - network-[YoastEventName]
+					$yoast_name = $prefix_yoast . $event_name; // Yoast event names - starting with active-[YoastEventName].
+					$wsal_name  = $prefix_network . $event_name; // internal use name - network-[YoastEventName].
 
 					if ( isset( $old_value[ $yoast_name ] ) && isset( $new_value[ $yoast_name ] ) ) {
 						if ( $old_value[ $yoast_name ] !== $new_value[ $yoast_name ] ) {
@@ -952,6 +958,111 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 				if ( 'wpseo_social' === $option ) {
 					$this->yoast_social_profile_setting_change_alert( $old_value, $new_value );
 				}
+			}
+
+			if ( 'wpseo-premium-redirects-export-plain' === $option ) {
+				$this->yoast_redirects_change_alert( $option, $old_value, $new_value, 'plain' );
+			} elseif ( 'wpseo-premium-redirects-export-regex' === $option ) {
+				$this->yoast_redirects_change_alert( $option, $old_value, $new_value, 'regex' );
+			} elseif ( 'wpseo_redirect' === $option ) {
+				$this->yoast_redirects_system_change_alert( $option, $old_value, $new_value );
+			}
+		}
+
+		/**
+		 * Trigger an alert for redirect changes.
+		 *
+		 * @param string $option - Current option being changes.
+		 * @param array  $old_value - Old value.
+		 * @param array  $new_value - new value.
+		 * @return void
+		 */
+		private function yoast_redirects_system_change_alert( $option, $old_value, $new_value ) {
+			$alert_code = 8858;
+			$alert_args = array(
+				'new_method' => ( 'off' === $new_value['disable_php_redirect'] ) ? esc_html__( 'PHP', 'activity-log-wp-seo' ) : esc_html__( 'Web server', 'activity-log-wp-seo' ),
+				'old_method' => ( 'off' === $old_value['disable_php_redirect'] ) ? esc_html__( 'PHP', 'activity-log-wp-seo' ) : esc_html__( 'Web server', 'activity-log-wp-seo' ),
+			);
+			$this->plugin->alerts->Trigger( $alert_code, $alert_args );
+		}
+
+		/**
+		 * Monitor and alert for changes related to Yoast redirects (Premium only)
+		 *
+		 * @param string $option - Option being changed.
+		 * @param array  $old_value - Old value.
+		 * @param array  $new_value - New Value.
+		 * @param string $redirect_type - Redirection type.
+		 *
+		 * @return void
+		 */
+		private function yoast_redirects_change_alert( $option, $old_value, $new_value, $redirect_type = 'plain' ) {
+			$alert_args = null;
+			$alert_code = null;
+			$is_regex   = ( 'regex' === $redirect_type ) ? true : false;
+
+			if ( count( $old_value ) !== count( $new_value ) ) {
+
+				$compare_added_items = array_diff_assoc(
+					array_map( 'serialize', $new_value ),
+					array_map( 'serialize', $old_value )
+				);
+				$added_items         = array_map( 'unserialize', $compare_added_items );
+
+				$compare_removed_items = array_diff_assoc(
+					array_map( 'serialize', $old_value ),
+					array_map( 'serialize', $new_value )
+				);
+				$removed_items         = array_map( 'unserialize', $compare_removed_items );
+
+				if ( ! empty( $added_items ) ) {
+					$alert_code                  = 8855;
+					$alert_args['old_url']       = key( $added_items );
+					$added_items                 = end( $added_items );
+					$alert_args['new_url']       = ( isset( $added_items['url'] ) && ! empty( $added_items['url'] ) ) ? $added_items['url'] : esc_html__( 'Not applicable', 'activity-log-wp-seo' );
+					$alert_args['redirect_code'] = $added_items['type'];
+					$alert_args['redirect_type'] = ( $is_regex ) ? 'regex' : 'plain';
+				}
+
+				if ( ! empty( $removed_items ) ) {
+					$alert_code                  = 8857;
+					$alert_args['old_url']       = key( $removed_items );
+					$removed_items               = end( $removed_items );
+					$alert_args['new_url']       = ( isset( $removed_items['url'] ) && ! empty( $added_items['url'] ) ) ? $removed_items['url'] : esc_html__( 'Not applicable', 'activity-log-wp-seo' );
+					$alert_args['redirect_code'] = $removed_items['type'];
+					$alert_args['redirect_type'] = ( $is_regex ) ? 'regex' : 'plain';
+				}
+			}
+
+			if ( count( $old_value ) === count( $new_value ) ) {
+				$compare_modified_items = array_diff_assoc(
+					array_map( 'serialize', $new_value ),
+					array_map( 'serialize', $old_value )
+				);
+				$modified_items         = array_map( 'unserialize', $compare_modified_items );
+
+				$compare_removed_items = array_diff_assoc(
+					array_map( 'serialize', $old_value ),
+					array_map( 'serialize', $new_value )
+				);
+				$removed_items         = array_map( 'unserialize', $compare_removed_items );
+
+				if ( ! empty( $modified_items ) ) {
+					$alert_code                      = 8856;
+					$alert_args['redirect_type']     = ( $is_regex ) ? 'regex' : 'plain';
+					$alert_args['old_url']           = ( key( $removed_items ) !== key( $modified_items ) ) ? key( $removed_items ) : esc_html__( 'Not applicable', 'activity-log-wp-seo' );
+					$alert_args['new_old_url']       = ( key( $modified_items ) !== key( $removed_items ) ) ? key( $modified_items ) : esc_html__( 'Not applicable', 'activity-log-wp-seo' );
+					$modified_items                  = end( $modified_items );
+					$removed_items                   = end( $removed_items );
+					$alert_args['old_new_url']       = ( isset( $removed_items['url'] ) && ! empty( $removed_items['url'] ) && $modified_items['url'] !== $removed_items['url'] ) ? $removed_items['url'] : esc_html__( 'Not applicable', 'activity-log-wp-seo' );
+					$alert_args['new_new_url']       = ( isset( $modified_items['url'] ) && ! empty( $added_items['url'] ) && $modified_items['url'] !== $removed_items['url'] ) ? $modified_items['url'] : esc_html__( 'Not applicable', 'activity-log-wp-seo' );
+					$alert_args['new_redirect_code'] = ( $removed_items['type'] !== $modified_items['type'] ) ? $modified_items['type'] : esc_html__( 'Not applicable', 'activity-log-wp-seo' );
+					$alert_args['old_redirect_code'] = ( $modified_items['type'] !== $removed_items['type'] ) ? $removed_items['type'] : esc_html__( 'Not applicable', 'activity-log-wp-seo' );
+				}
+			}
+
+			if ( ! empty( $alert_code ) ) {
+				$this->plugin->alerts->Trigger( $alert_code, $alert_args );
 			}
 		}
 

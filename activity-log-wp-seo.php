@@ -51,6 +51,7 @@ function wsal_yoast_seo_extension_add_custom_event_objects( $objects ) {
 		'yoast-seo'                   => esc_html__( 'Yoast SEO', 'wp-security-audit-log' ),
 		'yoast-seo-metabox'           => esc_html__( 'Yoast SEO Meta Box', 'wp-security-audit-log' ),
 		'yoast-seo-search-appearance' => esc_html__( 'Yoast SEO Search Appearance', 'wp-security-audit-log' ),
+		'yoast-seo-redirects'         => esc_html__( 'Yoast SEO Redirects', 'wp-security-audit-log' ),
 	);
 
 	// combine the two arrays.
@@ -61,6 +62,9 @@ function wsal_yoast_seo_extension_add_custom_event_objects( $objects ) {
 
 /**
  * Add specific events so we can use them for category titles.
+ *
+ * @param  array $sub_category_events - Current event list.
+ * @return array $sub_category_events - Appended list.
  */
 function wsal_yoast_seo_extension_togglealerts_sub_category_events( $sub_category_events ) {
 	$new_events          = array( 8813, 8815, 8838 );
@@ -70,6 +74,10 @@ function wsal_yoast_seo_extension_togglealerts_sub_category_events( $sub_categor
 
 /**
  * Add sub cateogry titles to ToggleView page in WSAL.
+ *
+ * @param  string $subcat_title - Original title.
+ * @param  int    $alert_id - Alert ID.
+ * @return string $subcat_title - New title.
  */
 function wsal_yoast_seo_extension_togglealerts_sub_category_titles( $subcat_title, $alert_id ) {
 	if ( 8815 === $alert_id ) {
@@ -96,6 +104,9 @@ function wsal_yoast_seo_extension_replace_duplicate_event_notice() {
 
 /**
  * Add obsolete events to the togglealerts view.
+ *
+ * @param  array $obsolete_events - Current events.
+ * @return array $obsolete_events - Appended events.
  */
 function wsal_yoast_seo_extension_togglealerts_obsolete_events( $obsolete_events ) {
 	$new_events      = array( 8810, 8811 );
