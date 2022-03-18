@@ -342,7 +342,7 @@ $custom_alerts = array(
 				8824,
 				WSAL_LOW,
 				esc_html__( 'User set the option to show the Yoast SEO Meta Box for Posts/Pages in the Yoast SEO plugin settings', 'activity-log-wp-seo' ),
-				esc_html__( 'Changed the status of the option to show the <strong>Yoast SEO Meta Box</strong> for %SEOPostType%.', 'activity-log-wp-seo' ),
+				__( 'Changed the status of the option to show the <strong>Yoast SEO Meta Box</strong> for %SEOPostType%.', 'activity-log-wp-seo' ),
 				array(),
 				array(),
 				'yoast-seo-search-appearance',
