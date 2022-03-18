@@ -591,7 +591,7 @@ $custom_alerts = array(
 				8854,
 				WSAL_MEDIUM,
 				esc_html__( 'User the Default Article type in the Scheme settings', 'activity-log-wp-seo' ),
-				__( 'Changed the Default Artcle type in the Schema settings for <strong>%SEOPostType%</strong> to <strong>%new_type%.</strong>', 'activity-log-wp-seo' ),
+				__( 'Changed the Default Article type in the Schema settings for <strong>%SEOPostType%</strong> to <strong>%new_type%.</strong>', 'activity-log-wp-seo' ),
 				array(
 					esc_html__( 'Previous Default Article type', 'activity-log-wp-seo' ) => '%old_type%',
 				),
