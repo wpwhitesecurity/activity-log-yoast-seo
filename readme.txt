@@ -5,9 +5,9 @@ License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl.html
 Tags: activity log for Yoast SEO, WP Activity Log extension, activity logs
 Requires at least: 5.0
-Tested up to: 5.8.3
-Stable tag: 1.2.0
-Requires PHP: 5.6
+Tested up to: 5.9.2
+Stable tag: 1.3.0
+Requires PHP: 7.0
 
 Keep a detailed log of your team's changes in the Yoast SEO meta box & plugin settings.
 
@@ -76,6 +76,29 @@ Please refer to our [Support & Documentation pages](https://wpactivitylog.com/su
 
 == Changelog ==
 
+= 1.3.0 (2022-03-24) =
+
+Release notes: [Yoast SEO, WPForms & Gravity Forms activity log extension updates](https://wpactivitylog.com/extensions-march-2022-update/)
+
+* **New event IDs**
+	* 8849: Enabled / Disabled a third party integration.
+	* 8850: Changed the Breadcrumb title of a post.
+	* 8851: Changed the Page type in the Schema settings of a specific post type.
+	* 8852: Changed the Article type in the Schema settings of a specific post type.
+	* 8853: Changed the Default Page Type setting in the Content Type Schema settings.
+	* 8854: Changed the Default Article Type setting in the Content Type Schema settings.
+
+* **New event IDs for Redirects feature in Yoast SEO**:
+	* 8855: Added a new redirect.
+	* 8856: Modified a redirect.
+	* 8857: Deleted a redirect.
+	* 8858: The redirect mothed has been changed.
+
+* **Improvements:**
+	* Improved the metadata reported in event ID 8845.
+	* Improved the context etc of the events for the Search Appearance changes.
+	* Updated code - now using the WordPress coding standard.
+	
 = 1.2.0 (2021-09-01) =
 
 Release notes: [Activity log extensions for Yoast SEO, WooCommerce & WPForms get a maintenance update](https://wpactivitylog.com/extensions-september-2021-update/)
