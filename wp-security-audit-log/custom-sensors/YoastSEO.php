@@ -1,4 +1,4 @@
-<?php // phpcs:ignore
+<?php // phpcs:disable WordPress.Files.FileName.NotHyphenatedLowercase
 /**
  * Sensor: Yoast SEO
  *
@@ -20,6 +20,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @subpackage Sensors
  */
 if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
+	/**
+	 * The main sensor class.
+	 */
 	class WSAL_Sensors_YoastSEO extends WSAL_AbstractSensor {
 
 		/**
@@ -50,6 +53,38 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 			'_yoast_wpseo_meta-robots-nofollow' => '',
 			'_yoast_wpseo_meta-robots-adv'      => '',
 			'_yoast_wpseo_canonical'            => '',
+			'_yoast_wpseo_schema_page_type'     => '',
+			'_yoast_wpseo_schema_article_type'  => '',
+		);
+
+		/**
+		 * Possible scheme types and labels.
+		 *
+		 * @var array
+		 */
+		private $schema_labels = array(
+			'Article'                  => 'Article',
+			'BlogPosting'              => 'Blog Post',
+			'SocialMediaPosting'       => 'Social Media Posting',
+			'NewsArticle'              => 'News Article',
+			'AdvertiserContentArticle' => 'Advertiser Content Article',
+			'SatiricalArticle'         => 'Satirical Article',
+			'ScholarlyArticle'         => 'Scholarly Article',
+			'TechArticle'              => 'Tech Article',
+			'Report'                   => 'Report',
+			'WebPage'                  => 'Web Page',
+			'ItemPage'                 => 'Item Page',
+			'AboutPage'                => 'About Page',
+			'FAQPage'                  => 'FAQ Page',
+			'QAPage'                   => 'QA Page',
+			'ProfilePage'              => 'Profile Page',
+			'ContactPage'              => 'Contact Page',
+			'MedicalWebPage'           => 'Medical Web Page',
+			'CollectionPage'           => 'Collection Page',
+			'CheckoutPage'             => 'Checkout Page',
+			'RealEstateListing'        => 'Real Estate Listing',
+			'SearchResultsPage'        => 'Search Results Page',
+			'_yoast_wpseo_bctitle'     => '',
 		);
 
 		/**
@@ -109,17 +144,26 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 		 * Method: Set Post SEO Data.
 		 */
 		private function set_post_seo_data() {
-			// Set post SEO meta data.
-			$this->post_seo_data = array(
-				'_yoast_wpseo_title'                => get_post_meta( $this->post_id, '_yoast_wpseo_title', true ),
-				'_yoast_wpseo_metadesc'             => get_post_meta( $this->post_id, '_yoast_wpseo_metadesc', true ),
-				'_yoast_wpseo_focuskw'              => get_post_meta( $this->post_id, '_yoast_wpseo_focuskw', true ),
-				'_yoast_wpseo_is_cornerstone'       => get_post_meta( $this->post_id, '_yoast_wpseo_is_cornerstone', true ),
-				'_yoast_wpseo_meta-robots-noindex'  => get_post_meta( $this->post_id, '_yoast_wpseo_meta-robots-noindex', true ),
-				'_yoast_wpseo_meta-robots-nofollow' => get_post_meta( $this->post_id, '_yoast_wpseo_meta-robots-nofollow', true ),
-				'_yoast_wpseo_meta-robots-adv'      => get_post_meta( $this->post_id, '_yoast_wpseo_meta-robots-adv', true ),
-				'_yoast_wpseo_canonical'            => get_post_meta( $this->post_id, '_yoast_wpseo_canonical', true ),
+			$post_meta = get_post_meta( $this->post_id, '', true );
+
+			$wanted_keys = array(
+				'_yoast_wpseo_title',
+				'_yoast_wpseo_metadesc',
+				'_yoast_wpseo_focuskw',
+				'_yoast_wpseo_is_cornerstone',
+				'_yoast_wpseo_meta-robots-noindex',
+				'_yoast_wpseo_meta-robots-nofollow',
+				'_yoast_wpseo_meta-robots-adv',
+				'_yoast_wpseo_canonical',
+				'_yoast_wpseo_bctitle',
+				'_yoast_wpseo_schema_page_type',
+				'_yoast_wpseo_schema_article_type',
 			);
+
+			// Set post SEO meta data.
+			foreach ( $wanted_keys as $yoast_meta_key ) {
+				$this->post_seo_data[ $yoast_meta_key ] = isset( $post_meta[ $yoast_meta_key ][0] ) ? $post_meta[ $yoast_meta_key ][0] : false;
+			}
 		}
 
 		/**
@@ -170,17 +214,20 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 		protected function check_seo_data_change() {
 			// Set filter input args.
 			$filter_input_args = array(
-				'post_ID'                           => FILTER_VALIDATE_INT,
-				'_wpnonce'                          => FILTER_SANITIZE_STRING,
-				'action'                            => FILTER_SANITIZE_STRING,
-				'yoast_wpseo_title'                 => FILTER_SANITIZE_STRING,
-				'yoast_wpseo_metadesc'              => FILTER_SANITIZE_STRING,
-				'yoast_wpseo_focuskw'               => FILTER_SANITIZE_STRING,
-				'yoast_wpseo_is_cornerstone'        => FILTER_VALIDATE_BOOLEAN,
-				'yoast_wpseo_meta-robots-noindex'   => FILTER_VALIDATE_INT,
-				'yoast_wpseo_meta-robots-nofollow'  => FILTER_VALIDATE_INT,
-				'yoast_wpseo_meta-robots-adv'       => FILTER_SANITIZE_STRING,
-				'yoast_wpseo_canonical'             => FILTER_VALIDATE_URL,
+				'post_ID'                          => FILTER_VALIDATE_INT,
+				'_wpnonce'                         => FILTER_SANITIZE_STRING,
+				'action'                           => FILTER_SANITIZE_STRING,
+				'yoast_wpseo_title'                => FILTER_SANITIZE_STRING,
+				'yoast_wpseo_metadesc'             => FILTER_SANITIZE_STRING,
+				'yoast_wpseo_focuskw'              => FILTER_SANITIZE_STRING,
+				'yoast_wpseo_is_cornerstone'       => FILTER_VALIDATE_BOOLEAN,
+				'yoast_wpseo_meta-robots-noindex'  => FILTER_VALIDATE_INT,
+				'yoast_wpseo_meta-robots-nofollow' => FILTER_VALIDATE_INT,
+				'yoast_wpseo_meta-robots-adv'      => FILTER_SANITIZE_STRING,
+				'yoast_wpseo_canonical'            => FILTER_VALIDATE_URL,
+				'yoast_wpseo_schema_page_type'     => FILTER_SANITIZE_STRING,
+				'yoast_wpseo_schema_article_type'  => FILTER_SANITIZE_STRING,
+				'yoast_wpseo_bctitle'              => FILTER_SANITIZE_STRING,
 			);
 
 			// Filter POST global array.
@@ -199,6 +246,9 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 				$this->check_canonical_url_change( $post_array['yoast_wpseo_canonical'] ); // Canonical URL.
 				$this->check_focus_keys_change( $post_array['yoast_wpseo_focuskw'] ); // Focus keywords.
 				$this->check_cornerstone_change( $post_array['yoast_wpseo_is_cornerstone'] ); // Cornerstone.
+				$this->check_schema_change( $post_array['yoast_wpseo_schema_page_type'], 'page_type' );
+				$this->check_schema_change( $post_array['yoast_wpseo_schema_article_type'], 'article_type' );
+				$this->check_breadcrumb_change( $post_array['yoast_wpseo_bctitle'] );
 			}
 		}
 
@@ -273,7 +323,7 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 
 				// Replace NULL with a nicer string.
 				if ( empty( $old_desc ) ) {
-					$old_desc = __( 'Not provided', 'activity-log-wp-seo' );
+					$old_desc = esc_html__( 'Not provided', 'activity-log-wp-seo' );
 				}
 
 				$editor_link = $this->get_editor_link( $this->post_id );
@@ -467,7 +517,7 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 
 				// Replace NULL with a nicer string.
 				if ( empty( $old_focus_keys ) ) {
-					$old_focus_keys = __( 'Not provided', 'activity-log-wp-seo' );
+					$old_focus_keys = esc_html__( 'Not provided', 'activity-log-wp-seo' );
 				}
 
 				$editor_link = $this->get_editor_link( $this->post_id );
@@ -523,21 +573,87 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 			}
 		}
 
+
+		/**
+		 * Method: Check Breadcrumb Change.
+		 *
+		 * @param string $breadcrumb – Changed Breadcrumb.
+		 */
+		protected function check_breadcrumb_change( $breadcrumb ) {
+			// Get old title value.
+			$old_breadcrumb = $this->get_post_seo_data( 'bctitle' );
+
+			// If setting is changed then log alert.
+			if ( $old_breadcrumb !== $breadcrumb ) {
+				$editor_link = $this->get_editor_link( $this->post_id );
+				$this->plugin->alerts->Trigger(
+					8850,
+					array(
+						'PostID'             => $this->post->ID,
+						'PostType'           => $this->post->post_type,
+						'PostTitle'          => $this->post->post_title,
+						'PostStatus'         => $this->post->post_status,
+						'PostDate'           => $this->post->post_date,
+						'PostUrl'            => get_permalink( $this->post->ID ),
+						'old_breadcrumb'     => $old_breadcrumb,
+						'new_breadcrumb'     => $breadcrumb,
+						$editor_link['name'] => $editor_link['value'],
+					)
+				);
+			}
+		}
+
+		/**
+		 * Method: Check Schema Change.
+		 *
+		 * @param string $schema – Changed Schema.
+		 * @param string $type   – Page type.
+		 */
+		protected function check_schema_change( $schema, $type = 'page_type' ) {
+
+			// Get old title value.
+			$old_schema = ( 'page_type' === $type ) ? $this->get_post_seo_data( 'schema_page_type' ) : $this->get_post_seo_data( 'schema_article_type' );
+			$schema     = ( empty( $schema ) ) ? false : $schema;
+
+			// If setting is changed then log alert.
+			if ( $old_schema !== $schema ) {
+
+				$event_code = ( 'page_type' === $type ) ? 8851 : 8852;
+
+				$editor_link = $this->get_editor_link( $this->post_id );
+				$this->plugin->alerts->Trigger(
+					$event_code,
+					array(
+						'PostID'             => $this->post->ID,
+						'PostType'           => $this->post->post_type,
+						'PostTitle'          => $this->post->post_title,
+						'PostStatus'         => $this->post->post_status,
+						'PostDate'           => $this->post->post_date,
+						'PostUrl'            => get_permalink( $this->post->ID ),
+						'old_type'           => ( $old_schema ) ? $this->schema_labels[ $old_schema ] : esc_html__( 'Default', 'activity-log-wp-seo' ),
+						'new_type'           => ( $schema ) ? $this->schema_labels[ $schema ] : esc_html__( 'Default', 'activity-log-wp-seo' ),
+						$editor_link['name'] => $editor_link['value'],
+					)
+				);
+			}
+		}
+
 		/**
 		 * Method: Yoast default blog options change trigger.
 		 * Notes:
-		 * 	- To accomplish that, Yoast is taking the site, removes option (wpseo_ms) and sets the new one
-		 * @see Yoast-Network-Admin::handle_restore_site_request
-		 * 	- wp functions used do not triggering events @see WPSEO_Options::reset_ms_blog :
-		 * 		- delete_blog_option, update_blog_option
+		 *    - To accomplish that, Yoast is taking the site, removes option (wpseo_ms) and sets the new one
+		 *
+		 *    @see Yoast-Network-Admin::handle_restore_site_request
+		 *    - wp functions used do not triggering events @see WPSEO_Options::reset_ms_blog :
+		 *    - delete_blog_option, update_blog_option
 		 * Logic used here is - if add_option_wpseo is triggered (this method is called only then), and global $_POST is set with valid 'site_id' value and 'ms_defaults_set' (in $value parameter) == true - we know which site has been preset with the default options
 		 *
 		 * @param string $option – Option name.
 		 * @param mixed  $value – Option old value.
 		 */
 		public function yoast_blog_options_trigger( $option, $value ) {
-			$site_id = ( isset( $_POST[ 'wpseo_ms' ] ) && ! empty( $_POST[ 'wpseo_ms' ]['site_id'] ) ) ? (int) $_POST[ 'wpseo_ms' ]['site_id'] : 0;
-			if ( $site_id && isset($value['ms_defaults_set']) && true === $value['ms_defaults_set']) {
+			$site_id = ( isset( $_POST['wpseo_ms'] ) && ! empty( $_POST['wpseo_ms']['site_id'] ) ) ? (int) $_POST['wpseo_ms']['site_id'] : 0;
+			if ( $site_id && isset( $value['ms_defaults_set'] ) && true === $value['ms_defaults_set'] ) {
 				$this->yoast_setting_change_alert( 'site-default-options-change', $site_id, '' );
 			}
 		}
@@ -553,10 +669,10 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 
 			if ( 'wpseo_ms' === $option ) {
 
-				$prefixNetwork = 'network-';
-				$prefixYoast = 'allow_';
+				$prefix_network = 'network-';
+				$prefix_yoast   = 'allow_';
 
-				$eventNames = [
+				$event_names = array(
 					'keyword_analysis_active', // SEO analysis.
 					'content_analysis_active', // Readability analysis.
 					'enable_cornerstone_content', // Cornerstone Content.
@@ -567,21 +683,21 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 					'tracking', // Usage tracking.
 					'enable_headless_rest_endpoints', // REST enpoint.
 					'enable_enhanced_slack_sharing', // Slack sharing.
-				];
+				);
 
-				foreach ( $eventNames as $eventName ) {
-					$yoastName = $prefixYoast.$eventName; // Yoast event names - starting with active-[YoastEventName]
-					$wsalName = $prefixNetwork.$eventName; // internal use name - network-[YoastEventName]
+				foreach ( $event_names as $event_name ) {
+					$yoast_name = $prefix_yoast . $event_name; // Yoast event names - starting with active-[YoastEventName].
+					$wsal_name  = $prefix_network . $event_name; // internal use name - network-[YoastEventName].
 
-					if ( isset( $old_value[ $yoastName ] ) && isset( $new_value[ $yoastName ] ) ) {
-						if ( $old_value[ $yoastName ] !== $new_value[ $yoastName ] ) {
+					if ( isset( $old_value[ $yoast_name ] ) && isset( $new_value[ $yoast_name ] ) ) {
+						if ( $old_value[ $yoast_name ] !== $new_value[ $yoast_name ] ) {
 
 							$suffix = '-inactive';
-							if ( ! $new_value[ $yoastName ] ) {
+							if ( ! $new_value[ $yoast_name ] ) {
 								$suffix = '-active';
 							}
 
-							$this->yoast_setting_switch_alert( $wsalName.$suffix, $new_value[ $yoastName ] );
+							$this->yoast_setting_switch_alert( $wsal_name . $suffix, $new_value[ $yoast_name ] );
 						}
 					}
 				}
@@ -665,6 +781,21 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 
 					if ( $old_value['metadesc-archive-wpseo'] !== $new_value['metadesc-archive-wpseo'] ) {
 						$this->yoast_setting_change_alert( 'metadesc-archive-wpseo', $old_value['metadesc-archive-wpseo'], $new_value['metadesc-archive-wpseo'] );
+					}
+
+					$schemas = array(
+						'schema-page-type-post',
+						'schema-article-type-post',
+						'schema-page-type-page',
+						'schema-article-type-page',
+						'schema-page-type-attachment',
+						'schema-article-type-attachment',
+					);
+
+					foreach ( $schemas as $schema ) {
+						if ( $old_value[ $schema ] !== $new_value[ $schema ] ) {
+							$this->yoast_setting_change_alert( $schema, $old_value[ $schema ], $new_value[ $schema ] );
+						}
 					}
 
 					// Get public post types.
@@ -768,9 +899,17 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 					 *
 					 * @see: https://github.com/Yoast/wordpress-seo/pull/14123
 					 */
-					if ( isset( $old_value['ryte_indexability'] ) && isset( $new_value['ryte_indexability'] ) ) {
-						if ( $old_value['ryte_indexability'] !== $new_value['ryte_indexability'] ) {
-							$this->yoast_setting_switch_alert( 'ryte_indexability', $new_value['ryte_indexability'] );
+					$integrations = array(
+						'semrush_integration_active',
+						'zapier_integration_active',
+						'algolia_integration_active',
+						'wincher_integration_active',
+						'ryte_indexability',
+					);
+
+					foreach ( $integrations as $integration ) {
+						if ( $old_value[ $integration ] !== $new_value[ $integration ] ) {
+							$this->yoast_setting_switch_alert( $integration, $new_value[ $integration ] );
 						}
 					}
 
@@ -801,8 +940,12 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 							$this->yoast_setting_switch_alert( 'enable_headless_rest_endpoints', $new_value['enable_headless_rest_endpoints'] );
 						}
 					}
-
-					$search_engines = [ 'baiduverify', 'googleverify', 'msverify', 'yandexverify' ];
+					$search_engines = array(
+						'baiduverify',
+						'googleverify',
+						'msverify',
+						'yandexverify',
+					);
 
 					foreach ( $search_engines as $search_engine ) {
 						if ( $old_value[ $search_engine ] !== $new_value[ $search_engine ] ) {
@@ -815,6 +958,111 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 				if ( 'wpseo_social' === $option ) {
 					$this->yoast_social_profile_setting_change_alert( $old_value, $new_value );
 				}
+			}
+
+			if ( 'wpseo-premium-redirects-export-plain' === $option ) {
+				$this->yoast_redirects_change_alert( $option, $old_value, $new_value, 'plain' );
+			} elseif ( 'wpseo-premium-redirects-export-regex' === $option ) {
+				$this->yoast_redirects_change_alert( $option, $old_value, $new_value, 'regex' );
+			} elseif ( 'wpseo_redirect' === $option ) {
+				$this->yoast_redirects_system_change_alert( $option, $old_value, $new_value );
+			}
+		}
+
+		/**
+		 * Trigger an alert for redirect changes.
+		 *
+		 * @param string $option - Current option being changes.
+		 * @param array  $old_value - Old value.
+		 * @param array  $new_value - new value.
+		 * @return void
+		 */
+		private function yoast_redirects_system_change_alert( $option, $old_value, $new_value ) {
+			$alert_code = 8858;
+			$alert_args = array(
+				'new_method' => ( 'off' === $new_value['disable_php_redirect'] ) ? esc_html__( 'PHP', 'activity-log-wp-seo' ) : esc_html__( 'Web server', 'activity-log-wp-seo' ),
+				'old_method' => ( 'off' === $old_value['disable_php_redirect'] ) ? esc_html__( 'PHP', 'activity-log-wp-seo' ) : esc_html__( 'Web server', 'activity-log-wp-seo' ),
+			);
+			$this->plugin->alerts->Trigger( $alert_code, $alert_args );
+		}
+
+		/**
+		 * Monitor and alert for changes related to Yoast redirects (Premium only)
+		 *
+		 * @param string $option - Option being changed.
+		 * @param array  $old_value - Old value.
+		 * @param array  $new_value - New Value.
+		 * @param string $redirect_type - Redirection type.
+		 *
+		 * @return void
+		 */
+		private function yoast_redirects_change_alert( $option, $old_value, $new_value, $redirect_type = 'plain' ) {
+			$alert_args = null;
+			$alert_code = null;
+			$is_regex   = ( 'regex' === $redirect_type ) ? true : false;
+
+			if ( count( $old_value ) !== count( $new_value ) ) {
+
+				$compare_added_items = array_diff_assoc(
+					array_map( 'serialize', $new_value ),
+					array_map( 'serialize', $old_value )
+				);
+				$added_items         = array_map( 'unserialize', $compare_added_items );
+
+				$compare_removed_items = array_diff_assoc(
+					array_map( 'serialize', $old_value ),
+					array_map( 'serialize', $new_value )
+				);
+				$removed_items         = array_map( 'unserialize', $compare_removed_items );
+
+				if ( ! empty( $added_items ) ) {
+					$alert_code                  = 8855;
+					$alert_args['old_url']       = key( $added_items );
+					$added_items                 = end( $added_items );
+					$alert_args['new_url']       = ( isset( $added_items['url'] ) && ! empty( $added_items['url'] ) ) ? $added_items['url'] : esc_html__( 'Not applicable', 'activity-log-wp-seo' );
+					$alert_args['redirect_code'] = $added_items['type'];
+					$alert_args['redirect_type'] = ( $is_regex ) ? 'regex' : 'plain';
+				}
+
+				if ( ! empty( $removed_items ) ) {
+					$alert_code                  = 8857;
+					$alert_args['old_url']       = key( $removed_items );
+					$removed_items               = end( $removed_items );
+					$alert_args['new_url']       = ( isset( $removed_items['url'] ) && ! empty( $added_items['url'] ) ) ? $removed_items['url'] : esc_html__( 'Not applicable', 'activity-log-wp-seo' );
+					$alert_args['redirect_code'] = $removed_items['type'];
+					$alert_args['redirect_type'] = ( $is_regex ) ? 'regex' : 'plain';
+				}
+			}
+
+			if ( count( $old_value ) === count( $new_value ) ) {
+				$compare_modified_items = array_diff_assoc(
+					array_map( 'serialize', $new_value ),
+					array_map( 'serialize', $old_value )
+				);
+				$modified_items         = array_map( 'unserialize', $compare_modified_items );
+
+				$compare_removed_items = array_diff_assoc(
+					array_map( 'serialize', $old_value ),
+					array_map( 'serialize', $new_value )
+				);
+				$removed_items         = array_map( 'unserialize', $compare_removed_items );
+
+				if ( ! empty( $modified_items ) ) {
+					$alert_code                      = 8856;
+					$alert_args['redirect_type']     = ( $is_regex ) ? 'regex' : 'plain';
+					$alert_args['old_url']           = ( key( $removed_items ) !== key( $modified_items ) ) ? key( $removed_items ) : esc_html__( 'Not applicable', 'activity-log-wp-seo' );
+					$alert_args['new_old_url']       = ( key( $modified_items ) !== key( $removed_items ) ) ? key( $modified_items ) : esc_html__( 'Not applicable', 'activity-log-wp-seo' );
+					$modified_items                  = end( $modified_items );
+					$removed_items                   = end( $removed_items );
+					$alert_args['old_new_url']       = ( isset( $removed_items['url'] ) && ! empty( $removed_items['url'] ) && $modified_items['url'] !== $removed_items['url'] ) ? $removed_items['url'] : esc_html__( 'Not applicable', 'activity-log-wp-seo' );
+					$alert_args['new_new_url']       = ( isset( $modified_items['url'] ) && ! empty( $added_items['url'] ) && $modified_items['url'] !== $removed_items['url'] ) ? $modified_items['url'] : esc_html__( 'Not applicable', 'activity-log-wp-seo' );
+					$alert_args['new_redirect_code'] = ( $removed_items['type'] !== $modified_items['type'] ) ? $modified_items['type'] : esc_html__( 'Not applicable', 'activity-log-wp-seo' );
+					$alert_args['old_redirect_code'] = ( $modified_items['type'] !== $removed_items['type'] ) ? $removed_items['type'] : esc_html__( 'Not applicable', 'activity-log-wp-seo' );
+				}
+			}
+
+			if ( ! empty( $alert_code ) ) {
+				$this->plugin->alerts->Trigger( $alert_code, $alert_args );
 			}
 		}
 
@@ -893,10 +1141,10 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 				case 'separator':
 					$alert_code = 8809;
 					if ( class_exists( '\WPSEO_Option_Titles' ) ) {
-						$titles = \WPSEO_Option_Titles::get_instance();
+						$titles               = \WPSEO_Option_Titles::get_instance();
 						$available_seperators = $titles->get_separator_options();
-						$alert_args['old'] = $available_seperators[$alert_args['old']];
-						$alert_args['new'] = $available_seperators[$alert_args['new']];
+						$alert_args['old']    = $available_seperators[ $alert_args['old'] ];
+						$alert_args['new']    = $available_seperators[ $alert_args['new'] ];
 					}
 					break;
 
@@ -906,7 +1154,7 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 					break;
 
 				case 'company_or_person':
-					$alert_code = 8812;
+					$alert_code        = 8812;
 					$alert_args['old'] = ucwords( $alert_args['old'] );
 					$alert_args['new'] = ucwords( $alert_args['new'] );
 					break;
@@ -925,15 +1173,15 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 					break;
 
 				case strpos( $key, 'metadesc-tax-' ):
-					$alert_code = 8832;
-					$alert_args['old'] = ( ! empty( $alert_args['old'] ) ) ? $alert_args['old'] : __( 'Not provided', 'activity-log-wp-seo' );
-					$alert_args['new'] = ( ! empty( $alert_args['new'] ) ) ? $alert_args['new'] : __( 'Not provided', 'activity-log-wp-seo' );
+					$alert_code        = 8832;
+					$alert_args['old'] = ( ! empty( $alert_args['old'] ) ) ? $alert_args['old'] : esc_html__( 'Not provided', 'activity-log-wp-seo' );
+					$alert_args['new'] = ( ! empty( $alert_args['new'] ) ) ? $alert_args['new'] : esc_html__( 'Not provided', 'activity-log-wp-seo' );
 					break;
 
 				case strpos( $key, 'metadesc-' ):
-					$alert_code = 8822;
-					$alert_args['old'] = ( ! empty( $alert_args['old'] ) ) ? $alert_args['old'] : __( 'Not provided', 'activity-log-wp-seo' );
-					$alert_args['new'] = ( ! empty( $alert_args['new'] ) ) ? $alert_args['new'] : __( 'Not provided', 'activity-log-wp-seo' );
+					$alert_code        = 8822;
+					$alert_args['old'] = ( ! empty( $alert_args['old'] ) ) ? $alert_args['old'] : esc_html__( 'Not provided', 'activity-log-wp-seo' );
+					$alert_args['new'] = ( ! empty( $alert_args['new'] ) ) ? $alert_args['new'] : esc_html__( 'Not provided', 'activity-log-wp-seo' );
 					break;
 
 				case 'disable-attachment':
@@ -941,21 +1189,21 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 					$alert_args['EventType'] = $new_value ? 'enabled' : 'disabled';
 					break;
 
-				case 'site-access-change' :
-					$alert_code              = 8838;
+				case 'site-access-change':
+					$alert_code        = 8838;
 					$alert_args['old'] = ucwords( $alert_args['old'] );
 					$alert_args['new'] = ucwords( $alert_args['new'] );
 					break;
 
-				case 'site-default-seo-inherit-change' :
-					$alert_code              = 8839;
-					$alert_args['old'] = ( ! empty( $alert_args['old'] ) ) ? get_blog_details( $alert_args['old'] )->blogname : __( 'None', 'activity-log-wp-seo' );
-					$alert_args['new'] = ( ! empty( $alert_args['new'] ) ) ? get_blog_details( $alert_args['new'] )->blogname : __( 'None', 'activity-log-wp-seo' );
+				case 'site-default-seo-inherit-change':
+					$alert_code        = 8839;
+					$alert_args['old'] = ( ! empty( $alert_args['old'] ) ) ? get_blog_details( $alert_args['old'] )->blogname : esc_html__( 'None', 'activity-log-wp-seo' );
+					$alert_args['new'] = ( ! empty( $alert_args['new'] ) ) ? get_blog_details( $alert_args['new'] )->blogname : esc_html__( 'None', 'activity-log-wp-seo' );
 					break;
 
-				case 'site-default-options-change' :
-					$alert_code              = 8840;
-					$alert_args['old'] = get_blog_details( $alert_args['old'] )->blogname.' / '.$alert_args['old'];
+				case 'site-default-options-change':
+					$alert_code        = 8840;
+					$alert_args['old'] = get_blog_details( $alert_args['old'] )->blogname . ' / ' . $alert_args['old'];
 					$alert_args['new'] = '';
 					break;
 
@@ -963,7 +1211,7 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 				case 'googleverify':
 				case 'msverify':
 				case 'yandexverify':
-					$alert_code        = 8841;
+					$alert_code                       = 8841;
 					$alert_args['search_engine_type'] = ucwords( str_replace( 'verify', '', $key ) );
 
 					if ( empty( $alert_args['old'] ) && ! empty( $alert_args['new'] ) ) {
@@ -975,8 +1223,26 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 					}
 
 					$alert_args['EventType'] = $event_type;
-					$alert_args['old']       = ( empty( $alert_args['old'] ) ) ? __( 'Not provided', 'activity-log-wp-seo' ) : $alert_args['old'];
-					$alert_args['new']       = ( empty( $alert_args['new'] ) ) ? __( 'Not provided', 'activity-log-wp-seo' ) : $alert_args['new'];
+					$alert_args['old']       = ( empty( $alert_args['old'] ) ) ? esc_html__( 'Not provided', 'activity-log-wp-seo' ) : $alert_args['old'];
+					$alert_args['new']       = ( empty( $alert_args['new'] ) ) ? esc_html__( 'Not provided', 'activity-log-wp-seo' ) : $alert_args['new'];
+					break;
+
+				case 'schema-page-type-post':
+				case 'schema-page-type-page':
+				case 'schema-page-type-attachment':
+					$alert_code                = 8853;
+					$alert_args['SEOPostType'] = ucwords( str_replace( 'schema-page-type-', '', $key ) );
+					$alert_args['old_type']    = ( $alert_args['old'] ) ? $this->schema_labels[ $alert_args['old'] ] : esc_html__( 'Default', 'activity-log-wp-seo' );
+					$alert_args['new_type']    = ( $alert_args['new'] ) ? $this->schema_labels[ $alert_args['new'] ] : esc_html__( 'Default', 'activity-log-wp-seo' );
+					break;
+
+				case 'schema-article-type-page':
+				case 'schema-article-type-post':
+				case 'schema-article-type-attachment':
+					$alert_code                = 8854;
+					$alert_args['SEOPostType'] = ucwords( str_replace( 'schema-article-type-', '', $key ) );
+					$alert_args['old_type']    = ( $alert_args['old'] ) ? $this->schema_labels[ $alert_args['old'] ] : esc_html__( 'Default', 'activity-log-wp-seo' );
+					$alert_args['new_type']    = ( $alert_args['new'] ) ? $this->schema_labels[ $alert_args['new'] ] : esc_html__( 'Default', 'activity-log-wp-seo' );
 					break;
 
 				default:
@@ -1016,7 +1282,7 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 					$alert_args['SEOPostType'] = $seo_post_type;
 					$status                    = 1 === $status ? 0 : 1;
 				} else {
-					$seo_post_type  = $this->create_tidy_name( $key );
+					$seo_post_type = $this->create_tidy_name( $key );
 
 					// Set alert meta data.
 					$alert_args['SEOPostType'] = $seo_post_type;
@@ -1031,7 +1297,7 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 				// Set alert meta data.
 				$alert_args['SEOPostType'] = $seo_post_type;
 			} else {
-				$seo_post_type  = $this->create_tidy_name( $key );
+				$seo_post_type = $this->create_tidy_name( $key );
 
 				// Set alert meta data.
 				$alert_args['SEOPostType'] = $seo_post_type;
@@ -1041,47 +1307,47 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 
 			// Find network-* in the key.
 			if ( false !== strpos( $key, 'network-' ) ) {
-				$eventKey  = substr($key, strpos( $key, '-') +1 );
+				$event_key = substr( $key, strpos( $key, '-' ) + 1 );
 
-				$eventKey = substr($eventKey, 0, strrpos( $eventKey, '-'));
+				$event_key = substr( $event_key, 0, strrpos( $event_key, '-' ) );
 
-				switch ( $eventKey ) {
+				switch ( $event_key ) {
 					default:
 					case 'keyword_analysis_active':
-						$featureName = __( 'SEO Analysis', 'activity-log-wp-seo' );
+						$feature_name = esc_html__( 'SEO Analysis', 'activity-log-wp-seo' );
 						break;
 					case 'content_analysis_active':
-						$featureName = __( 'Readability Analysis', 'activity-log-wp-seo' );
+						$feature_name = esc_html__( 'Readability Analysis', 'activity-log-wp-seo' );
 						break;
 					case 'enable_cornerstone_content':
-						$featureName = __( 'Cornerstone content', 'activity-log-wp-seo' );
+						$feature_name = esc_html__( 'Cornerstone content', 'activity-log-wp-seo' );
 						break;
 					case 'enable_text_link_counter':
-						$featureName = __( 'Text link counter', 'activity-log-wp-seo' );
+						$feature_name = esc_html__( 'Text link counter', 'activity-log-wp-seo' );
 						break;
 					case 'enable_xml_sitemap':
-						$featureName = __( 'XML sitemap', 'activity-log-wp-seo' );
+						$feature_name = esc_html__( 'XML sitemap', 'activity-log-wp-seo' );
 						break;
 					case 'enable_admin_bar_menu':
-						$featureName = __( 'Admin bar menu', 'activity-log-wp-seo' );
+						$feature_name = esc_html__( 'Admin bar menu', 'activity-log-wp-seo' );
 						break;
 					case 'disableadvanced_meta':
-						$featureName = __( 'Security: advanced or schema settings for authors', 'activity-log-wp-seo' );
+						$feature_name = esc_html__( 'Security: advanced or schema settings for authors', 'activity-log-wp-seo' );
 						break;
 					case 'tracking':
-						$featureName = __( 'Usage tracking', 'activity-log-wp-seo' );
+						$feature_name = esc_html__( 'Usage tracking', 'activity-log-wp-seo' );
 						break;
 					case 'enable_headless_rest_endpoints':
-						$featureName = __( 'REST API: Head endpoint', 'activity-log-wp-seo' );
+						$feature_name = esc_html__( 'REST API: Head endpoint', 'activity-log-wp-seo' );
 						break;
 					case 'enable_enhanced_slack_sharing':
-						$featureName = __( 'Slack sharing', 'activity-log-wp-seo' );
+						$feature_name = esc_html__( 'Slack sharing', 'activity-log-wp-seo' );
 						break;
 				}
 
 				// Set alert meta data.
-				$alert_args['feature_name'] = $featureName;
-				$alert_args['EventType'] = 1 === $status ? 'disabled' : 'enabled';
+				$alert_args['feature_name'] = $feature_name;
+				$alert_args['EventType']    = 1 === $status ? 'disabled' : 'enabled';
 			}
 
 			// Set alert code to NULL initially.
@@ -1095,7 +1361,7 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 					$archive_type = $this->create_tidy_name( $key );
 					// If this is the "date archive" setting, update archive type to something more descriptive.
 					if ( 'Archive' === $archive_type ) {
-						$archive_type = __( 'Date', 'activity-log-wp-seo' );
+						$archive_type = esc_html__( 'Date', 'activity-log-wp-seo' );
 					}
 					// Set alert meta data.
 					$alert_args['archive_type'] = $archive_type;
@@ -1129,18 +1395,27 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 					$alert_code = 8819;
 					break;
 
-				case (false !== strpos( $key, 'network-' ) && false !== strpos( $key, '-inactive' )) :
+				case ( false !== strpos( $key, 'network-' ) && false !== strpos( $key, '-inactive' ) ):
 					$alert_code = 8842;
 					break;
 
-				case (false !== strpos( $key, 'network-' ) && false !== strpos( $key, '-active' )) :
+				case ( false !== strpos( $key, 'network-' ) && false !== strpos( $key, '-active' ) ):
 					$alert_code = 8843;
 					break;
 
 				// renamed to ryte_integration. see: https://github.com/Yoast/wordpress-seo/pull/14123.
 				case 'onpage_indexability':
 				case 'ryte_indexability':
-					$alert_code = 8820;
+					$alert_code         = 8820;
+					$alert_args['type'] = ucfirst( str_replace( '_indexability', '', $key ) );
+					break;
+
+				case 'semrush_integration_active':
+				case 'zapier_integration_active':
+				case 'algolia_integration_active':
+				case 'wincher_integration_active':
+					$alert_code         = 8820;
+					$alert_args['type'] = ucfirst( str_replace( '_integration_active', '', $key ) );
 					break;
 
 				case 'enable_admin_bar_menu':
@@ -1227,47 +1502,47 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 			}
 
 			// Facebook social settings.
-			if ( $new_value[ 'opengraph' ] !== $old_value[ 'opengraph' ] ) {
+			if ( $new_value['opengraph'] !== $old_value['opengraph'] ) {
 				$alert_code = 8844;
 				$alert_args = array(
-					'EventType' => ( ! $new_value[ 'opengraph' ] ) ? 'disabled' : 'enabled',
+					'EventType' => ( ! $new_value['opengraph'] ) ? 'disabled' : 'enabled',
 				);
 				$this->plugin->alerts->Trigger( $alert_code, $alert_args );
 			}
 
-			if ( $new_value[ 'og_default_image' ] !== $old_value[ 'og_default_image' ] ) {
+			if ( $new_value['og_default_image'] !== $old_value['og_default_image'] ) {
 				$alert_code = 8845;
 				$alert_args = array(
-					'image_name' => ( empty( $new_value[ 'og_default_image_id' ] ) ) ? __( 'None supplied', 'wsal-yoast' ) : get_the_title( $new_value[ 'og_default_image_id' ] ),
-					'image_path' => ( empty( $new_value[ 'og_default_image' ] ) ) ? __( 'None supplied', 'wsal-yoast' ) : $new_value[ 'og_default_image' ],
-					'old_image'  => ( empty( $old_value[ 'og_default_image' ] ) ) ? __( 'None supplied', 'wsal-yoast' ) : get_the_title( $old_value[ 'og_default_image_id' ] ),
-					'old_path'   => ( empty( $old_value[ 'og_default_image' ] ) ) ? __( 'None supplied', 'wsal-yoast' ) : $old_value[ 'og_default_image' ],
+					'image_name' => ( empty( $new_value['og_default_image_id'] ) ) ? esc_html__( 'None supplied', 'wsal-yoast' ) : wp_basename( $new_value['og_default_image'] ),
+					'image_path' => ( empty( $new_value['og_default_image'] ) ) ? esc_html__( 'None supplied', 'wsal-yoast' ) : dirname( $new_value['og_default_image'] ),
+					'old_image'  => ( empty( $old_value['og_default_image'] ) ) ? esc_html__( 'None supplied', 'wsal-yoast' ) : wp_basename( $old_value['og_default_image'] ),
+					'old_path'   => ( empty( $old_value['og_default_image'] ) ) ? esc_html__( 'None supplied', 'wsal-yoast' ) : dirname( $old_value['og_default_image'] ),
 				);
 				$this->plugin->alerts->Trigger( $alert_code, $alert_args );
 			}
 
-			if ( $new_value[ 'twitter' ] !== $old_value[ 'twitter' ] ) {
+			if ( $new_value['twitter'] !== $old_value['twitter'] ) {
 				$alert_code = 8846;
 				$alert_args = array(
-					'EventType' => ( ! $new_value[ 'twitter' ] ) ? 'disabled' : 'enabled',
+					'EventType' => ( ! $new_value['twitter'] ) ? 'disabled' : 'enabled',
 				);
 				$this->plugin->alerts->Trigger( $alert_code, $alert_args );
 			}
 
-			if ( $new_value[ 'twitter_card_type' ] !== $old_value[ 'twitter_card_type' ] ) {
+			if ( $new_value['twitter_card_type'] !== $old_value['twitter_card_type'] ) {
 				$alert_code = 8847;
 				$alert_args = array(
-					'new_setting' => $new_value[ 'twitter_card_type' ],
-					'old_setting' => $old_value[ 'twitter_card_type' ],
+					'new_setting' => $new_value['twitter_card_type'],
+					'old_setting' => $old_value['twitter_card_type'],
 				);
 				$this->plugin->alerts->Trigger( $alert_code, $alert_args );
 			}
 
-			if ( $new_value[ 'pinterestverify' ] !== $old_value[ 'pinterestverify' ] ) {
+			if ( $new_value['pinterestverify'] !== $old_value['pinterestverify'] ) {
 				$alert_code = 8848;
 				$alert_args = array(
-					'new_value' => ( empty( $new_value[ 'pinterestverify' ] ) ) ? __( 'None supplied', 'wsal-yoast' ) : $new_value[ 'pinterestverify' ],
-					'old_value' => ( empty( $old_value[ 'pinterestverify' ] ) ) ? __( 'None supplied', 'wsal-yoast' ) : $old_value[ 'pinterestverify' ]
+					'new_value' => ( empty( $new_value['pinterestverify'] ) ) ? esc_html__( 'None supplied', 'wsal-yoast' ) : $new_value['pinterestverify'],
+					'old_value' => ( empty( $old_value['pinterestverify'] ) ) ? esc_html__( 'None supplied', 'wsal-yoast' ) : $old_value['pinterestverify'],
 				);
 				$this->plugin->alerts->Trigger( $alert_code, $alert_args );
 			}
@@ -1318,12 +1593,12 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 
 				// If this is the "date archive" setting, update archive type to something more descriptive.
 				if ( 'Archive' === $tidied_text ) {
-					$tidied_text = __( 'Date', 'activity-log-wp-seo' );
+					$tidied_text = esc_html__( 'Date', 'activity-log-wp-seo' );
 				}
 
 				// If left unchanged, the alert reads "Categorys". The 's' is missing as its added later.
 				if ( 'Category' === $tidied_text ) {
-					$tidied_text = __( 'Categories', 'activity-log-wp-seo' );
+					$tidied_text = esc_html__( 'Categories', 'activity-log-wp-seo' );
 				}
 
 				return $tidied_text;

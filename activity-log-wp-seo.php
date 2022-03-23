@@ -6,7 +6,7 @@
  * Text Domain: activity-log-wp-seo
  * Author: WP White Security
  * Author URI: https://www.wpwhitesecurity.com/
- * Version: 1.2.0
+ * Version: 1.3.0
  * License: GPL2
  * Network: true
  *
@@ -15,7 +15,7 @@
  */
 
 /*
-	Copyright(c) 2021  WP White Security  (email : info@wpwhitesecurity.com)
+	Copyright(c) 2022  WP White Security  (email : info@wpwhitesecurity.com)
 
 	This program is free software; you can redistribute it and/or modify
 	it under the terms of the GNU General Public License, version 2, as
@@ -48,8 +48,10 @@ $wsal_extension = new WPWhiteSecurity\ActivityLog\Extensions\Common\Core( __FILE
  */
 function wsal_yoast_seo_extension_add_custom_event_objects( $objects ) {
 	$new_objects = array(
-		'yoast-seo'         => __( 'Yoast SEO', 'wp-security-audit-log' ),
-		'yoast-seo-metabox' => __( 'Yoast SEO Meta Box', 'wp-security-audit-log' ),
+		'yoast-seo'                   => esc_html__( 'Yoast SEO', 'wp-security-audit-log' ),
+		'yoast-seo-metabox'           => esc_html__( 'Yoast SEO Meta Box', 'wp-security-audit-log' ),
+		'yoast-seo-search-appearance' => esc_html__( 'Yoast SEO Search Appearance', 'wp-security-audit-log' ),
+		'yoast-seo-redirects'         => esc_html__( 'Yoast SEO Redirects', 'wp-security-audit-log' ),
 	);
 
 	// combine the two arrays.
@@ -60,6 +62,9 @@ function wsal_yoast_seo_extension_add_custom_event_objects( $objects ) {
 
 /**
  * Add specific events so we can use them for category titles.
+ *
+ * @param  array $sub_category_events - Current event list.
+ * @return array $sub_category_events - Appended list.
  */
 function wsal_yoast_seo_extension_togglealerts_sub_category_events( $sub_category_events ) {
 	$new_events          = array( 8813, 8815, 8838 );
@@ -69,15 +74,17 @@ function wsal_yoast_seo_extension_togglealerts_sub_category_events( $sub_categor
 
 /**
  * Add sub cateogry titles to ToggleView page in WSAL.
+ *
+ * @param  string $subcat_title - Original title.
+ * @param  int    $alert_id - Alert ID.
+ * @return string $subcat_title - New title.
  */
 function wsal_yoast_seo_extension_togglealerts_sub_category_titles( $subcat_title, $alert_id ) {
 	if ( 8815 === $alert_id ) {
 		$subcat_title = esc_html_e( 'Features:', 'wp-security-audit-log' );
-	}
-	else if ( 8813 === $alert_id ) {
+	} elseif ( 8813 === $alert_id ) {
 		$subcat_title = esc_html_e( 'Search Appearance', 'wp-security-audit-log' );
-	}
-	else if ( 8838 === $alert_id ) {
+	} elseif ( 8838 === $alert_id ) {
 		$subcat_title = esc_html_e( 'Multisite network', 'wp-security-audit-log' );
 	}
 	return $subcat_title;
@@ -97,9 +104,12 @@ function wsal_yoast_seo_extension_replace_duplicate_event_notice() {
 
 /**
  * Add obsolete events to the togglealerts view.
+ *
+ * @param  array $obsolete_events - Current events.
+ * @return array $obsolete_events - Appended events.
  */
 function wsal_yoast_seo_extension_togglealerts_obsolete_events( $obsolete_events ) {
-	$new_events      = [ 8810, 8811 ];
+	$new_events      = array( 8810, 8811 );
 	$obsolete_events = array_merge( $obsolete_events, $new_events );
 	return $obsolete_events;
 }
@@ -108,14 +118,14 @@ function wsal_yoast_seo_extension_togglealerts_obsolete_events( $obsolete_events
  * Replacement "duplicate event" notice text.
  */
 function wsal_yoast_seo_extension_replacement_duplicate_event_notice() {
-	$replacement_text = __( 'You are running an old version of WP Activity Log. Please update the plugin to run it alongside this extension: Yoast SEO', 'wp-security-audit-log' );
+	$replacement_text = esc_html__( 'You are running an old version of WP Activity Log. Please update the plugin to run it alongside this extension: Yoast SEO', 'wp-security-audit-log' );
 	?>
 	<script type="text/javascript">
 		if ( jQuery( '.notice.notice-error span[style="color:#dc3232; font-weight:bold;"]' ).length ) {
 			jQuery( '.notice.notice-error span[style="color:#dc3232; font-weight:bold;"]' ).parent().text( '<?php echo esc_html( $replacement_text ); ?>' );
 		}
 	</script>
-<?php
+	<?php
 }
 
 
