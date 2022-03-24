@@ -157,7 +157,7 @@ $custom_alerts = array(
 					esc_html__( 'Post ID', 'activity-log-wp-seo' ) => '%PostID%',
 					esc_html__( 'Post type', 'activity-log-wp-seo' ) => '%PostType%',
 					esc_html__( 'Post status', 'activity-log-wp-seo' ) => '%PostStatus%',
-					esc_html__( 'Previous Breadcrumbs Title:', 'activity-log-wp-seo' ) => '%old_breadcrumb%',
+					esc_html__( 'Previous Breadcrumbs Title', 'activity-log-wp-seo' ) => '%old_breadcrumb%',
 				),
 				array(
 					esc_html__( 'View the post in editor', 'wp-security-audit-log' ) => '%EditorLinkPost%',
