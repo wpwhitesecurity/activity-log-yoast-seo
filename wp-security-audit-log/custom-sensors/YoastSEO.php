@@ -581,7 +581,7 @@ if ( ! class_exists( 'WSAL_Sensors_YoastSEO' ) ) {
 		 */
 		protected function check_breadcrumb_change( $breadcrumb ) {
 			// Get old title value.
-			$old_breadcrumb = $this->get_post_seo_data( 'bctitle' );
+			$old_breadcrumb = ( ! $this->get_post_seo_data( 'bctitle' ) ) ? '' : $this->get_post_seo_data( 'bctitle' );
 
 			// If setting is changed then log alert.
 			if ( $old_breadcrumb !== $breadcrumb ) {
