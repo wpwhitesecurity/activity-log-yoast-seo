@@ -309,7 +309,7 @@ $custom_alerts = array(
 				8820,
 				WSAL_MEDIUM,
 				esc_html__( 'User Enabled/Disabled an integration in the Yoast SEO plugin settings', 'activity-log-wp-seo' ),
-				esc_html__( 'Changed the status of the %integration% integration.', 'activity-log-wp-seo' ),
+				esc_html__( 'Changed the status of the %type% integration.', 'activity-log-wp-seo' ),
 				array(),
 				array(),
 				'yoast-seo',
