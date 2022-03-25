@@ -157,7 +157,7 @@ $custom_alerts = array(
 					esc_html__( 'Post ID', 'activity-log-wp-seo' ) => '%PostID%',
 					esc_html__( 'Post type', 'activity-log-wp-seo' ) => '%PostType%',
 					esc_html__( 'Post status', 'activity-log-wp-seo' ) => '%PostStatus%',
-					esc_html__( 'Previous Breadcrumbs Title:', 'activity-log-wp-seo' ) => '%old_breadcrumb%',
+					esc_html__( 'Previous Breadcrumbs Title', 'activity-log-wp-seo' ) => '%old_breadcrumb%',
 				),
 				array(
 					esc_html__( 'View the post in editor', 'wp-security-audit-log' ) => '%EditorLinkPost%',
@@ -169,7 +169,7 @@ $custom_alerts = array(
 				8851,
 				WSAL_INFORMATIONAL,
 				esc_html__( 'User changed to the Schema settings of a post', 'activity-log-wp-seo' ),
-				__( 'Changed the Page type in the Schema settings to <strong>%new_type%</strong>', 'activity-log-wp-seo' ),
+				__( 'Changed the <strong>Page type</strong> in the <strong>Schema</strong> settings to <strong>%new_type%</strong>', 'activity-log-wp-seo' ),
 				array(
 					esc_html__( 'Post ID', 'activity-log-wp-seo' ) => '%PostID%',
 					esc_html__( 'Post type', 'activity-log-wp-seo' ) => '%PostType%',
@@ -186,7 +186,7 @@ $custom_alerts = array(
 				8852,
 				WSAL_INFORMATIONAL,
 				esc_html__( 'User changed to the Schema settings of a post', 'activity-log-wp-seo' ),
-				__( 'Changed the Article type in the Schema settings to <strong>%new_type%</strong>', 'activity-log-wp-seo' ),
+				__( 'Changed the <strong>Article type</strong> in the <strong>Schema</strong> settings to <strong>%new_type%</strong>', 'activity-log-wp-seo' ),
 				array(
 					esc_html__( 'Post ID', 'activity-log-wp-seo' ) => '%PostID%',
 					esc_html__( 'Post type', 'activity-log-wp-seo' ) => '%PostType%',
@@ -309,7 +309,7 @@ $custom_alerts = array(
 				8820,
 				WSAL_MEDIUM,
 				esc_html__( 'User Enabled/Disabled an integration in the Yoast SEO plugin settings', 'activity-log-wp-seo' ),
-				esc_html__( 'Changed the status of the %integration% integration.', 'activity-log-wp-seo' ),
+				esc_html__( 'Changed the status of the %type% integration.', 'activity-log-wp-seo' ),
 				array(),
 				array(),
 				'yoast-seo',
@@ -579,7 +579,7 @@ $custom_alerts = array(
 				8853,
 				WSAL_MEDIUM,
 				esc_html__( 'User the Default Page type in the Scheme settings', 'activity-log-wp-seo' ),
-				__( 'Changed the Default Page type in the Schema settings for <strong>%SEOPostType%</strong> to <strong>%new_type%.</strong>', 'activity-log-wp-seo' ),
+				__( 'Changed the <strong>Default Page type</strong> in the Schema settings for <strong>%SEOPostType%</strong> to <strong>%new_type%.</strong>', 'activity-log-wp-seo' ),
 				array(
 					esc_html__( 'Previous Default Page type', 'activity-log-wp-seo' ) => '%old_type%',
 				),
@@ -591,7 +591,7 @@ $custom_alerts = array(
 				8854,
 				WSAL_MEDIUM,
 				esc_html__( 'User the Default Article type in the Scheme settings', 'activity-log-wp-seo' ),
-				__( 'Changed the Default Article type in the Schema settings for <strong>%SEOPostType%</strong> to <strong>%new_type%.</strong>', 'activity-log-wp-seo' ),
+				__( 'Changed the <strong>Default Article type</strong> in the Schema settings for <strong>%SEOPostType%</strong> to <strong>%new_type%.</strong>', 'activity-log-wp-seo' ),
 				array(
 					esc_html__( 'Previous Default Article type', 'activity-log-wp-seo' ) => '%old_type%',
 				),
