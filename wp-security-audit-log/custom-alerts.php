@@ -149,6 +149,8 @@ $custom_alerts = array(
 				'enabled',
 			),
 			array(
+
+                
 				8850,
 				WSAL_INFORMATIONAL,
 				esc_html__( 'User changed Breadcrumbs Title for a post', 'activity-log-wp-seo' ),
