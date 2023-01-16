@@ -7,7 +7,7 @@ Tags: activity log for Yoast SEO, WP Activity Log extension, activity logs
 Requires at least: 5.0
 Tested up to: 5.9.2
 Stable tag: 1.3.0
-Requires PHP: 7.0
+Requires PHP: 7.2
 
 Keep a detailed log of your team's changes in the Yoast SEO meta box & plugin settings.
 
