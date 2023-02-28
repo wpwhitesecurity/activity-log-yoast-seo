@@ -141,22 +141,22 @@ add_filter( 'admin_init', 'wsal_yoast_seo_extension_replace_duplicate_event_noti
 add_filter( 'wsal_togglealerts_obsolete_events', 'wsal_yoast_seo_extension_togglealerts_obsolete_events' );
 
 add_action(
-    'wsal_sensors_manager_add',
-    /**
-    * Adds sensors classes to the Class Helper
-    *
-    * @return void
-    *
-    * @since latest
-    */
-    function () {
+	'wsal_sensors_manager_add',
+	/**
+	* Adds sensors classes to the Class Helper
+	*
+	* @return void
+	*
+	* @since latest
+	*/
+	function () {
 		require_once __DIR__ . '/wp-security-audit-log/custom-sensors/class-yoast-seo-sensor.php';
 
 		Classes_Helper::add_to_class_map(
-            array(
+			array(
 				'WSAL\\Plugin_Sensors\\Yoast_SEO_Sensor' => __DIR__ . '/../wp-security-audit-log/custom-sensors/class-yoast-seo-sensor.php',
-            )
+			)
 		);
-    }
+	}
 );
 
