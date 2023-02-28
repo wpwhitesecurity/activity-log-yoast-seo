@@ -154,7 +154,7 @@ add_action(
 
 		Classes_Helper::add_to_class_map(
 			array(
-				'WSAL\\Plugin_Sensors\\Yoast_SEO_Sensor' => __DIR__ . '/../wp-security-audit-log/custom-sensors/class-yoast-seo-sensor.php',
+				'WSAL\\Plugin_Sensors\\Yoast_SEO_Sensor' => __DIR__ . '/wp-security-audit-log/custom-sensors/class-yoast-seo-sensor.php',
 			)
 		);
 	}
