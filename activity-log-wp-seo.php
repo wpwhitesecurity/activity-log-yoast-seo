@@ -160,3 +160,22 @@ add_action(
 	}
 );
 
+add_action(
+	'wsal_custom_alerts_register',
+	/**
+	* Adds sensors classes to the Class Helper
+	*
+	* @return void
+	*
+	* @since latest
+	*/
+	function () {
+		require_once __DIR__ . '/wp-security-audit-log/class-yoast-custom-alerts.php';
+
+		Classes_Helper::add_to_class_map(
+			array(
+				'WSAL\\Custom_Alerts\\Yoast_Custom_Alerts' => __DIR__ . '/wp-security-audit-log/class-yoast-custom-alerts.php',
+			)
+		);
+	}
+);
