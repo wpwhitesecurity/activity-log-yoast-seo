@@ -1,4 +1,4 @@
-<?php // phpcs:disable WordPress.Files.FileName.NotHyphenatedLowercase
+<?php
 /**
  * Sensor: Yoast SEO
  *
@@ -99,19 +99,21 @@ if ( ! class_exists( '\WSAL\Plugin_Sensors\Yoast_SEO_Sensor' ) ) {
 			 * Listening to events using hooks.
 			 */
 			public static function init() {
-				// If user can edit post then hook this function.
-				if ( current_user_can( 'edit_posts' ) ) {
-					add_action( 'admin_init', array( __CLASS__, 'event_admin_init' ) );
+				if ( \class_exists( '\WPSEO_Meta' ) ) {
+					// If user can edit post then hook this function.
+					if ( current_user_can( 'edit_posts' ) ) {
+						add_action( 'admin_init', array( __CLASS__, 'event_admin_init' ) );
+					}
+
+					// Yoast SEO option alerts.
+					add_action( 'updated_option', array( __CLASS__, 'yoast_options_trigger' ), 10, 3 );
+
+					// Yoast SEO Site option alerts.
+					add_action( 'update_site_option', array( __CLASS__, 'yoast_site_options_trigger' ), 10, 3 );
+
+					// Yoast SEO blog option default change alerts.
+					add_action( 'add_option_wpseo', array( __CLASS__, 'yoast_blog_options_trigger' ), 10, 2 );
 				}
-
-				// Yoast SEO option alerts.
-				add_action( 'updated_option', array( __CLASS__, 'yoast_options_trigger' ), 10, 3 );
-
-				// Yoast SEO Site option alerts.
-				add_action( 'update_site_option', array( __CLASS__, 'yoast_site_options_trigger' ), 10, 3 );
-
-				// Yoast SEO blog option default change alerts.
-				add_action( 'add_option_wpseo', array( __CLASS__, 'yoast_blog_options_trigger' ), 10, 2 );
 			}
 
 			/**
@@ -119,7 +121,7 @@ if ( ! class_exists( '\WSAL\Plugin_Sensors\Yoast_SEO_Sensor' ) ) {
 			 */
 			public static function event_admin_init() {
 				// Load old data, if applicable.
-				self::retrieve_post_data();
+				// self::retrieve_post_data();
 
 				// Check for settings change.
 				self::check_seo_data_change();
@@ -144,7 +146,7 @@ if ( ! class_exists( '\WSAL\Plugin_Sensors\Yoast_SEO_Sensor' ) ) {
 				) {
 					self::$post_id = intval( $post_array['post_ID'] );
 					self::$post    = get_post( self::$post_id );
-					self::set_post_seo_data();
+					//self::set_post_seo_data();
 				}
 			}
 
@@ -186,19 +188,7 @@ if ( ! class_exists( '\WSAL\Plugin_Sensors\Yoast_SEO_Sensor' ) ) {
 					return false;
 				}
 
-				// Set prefix of meta data.
-				$prefix = '_yoast_wpseo_';
-
-				// Option to retrieve.
-				$option = $prefix . $key;
-
-				// If key exists and is not empty then return value.
-				if ( isset( self::$post_seo_data[ $option ] ) && ! empty( self::$post_seo_data[ $option ] ) ) {
-					return self::$post_seo_data[ $option ];
-				} else {
-					// Return false if key doesn't exists or its value is empty.
-					return false;
-				}
+				return \WPSEO_Meta::get_value( $key, self::$post_id );
 			}
 
 			/**
@@ -245,6 +235,9 @@ if ( ! class_exists( '\WSAL\Plugin_Sensors\Yoast_SEO_Sensor' ) ) {
 				&& 'editpost' === $post_array['action']
 				&& isset( $post_array['_wpnonce'] )
 				&& wp_verify_nonce( $post_array['_wpnonce'], 'update-post_' . $post_array['post_ID'] ) ) {
+					self::$post_id = intval( $post_array['post_ID'] );
+					self::$post    = get_post( self::$post_id );
+
 					// Check SEO data changes and alert if changed.
 					self::check_title_change( $post_array['yoast_wpseo_title'] ); // Title.
 					self::check_desc_change( $post_array['yoast_wpseo_metadesc'] ); // Meta description.
@@ -267,6 +260,7 @@ if ( ! class_exists( '\WSAL\Plugin_Sensors\Yoast_SEO_Sensor' ) ) {
 			 */
 			private static function check_title_change( $title ) {
 				// Get old title value.
+
 				$old_title = self::get_post_seo_data( 'title' );
 
 				// If old and new values are empty then don't log the alert.
@@ -621,7 +615,6 @@ if ( ! class_exists( '\WSAL\Plugin_Sensors\Yoast_SEO_Sensor' ) ) {
 
 				// Get old title value.
 				$old_schema = ( 'page_type' === $type ) ? self::get_post_seo_data( 'schema_page_type' ) : self::get_post_seo_data( 'schema_article_type' );
-				$schema     = ( empty( $schema ) ) ? false : $schema;
 
 				// If setting is changed then log alert.
 				if ( $old_schema !== $schema ) {
